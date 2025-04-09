@@ -34,7 +34,7 @@ public class MySQLHelpers {
 
     public String buildingCondition() {
         if (this.queryParams != null && this.queryParams.get("WHERE") != null && !this.queryParams.get("WHERE").isEmpty()) {
-            return "WHERE" + this.queryParams.get("WHERE");
+            return "WHERE " + this.queryParams.get("WHERE");
         }
         return "";
     }
@@ -125,7 +125,7 @@ public class MySQLHelpers {
                     insertValue.append(", ");
                 }
             }
-            String sql = "INSERT INTO" + table + " " + field + "VALUES(" + insertValue + ")";
+            String sql = "INSERT INTO " + table + " " + field + "VALUES(" + insertValue + ")";
             PreparedStatement preparedStatement = this.connection.prepareStatement(sql);
             for (int i = 0; i < values.size(); i++) {
                 preparedStatement.setObject(i + 1, values.get(i));
@@ -160,7 +160,7 @@ public class MySQLHelpers {
         return false;
     }
 
-    public boolean updateData(HashMap<String, Object> updateValues, ArrayList<Object> conditionValues) {
+    public boolean updateData(Map<String, Object> updateValues, ArrayList<Object> conditionValues) {
         try {
             String table = this.queryParams.get("TABLE");
             String where = this.buildingCondition();
@@ -253,6 +253,9 @@ public class MySQLHelpers {
                 JOptionPane.showMessageDialog(null, exception.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+    public static void main(String[] args) {
+        
     }
 
 }
