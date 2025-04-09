@@ -70,7 +70,7 @@ public class MySQLHelpers {
 
         this.queryParams = params;
         return this;
-    }
+    }   
 
     public ResultSet query(String sql) {
         if (this.connection == null) {

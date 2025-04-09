@@ -90,15 +90,15 @@ public class SanPhamDAL {
     }
 
     public boolean DeleteProduct(SanPhamDTO sanpham) {
-        MySQLHelpers helper=new MySQLHelpers();
-        Map<String,String> params=new HashMap<>();
-        params.put("TABLE","tblsanpham");
+        MySQLHelpers helper = new MySQLHelpers();
+        Map<String, String> params = new HashMap<>();
+        params.put("TABLE", "tblsanpham");
         params.put("WHERE", "Magiay = ?");
         helper.buildingQueryParam(params);
-        ArrayList<Object> values=new ArrayList<>();
+        ArrayList<Object> values = new ArrayList<>();
         values.add(sanpham.getStrMaGiay());
-        boolean success=helper.deleteData(values);
-                helper.closeConnect();
+        boolean success = helper.deleteData(values);
+        helper.closeConnect();
         return success;
     }
 }
