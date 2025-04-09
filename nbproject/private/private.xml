@@ -3,13 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/GIGA/OOP_JAVA/App_Shoes_Managerment/src/DTO/SanPhamDTO.java</file>
-            <file>file:/C:/Users/GIGA/OOP_JAVA/App_Shoes_Managerment/src/DTO/KhuyenMaiDTO.java</file>
             <file>file:/C:/Users/GIGA/OOP_JAVA/App_Shoes_Managerment/src/GUI/main/LoginScreen.java</file>
             <file>file:/C:/Users/GIGA/OOP_JAVA/App_Shoes_Managerment/src/Utils/Config.java</file>
+            <file>file:/C:/Users/GIGA/OOP_JAVA/App_Shoes_Managerment/src/DTO/HoaDonDTO.java</file>
             <file>file:/C:/Users/GIGA/OOP_JAVA/App_Shoes_Managerment/src/DTO/NhanVienDTO.java</file>
             <file>file:/C:/Users/GIGA/OOP_JAVA/App_Shoes_Managerment/src/DAL/MySQLHelper/MySQLHelpers.java</file>
             <file>file:/C:/Users/GIGA/OOP_JAVA/App_Shoes_Managerment/src/DAL/SanPhamDAL.java</file>
+            <file>file:/C:/Users/GIGA/OOP_JAVA/App_Shoes_Managerment/src/DAL/MySQLHelper/HDSuDung.md</file>
         </group>
     </open-files>
 </project-private>
