@@ -1,0 +1,68 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package BLL;
+
+import DTO.TaiKhoanDTO;
+import DAL.TaiKhoanDAL;
+import java.util.ArrayList;
+public class TaiKhoanBLL {
+    private ArrayList<TaiKhoanDTO> ListAccount;
+    private TaiKhoanDAL taikhoan;
+    public TaiKhoanBLL(){
+        ListAccount=new ArrayList<>();
+        taikhoan=new TaiKhoanDAL();
+        this.ListAccount=taikhoan.getListAccount();
+    }
+
+    public ArrayList<TaiKhoanDTO> getListAccount() {
+        return ListAccount;
+    }
+    public boolean addAccount(TaiKhoanDTO tk){
+        if(taikhoan.InsertAccount(tk)){
+            ListAccount.add(tk);
+            return true;
+        }
+        return false;
+    }
+    public boolean TestAccount(TaiKhoanDTO tk){
+        for (TaiKhoanDTO taiKhoanDTO:ListAccount){
+            if(taiKhoanDTO.getStrTenDangNhap().equals(tk.getStrTenDangNhap()) && taiKhoanDTO.getStrMatKhau().equals(tk.getStrMatKhau())){
+                return true;
+            }
+        }
+        return false;
+    }
+public Boolean UpdateAccount(TaiKhoanDTO tk) {
+        if ( taikhoan.UpdateAccount(tk) ) {
+            
+            // duyệt từng phẩn tử
+            for ( TaiKhoanDTO taikhoanDTO : ListAccount ) {
+                if (taikhoanDTO.getStrTenDangNhap().equals(tk.getStrTenDangNhap())){
+                    taikhoanDTO.setStrMatKhau(tk.getStrMatKhau());
+                    taikhoanDTO.setiCapBac(tk.getiCapBac());
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+ public Boolean deleteAccount(TaiKhoanDTO tk) {
+        if ( taikhoan.DeleteAccount(tk) ) {
+            
+            // duyệt từng phẩn tử
+            for ( TaiKhoanDTO taikhoanDTO : ListAccount ) {
+                if (taikhoanDTO.getStrTenDangNhap().equals(tk.getStrTenDangNhap())){
+                    ListAccount.remove(taikhoan);
+                return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+}
+    
+    
