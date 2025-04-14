@@ -16,7 +16,7 @@ public class NhaCungCapDTO {
 
     public NhaCungCapDTO(String strMaNCC, String strTenNCC, String strDiaChi, String strEmail) {
         this.strMaNCC = strMaNCC;
-        this.strTeNCC = strTenNCC;
+        this.strTenNCC = strTenNCC;
         this.strDiaChi = strDiaChi;
         this.strEmail = strEmail;
     }
