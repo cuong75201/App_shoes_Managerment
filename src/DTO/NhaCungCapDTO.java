@@ -9,14 +9,14 @@ package DTO;
  * @author cuong
  */
 public class NhaCungCapDTO {
-     String strMaNCC, strTeNCC, strDiaChi, strEmail;
+     String strMaNCC, strTenNCC, strDiaChi, strEmail;
 
     public NhaCungCapDTO() {
     }
 
-    public NhaCungCapDTO(String strMaNCC, String strTeNCC, String strDiaChi, String strEmail) {
+    public NhaCungCapDTO(String strMaNCC, String strTenNCC, String strDiaChi, String strEmail) {
         this.strMaNCC = strMaNCC;
-        this.strTeNCC = strTeNCC;
+        this.strTenNCC = strTenNCC;
         this.strDiaChi = strDiaChi;
         this.strEmail = strEmail;
     }
@@ -29,12 +29,12 @@ public class NhaCungCapDTO {
         this.strMaNCC = strMaNCC;
     }
 
-    public String getStrTeNCC() {
-        return strTeNCC;
+    public String getStrTenNCC() {
+        return strTenNCC;
     }
 
-    public void setStrTeNCC(String strTeNCC) {
-        this.strTeNCC = strTeNCC;
+    public void setStrTenNCC(String strTenNCC) {
+        this.strTenNCC = strTenNCC;
     }
 
     public String getStrDiaChi() {
@@ -55,7 +55,7 @@ public class NhaCungCapDTO {
 
     @Override
     public String toString() {
-        return "NhaCungCapDTO{" + "strMaNCC=" + strMaNCC + ", strTeNCC=" + strTeNCC + ", strDiaChi=" + strDiaChi + ", strEmail=" + strEmail + '}';
+        return "NhaCungCapDTO{" + "strMaNCC=" + strMaNCC + ", strTenNCC=" + strTenNCC + ", strDiaChi=" + strDiaChi + ", strEmail=" + strEmail + '}';
     }
     
 }
