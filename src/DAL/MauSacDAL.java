@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
  * @author ADMIN
  */
 public class MauSacDAL {
-    public ArrayList<MauSacDTO> getListAccount() {
+    public ArrayList<MauSacDTO> getListMauSac() {
         ArrayList<MauSacDTO> list = new ArrayList<>();
         MySQLHelpers helper = new MySQLHelpers();
         ResultSet result = helper.selectAllFromTable("tblmausac");
