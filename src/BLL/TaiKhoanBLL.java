@@ -6,6 +6,7 @@ package BLL;
 
 import DTO.TaiKhoanDTO;
 import DAL.TaiKhoanDAL;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 public class TaiKhoanBLL {
     private ArrayList<TaiKhoanDTO> ListAccount;
@@ -62,6 +63,21 @@ public Boolean UpdateAccount(TaiKhoanDTO tk) {
         }
         
         return false;
+    }
+  public static String hashMD5(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] hashInBytes = md.digest(password.getBytes("UTF-8"));
+
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hashInBytes) {
+                sb.append(String.format("%02x", b));  // chuyển từng byte sang hex
+            }
+            return sb.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
     

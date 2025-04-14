@@ -8,6 +8,9 @@ import GUI.component.customPasswordField;
 import GUI.component.customTextField;
 import GUI.component.CustomButton;
 
+import DTO.TaiKhoanDTO;
+import BLL.TaiKhoanBLL;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -27,7 +30,9 @@ import javax.swing.JPanel;
 
 public class LoginScreen extends JFrame {
 
+    private TaiKhoanBLL list_tk;
     public LoginScreen() {
+        list_tk=new TaiKhoanBLL();
         this.initComponents();
     }
 
@@ -115,8 +120,12 @@ public class LoginScreen extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 String username=usernameField.getText();
                 String password=new String(passwordField.getPassword());
-                if(username.equals("admin") && password.equals("admin123")){
-                    
+                TaiKhoanDTO tk=new TaiKhoanDTO();
+                tk.setStrTenDangNhap(username);
+                tk.setStrMatKhau(list_tk.hashMD5(password));
+                if(list_tk.TestAccount(tk)){
+                    dispose();
+                    new DashBoard(tk);
                 }
                 else{
                     JOptionPane.showMessageDialog(null,"Tên đăng nhập hoặc mật khẩu không chính xác","Lỗi",JOptionPane.ERROR_MESSAGE);

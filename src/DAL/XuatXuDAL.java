@@ -27,6 +27,8 @@ public class XuatXuDAL {
                 ));
                 result.close();
                 helper.closeConnect();
+                return list;
+
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -64,15 +66,16 @@ public class XuatXuDAL {
         helper.closeConnect();
         return success;
     }
-public boolean DeleteXuatXu(XuatXuDTO xx){
+
+    public boolean DeleteXuatXu(XuatXuDTO xx) {
         MySQLHelpers helper = new MySQLHelpers();
-        Map<String,String> params=new HashMap<>();
-        params.put("TABLE","tblxuatxu");
-        params.put("WHERE","Maxx = ?");
+        Map<String, String> params = new HashMap<>();
+        params.put("TABLE", "tblxuatxu");
+        params.put("WHERE", "Maxx = ?");
         helper.buildingQueryParam(params);
-        ArrayList<Object> value=new ArrayList<>();
+        ArrayList<Object> value = new ArrayList<>();
         value.add(xx.getStrMaxuatxu());
-        boolean success=helper.deleteData(value);
+        boolean success = helper.deleteData(value);
         helper.closeConnect();
         return success;
     }

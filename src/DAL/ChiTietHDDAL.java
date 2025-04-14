@@ -24,6 +24,8 @@ public class ChiTietHDDAL {
             }
             result.close();
             helper.closeConnect();
+                    return list;
+
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
