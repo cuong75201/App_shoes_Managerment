@@ -29,8 +29,8 @@ public class NhaCungCapDTO {
         this.strMaNCC = strMaNCC;
     }
 
-    public String getStrTeNCC() {
-        return strTeNCC;
+    public String getStrTenNCC() {
+        return strTenNCC;
     }
 
     public void setStrTeNCC(String strTeNCC) {
@@ -55,7 +55,7 @@ public class NhaCungCapDTO {
 
     @Override
     public String toString() {
-        return "NhaCungCapDTO{" + "strMaNCC=" + strMaNCC + ", strTeNCC=" + strTeNCC + ", strDiaChi=" + strDiaChi + ", strEmail=" + strEmail + '}';
+        return "NhaCungCapDTO{" + "strMaNCC=" + strMaNCC + ", strTenNCC=" + strTenNCC + ", strDiaChi=" + strDiaChi + ", strEmail=" + strEmail + '}';
     }
     
 }
