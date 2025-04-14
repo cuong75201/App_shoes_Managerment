@@ -14,9 +14,9 @@ public class NhaCungCapDTO {
     public NhaCungCapDTO() {
     }
 
-    public NhaCungCapDTO(String strMaNCC, String strTeNCC, String strDiaChi, String strEmail) {
+    public NhaCungCapDTO(String strMaNCC, String strTenNCC, String strDiaChi, String strEmail) {
         this.strMaNCC = strMaNCC;
-        this.strTeNCC = strTeNCC;
+        this.strTeNCC = strTenNCC;
         this.strDiaChi = strDiaChi;
         this.strEmail = strEmail;
     }
@@ -33,8 +33,8 @@ public class NhaCungCapDTO {
         return strTenNCC;
     }
 
-    public void setStrTeNCC(String strTeNCC) {
-        this.strTeNCC = strTeNCC;
+    public void setStrTenNCC(String strTenNCC) {
+        this.strTenNCC = strTenNCC;
     }
 
     public String getStrDiaChi() {
