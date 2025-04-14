@@ -9,7 +9,7 @@ package DTO;
  * @author cuong
  */
 public class NhaCungCapDTO {
-     String strMaNCC, strTeNCC, strDiaChi, strEmail;
+     String strMaNCC, strTenNCC, strDiaChi, strEmail;
 
     public NhaCungCapDTO() {
     }
