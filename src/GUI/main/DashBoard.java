@@ -7,6 +7,7 @@ package GUI.main;
 import DTO.TaiKhoanDTO;
 import DTO.NhanVienDTO;
 import BLL.TaiKhoanBLL;
+import BLL.NhanVienBLL;
 import GUI.component.CustomButton;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -32,13 +33,14 @@ public class DashBoard extends JFrame {
     private ArrayList<String> pathImg;
     private TaiKhoanDTO tk;
     private NhanVienDTO nv;
+    private NhanVienBLL nvBLL;
     private JPanel pnButton, pnInfor, pnContent;
     private JButton btnDashBoard, btnSanpham, btnNhaCungCap, btnNhanVien, btnBill, btnKhachHang, btnThuocTinh, btnPhieuNhap, btnKhuyenMai, btnTaiKhoan, btnThongKe, btnPhanQuyen, btnLogout;
     private JLabel lbinfor, lbicon, lbroles, lbhomecontent, lbhomebanner, lbtitle;
 
     public DashBoard(TaiKhoanDTO tk) {
-        this.tk = tk;
-        this.nv = new NhanVienDTO("1", "Tran", "Cuong", "Nam", "abvc", "qaa", "Quan tri vien", "01111111111", 1000, "nhanvien.png");
+        nvBLL = new NhanVienBLL();
+        this.nv = nvBLL.searchNhanVienByMa(tk.getStrTenDangNhap());
         this.init();
     }
 
@@ -132,7 +134,7 @@ public class DashBoard extends JFrame {
         lbhomecontent.setBounds(300, 30, 500, 35);
 
         lbtitle = new JLabel("HỆ THỐNG QUẢN LÝ GIÀY HÀNG ĐẦU ĐẤT NƯỚC");
-        lbtitle.setBounds(200,70, 700,30);
+        lbtitle.setBounds(200, 70, 700, 30);
         lbtitle.setForeground(Color.decode("#0295B1"));
         lbtitle.setFont(new Font("Sans-serif", Font.BOLD, 25));
 
@@ -155,6 +157,8 @@ public class DashBoard extends JFrame {
         this.add(pnButton);
         this.add(pnContent);
 
+        this.setIconImage(new ImageIcon(System.getProperty("user.dir") + "/src/Assets/shoes_icon.png").getImage());
+        this.setTitle("Hệ thống quản lý bán giày");
         this.setLayout(null);
         this.setSize(1366, 800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
