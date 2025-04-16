@@ -3,13 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/GIGA/OOP_JAVA/App_Shoes_Managerment/src/BLL/TaiKhoanBLL.java</file>
+            <file>file:/C:/Users/GIGA/OOP_JAVA/App_Shoes_Managerment/src/BLL/NhanVienBLL.java</file>
             <file>file:/C:/Users/GIGA/OOP_JAVA/App_Shoes_Managerment/src/GUI/main/LoginScreen.java</file>
-            <file>file:/C:/Users/GIGA/OOP_JAVA/App_Shoes_Managerment/src/BLL/ThuongHieuBLL.java</file>
             <file>file:/C:/Users/GIGA/OOP_JAVA/App_Shoes_Managerment/src/GUI/main/DashBoard.java</file>
             <file>file:/C:/Users/GIGA/OOP_JAVA/App_Shoes_Managerment/src/DTO/NhanVienDTO.java</file>
-            <file>file:/C:/Users/GIGA/OOP_JAVA/App_Shoes_Managerment/src/BLL/XuatXuBLL.java</file>
             <file>file:/C:/Users/GIGA/OOP_JAVA/App_Shoes_Managerment/src/GUI/component/CustomButton.java</file>
+            <file>file:/C:/Users/GIGA/OOP_JAVA/App_Shoes_Managerment/src/DAL/PhieuNhapDAL.java</file>
         </group>
     </open-files>
 </project-private>
