@@ -27,11 +27,10 @@ public class TaiKhoanDAL {
                         result.getString("matkhau"),
                         result.getInt("capbac")
                 ));
-                result.close();
-                helper.closeConnect();
-                return list;
-
             }
+            result.close();
+            helper.closeConnect();
+            return list;
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }

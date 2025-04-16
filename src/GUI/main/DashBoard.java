@@ -62,7 +62,7 @@ public class DashBoard extends JFrame {
         lbtitle = new JLabel("HỆ THỐNG QUẢN LÝ GIÀY HÀNG ĐẦU ĐẤT NƯỚC");
         lbtitle.setBounds(200, 70, 700, 30);
         lbtitle.setForeground(Color.decode("#0295B1"));
-        lbtitle.setFont(new Font("Sans-serif", Font.BOLD, 25));
+        lbtitle.setFont(new Font("Sans-serif", Font.BOLD, 30));
 
         lbhomebanner = new JLabel();
         lbhomebanner.setBounds(150, 150, 800, 550);
@@ -74,7 +74,7 @@ public class DashBoard extends JFrame {
 
         pnContent = new JPanel(null);
         pnContent.setBounds(250, 0, 1116, 800);
-        pnContent.setBackground(Color.WHITE);
+        pnContent.setBackground(Color.decode("#F0F7FA"));
         pnContent.add(lbhomecontent);
         pnContent.add(lbhomebanner);
         pnContent.add(lbtitle);
@@ -83,8 +83,8 @@ public class DashBoard extends JFrame {
         pnMain = new JPanel(cardLayout);
         pnMain.setBounds(250, 0, 1116, 800);
         pnMain.add(pnContent, "DashBoard");
-        SanPhamGUI pnSanPham=new SanPhamGUI();
-        pnMain.add(pnSanPham,"SanPham");
+        SanPhamGUI pnSanPham = new SanPhamGUI();
+        pnMain.add(pnSanPham, "SanPham");
 
         pnInfor = new JPanel();
         pnInfor.setLayout(null);
@@ -228,11 +228,15 @@ public class DashBoard extends JFrame {
             @Override
             public void focusGained(FocusEvent e) {
                 button.setBackground(Color.decode("#BBDEFB"));
+                button.setBorderColor(button.getBackground());
+
             }
 
             @Override
             public void focusLost(FocusEvent e) {
                 button.setBackground(Color.WHITE);
+                button.setBorderColor(button.getBackground());
+
             }
         });
         return button;

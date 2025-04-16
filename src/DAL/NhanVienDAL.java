@@ -1,4 +1,3 @@
-
 package DAL;
 
 import DTO.NhanVienDTO;
@@ -32,6 +31,8 @@ public class NhanVienDAL {
             }
             result.close();
             helper.closeConnect();
+            return list;
+
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
@@ -104,5 +105,3 @@ public class NhanVienDAL {
         return success;
     }
 }
-
-

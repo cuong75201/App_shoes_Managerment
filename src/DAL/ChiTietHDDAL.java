@@ -1,4 +1,5 @@
 package DAL;
+
 import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,7 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import java.util.Scanner;
+
 public class ChiTietHDDAL {
+
     public ArrayList<ChiTietHDDTO> getDSChiTietHoaDon() throws SQLException {
         ArrayList<ChiTietHDDTO> list = new ArrayList<>();
         MySQLHelpers helper = new MySQLHelpers();
@@ -24,14 +27,15 @@ public class ChiTietHDDAL {
             }
             result.close();
             helper.closeConnect();
-                    return list;
+            return list;
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
         return list;
     }
- public boolean themChiTietHoaDon(ChiTietHDDTO chitiet_hd){
+
+    public boolean themChiTietHoaDon(ChiTietHDDTO chitiet_hd) {
         MySQLHelpers helper = new MySQLHelpers();
         Map<String, String> params = new HashMap<>();
         params.put("TABLE", "tblchitiethd");
@@ -43,25 +47,29 @@ public class ChiTietHDDAL {
         values.add(chitiet_hd.getiSoLuong());
         values.add(chitiet_hd.getiGiaBan());
         boolean success = helper.insertData(values);
-        if(success)
+        if (success) {
             return true;
+        }
         return false;
- }
- public boolean xoaChiTietHoaDon(ChiTietHDDTO chitiet_hd){
+    }
+
+    public boolean xoaChiTietHoaDon(ChiTietHDDTO chitiet_hd) {
         MySQLHelpers helper = new MySQLHelpers();
         Map<String, String> params = new HashMap<>();
         params.put("TABLE", "tblchitiethd");
-        params.put("WHERE", " Magiay=? AND MaHD=?"); 
+        params.put("WHERE", " Magiay=? AND MaHD=?");
         helper.buildingQueryParam(params);
         ArrayList<Object> values = new ArrayList<>();
         values.add(chitiet_hd.getStrMaGiay());
         values.add(chitiet_hd.getStrMaHD());
         boolean success = helper.deleteData(values);
-        if(success)
+        if (success) {
             return true;
+        }
         return false;
- }
- public boolean suaChiTietHoaDon(ChiTietHDDTO chitiet_hd){
+    }
+
+    public boolean suaChiTietHoaDon(ChiTietHDDTO chitiet_hd) {
         MySQLHelpers helper = new MySQLHelpers();
         Map<String, String> params = new HashMap<>();
         params.put("TABLE", "tblchitiethd");
@@ -70,14 +78,15 @@ public class ChiTietHDDAL {
         Map<String, Object> updateValues = new HashMap<>();
         updateValues.put("SoLuong", chitiet_hd.getiSoLuong());
         updateValues.put("GiaBan", chitiet_hd.getiGiaBan());
-        ArrayList<Object> conditionValues = new ArrayList<>();  
-        conditionValues.add(chitiet_hd.getStrMaGiay()); 
-        conditionValues.add(chitiet_hd.getStrMaHD()); 
+        ArrayList<Object> conditionValues = new ArrayList<>();
+        conditionValues.add(chitiet_hd.getStrMaGiay());
+        conditionValues.add(chitiet_hd.getStrMaHD());
         boolean success = helper.updateData(updateValues, conditionValues);
-        if(success)
+        if (success) {
             return true;
+        }
         return false;
- }
+    }
 //public static void main(String[] args) throws SQLException{
 //    ChiTietHDDAL temp=new ChiTietHDDAL();
 //    ArrayList<ChiTietHDDTO> list=temp.getDSChiTietHoaDon();
@@ -92,4 +101,3 @@ public class ChiTietHDDAL {
 //    temp.suaChiTietHoaDon(tmp_2);
 //}
 }
-

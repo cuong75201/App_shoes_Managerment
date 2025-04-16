@@ -1,4 +1,3 @@
-
 package DAL;
 
 import DTO.PhieuNhapDTO;
@@ -27,10 +26,11 @@ public class PhieuNhapDAL {
             }
             result.close();
             helper.closeConnect();
+            return list;
+
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
-
         return list;
     }
 
@@ -89,5 +89,3 @@ public class PhieuNhapDAL {
         return success;
     }
 }
-
-

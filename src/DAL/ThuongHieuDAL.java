@@ -31,11 +31,12 @@ public class ThuongHieuDAL {
                         result.getString("Diachi"),
                         result.getString("Email")
                 ));
-                result.close();
-                helper.closeConnect();
-                        return list;
 
             }
+            result.close();
+            helper.closeConnect();
+            return list;
+
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
@@ -76,15 +77,16 @@ public class ThuongHieuDAL {
         helper.closeConnect();
         return success;
     }
-    public boolean DeleteThuongHieu(ThuongHieuDTO th){
+
+    public boolean DeleteThuongHieu(ThuongHieuDTO th) {
         MySQLHelpers helper = new MySQLHelpers();
-        Map<String,String> params=new HashMap<>();
-        params.put("TABLE","tblthuonghieu");
-        params.put("WHERE","Mathuonghieu = ?");
+        Map<String, String> params = new HashMap<>();
+        params.put("TABLE", "tblthuonghieu");
+        params.put("WHERE", "Mathuonghieu = ?");
         helper.buildingQueryParam(params);
-        ArrayList<Object> value=new ArrayList<>();
+        ArrayList<Object> value = new ArrayList<>();
         value.add(th.getStrMathuonghieu());
-        boolean success=helper.deleteData(value);
+        boolean success = helper.deleteData(value);
         helper.closeConnect();
         return success;
     }

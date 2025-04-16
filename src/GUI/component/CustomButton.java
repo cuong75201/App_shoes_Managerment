@@ -29,25 +29,32 @@ public class CustomButton extends JButton {
         this();
         setText(text);
     }
+
     public void setBorderColor(Color color) {
         this.borderColor = color;
         repaint();
     }
+
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2D = (Graphics2D) g;
+        g2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.setColor(getBackground());
-        g.fillRoundRect(0, 0, getWidth(), getHeight(), borderRadius, borderRadius);
+        g2D.setColor(getBackground());
+        g2D.fillRoundRect(0, 0, getWidth(), getHeight(), borderRadius, borderRadius);
         super.paintComponent(g);
     }
 
     @Override
     protected void paintBorder(Graphics g) {
         Graphics2D g2D = (Graphics2D) g;
+        g2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2D.setStroke(new BasicStroke(border));
         g2D.setColor(borderColor);
         g2D.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, borderRadius, borderRadius);
+            
     }
 }
