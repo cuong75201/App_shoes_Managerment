@@ -7,6 +7,7 @@ package GUI.component;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -40,7 +41,7 @@ public class CustomComboBox extends JComboBox<String> {
         setOpaque(false);
         setBackground(bgColor);
         setForeground(foregroundColor);
-
+        setFont(new Font("SansSerif", Font.PLAIN, 15));
         setFocusable(false);
         setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         setRenderer(new DefaultListCellRenderer() {

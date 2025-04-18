@@ -28,7 +28,8 @@ public class SanPhamDAL {
                         result.getString("Mathuonghieu"),
                         result.getInt("Soluong"),
                         result.getInt("Gia"),
-                        result.getInt("Size")
+                        result.getInt("Size"),
+                        result.getInt("trangthai")
                 ));
             }
             result.close();
@@ -45,13 +46,12 @@ public class SanPhamDAL {
         MySQLHelpers helper = new MySQLHelpers();
         Map<String, String> params = new HashMap<>();
         params.put("TABLE", "tblsanpham");
-        params.put("FIELD", "Magiay,Tengiay,Soluong,Gia,Size,Doituongsd,Chatlieu,Maloai,Maxx,MaMau,Mathuonghieu");
+        params.put("FIELD", "Magiay,Tengiay,Soluong,Gia,Size,Doituongsd,Chatlieu,Maloai,Maxx,MaMau,Mathuonghieu,trangthai");
         helper.buildingQueryParam(params);
         ArrayList<Object> values = new ArrayList<>();
         values.add(sanpham.getStrMaGiay());
         values.add(sanpham.getStrTenGiay());
         values.add(sanpham.getiSoLuong());
-        values.add(sanpham.getiSize());
         values.add(sanpham.getiGia());
         values.add(sanpham.getiSize());
         values.add(sanpham.getStrDoiTuongSD());
@@ -60,8 +60,7 @@ public class SanPhamDAL {
         values.add(sanpham.getStrMaxx());
         values.add(sanpham.getStrMaMau());
         values.add(sanpham.getStrMaThuongHieu());
-        helper.closeConnect();
-
+        values.add(sanpham.getiTrangthai());
         return helper.insertData(values);
     }
 
@@ -83,7 +82,7 @@ public class SanPhamDAL {
         updateValues.put("Maxx", sanpham.getStrMaxx());
         updateValues.put("MaMau", sanpham.getStrMaMau());
         updateValues.put("Mathuonghieu", sanpham.getStrMaThuongHieu());
-
+        updateValues.put("trangthai", sanpham.getiTrangthai());
         ArrayList<Object> conditionValue = new ArrayList<>();
         conditionValue.add(sanpham.getStrMaGiay());
         boolean success = helper.updateData(updateValues, conditionValue);

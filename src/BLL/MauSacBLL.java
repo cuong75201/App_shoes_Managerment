@@ -10,9 +10,12 @@ import java.util.ArrayList;
 
 public class MauSacBLL {
     private MauSacDAL dal;
+    private ArrayList<MauSacDTO> list_mau;
 
     public MauSacBLL() {
         dal = new MauSacDAL();
+        list_mau=new ArrayList<>();
+        list_mau=dal.getListMauSac();
     }
 
     // Lấy danh sách màu sắc
@@ -48,6 +51,22 @@ public class MauSacBLL {
         }
 
         return result;
+    }
+        public String getTenmaufromMaMau(String mamau){
+        for (MauSacDTO maudto:list_mau){
+            if(maudto.getStrMamau().equals(mamau)){
+                return maudto.getStrTenmau();
+            }
+        }
+        return null;
+    }
+           public String getMamaufromTenMau(String tenmau){
+        for (MauSacDTO maudto:list_mau){
+            if(maudto.getStrTenmau().equals(tenmau)){
+                return maudto.getStrMamau();
+            }
+        }
+        return null;
     }
 }
 

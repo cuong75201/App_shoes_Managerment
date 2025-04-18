@@ -14,9 +14,11 @@ import java.util.ArrayList;
  */
 public class LoaiBLL {
     private LoaiDAL loaiDAL;
-    
+    private ArrayList<LoaiDTO> list_loai;
     public LoaiBLL() {
+        list_loai=new ArrayList<>();
         loaiDAL = new LoaiDAL();
+        list_loai=loaiDAL.getLoaiList();
     }
     
     /**
@@ -174,5 +176,22 @@ public class LoaiBLL {
         // Phương thức này sẽ cần tích hợp với SanPhamBLL để kiểm tra
         // Tạm thời trả về false để cho phép xóa
         return false;
+    }
+    public String getIdbyLoainame(String name){
+        for (LoaiDTO loaidto:list_loai){
+            if(loaidto.getStrTenloai().equals(name)){
+                return loaidto.getStrMaloai();
+            }
+        }
+        return null;
+    }
+      public ArrayList<String> searchMaloaifromTenloai(String tenloai) {
+        ArrayList<String> list=new ArrayList<>();
+        for (LoaiDTO loaidto : list_loai) {
+            if(loaidto.getStrTenloai().toLowerCase().contains(tenloai.toLowerCase())){
+                list.add(loaidto.getStrMaloai());
+            }
+        }
+        return list;
     }
 }

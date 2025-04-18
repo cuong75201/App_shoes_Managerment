@@ -90,4 +90,5 @@ public class ThuongHieuDAL {
         helper.closeConnect();
         return success;
     }
+ 
 }

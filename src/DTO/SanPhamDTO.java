@@ -11,12 +11,12 @@ package DTO;
 public class SanPhamDTO {
     String strMaGiay, strTenGiay, strDoiTuongSD, strChatLieu,strMaLoai
             , strMaxx, strMaMau, strMaThuongHieu;
-    int iSoLuong, iGia, iSize;
+    int iSoLuong, iGia, iSize,iTrangthai;
 
     public SanPhamDTO() {
     }
 
-    public SanPhamDTO(String strMaGiay, String strTenGiay, String strDoiTuongSD, String strChatLieu, String strMaLoai, String strMaxx, String strMaMau, String strMaThuongHieu, int iSoLuong, int iGia, int iSize) {
+    public SanPhamDTO(String strMaGiay, String strTenGiay, String strDoiTuongSD, String strChatLieu, String strMaLoai, String strMaxx, String strMaMau, String strMaThuongHieu, int iSoLuong, int iGia, int iSize,int itrangthai) {
         this.strMaGiay = strMaGiay;
         this.strTenGiay = strTenGiay;
         this.strDoiTuongSD = strDoiTuongSD;
@@ -28,6 +28,15 @@ public class SanPhamDTO {
         this.iSoLuong = iSoLuong;
         this.iGia = iGia;
         this.iSize = iSize;
+        this.iTrangthai=itrangthai;
+    }
+
+    public int getiTrangthai() {
+        return iTrangthai;
+    }
+
+    public void setiTrangthai(int iTrangthai) {
+        this.iTrangthai = iTrangthai;
     }
 
     public String getStrMaGiay() {

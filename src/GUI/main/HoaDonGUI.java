@@ -66,6 +66,7 @@ public class HoaDonGUI extends JPanel {
         
         // Panel Function
         panelFunction = new PanelFunction();
+        panelFunction.setBtnChitiet();
         this.add(panelFunction);
         
         // Set filter options

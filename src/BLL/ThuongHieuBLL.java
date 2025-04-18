@@ -30,12 +30,13 @@ public class ThuongHieuBLL {
         }
         return false;
     }
+
     public Boolean UpdateThuongHieu(ThuongHieuDTO thDTO) {
-        if ( th.UpdateThuongHieu(thDTO) ) {
-            
+        if (th.UpdateThuongHieu(thDTO)) {
+
             // duyệt từng phẩn tử
-            for ( ThuongHieuDTO thdto : list_ThuongHieu ) {
-                if (thDTO.getStrMathuonghieu().equals(thdto.getStrMathuonghieu())){
+            for (ThuongHieuDTO thdto : list_ThuongHieu) {
+                if (thDTO.getStrMathuonghieu().equals(thdto.getStrMathuonghieu())) {
                     thdto.setStrDiachi(thDTO.getStrDiachi());
                     thdto.setStrEmail(thDTO.getStrEmail());
                     thdto.setStrTenthuonghieu(thDTO.getStrTenthuonghieu());
@@ -43,21 +44,50 @@ public class ThuongHieuBLL {
                 }
             }
         }
-        
+
         return false;
     }
-  public Boolean deleteThuongHieu(ThuongHieuDTO thDTO) {
-        if ( th.DeleteThuongHieu(thDTO) ) {
-            
+
+    public Boolean deleteThuongHieu(ThuongHieuDTO thDTO) {
+        if (th.DeleteThuongHieu(thDTO)) {
+
             // duyệt từng phẩn tử
-            for ( ThuongHieuDTO thieu : list_ThuongHieu ) {
-                if (thieu.getStrMathuonghieu().equals(thDTO.getStrMathuonghieu())){
+            for (ThuongHieuDTO thieu : list_ThuongHieu) {
+                if (thieu.getStrMathuonghieu().equals(thDTO.getStrMathuonghieu())) {
                     list_ThuongHieu.remove(thieu);
-                return true;
+                    return true;
                 }
             }
         }
-        
+
         return false;
+    }
+
+    public String getTenTHfromMaTH(String math) {
+        for (ThuongHieuDTO thdto : list_ThuongHieu) {
+            if (thdto.getStrMathuonghieu().equals(math)) {
+                return thdto.getStrTenthuonghieu();
+            }
+        }
+        return null;
+    }
+
+    public String getMaTHfromTenTH(String tenth) {
+        for (ThuongHieuDTO thdto : list_ThuongHieu) {
+            if (thdto.getStrTenthuonghieu().equals(tenth)) {
+                return thdto.getStrMathuonghieu();
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<String> searchMaTHfromTenTH(String tenth) {
+        ArrayList<String> list=new ArrayList<>();
+        for (ThuongHieuDTO thdto : list_ThuongHieu) {
+            if(thdto.getStrTenthuonghieu().toLowerCase().contains(tenth.toLowerCase())){
+                list.add(thdto.getStrMathuonghieu());
+            }
+        }
+        return list;
     }
 }

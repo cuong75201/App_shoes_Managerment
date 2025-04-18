@@ -38,15 +38,13 @@ public class CreateComponent {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                btn.setBackground(Color.decode("#BBDEFB"));
-                btn.setBorderColor(btn.getBackground());
+         
 
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                btn.setBackground(Color.WHITE);
-                btn.setBorderColor(btn.getBackground());
+              
 
             }
 

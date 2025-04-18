@@ -60,4 +60,20 @@ public class XuatXuBLL {
 
         return false;
     }
+        public String getTennuocfromMaxx(String maxx){
+        for (XuatXuDTO xxdto:list_XuatXu){
+            if(xxdto.getStrMaxuatxu().equals(maxx)){
+                return xxdto.getStrTennuoc();
+            }
+        }
+        return null;
+    }
+        public String getMaxxfromTennuoc(String tennuoc){
+             for (XuatXuDTO xxdto:list_XuatXu){
+            if(xxdto.getStrTennuoc().equals(tennuoc)){
+                return xxdto.getStrMaxuatxu();
+            }
+        }
+        return null;
+        }
 }

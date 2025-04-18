@@ -20,12 +20,13 @@ import javax.swing.JButton;
 
 public class PanelFunction extends JPanel {
 
-    public JButton btnThem, btnXoa, btnSua, btnChiTiet, btnXuatExcel;
+    public JButton btnThem, btnXoa, btnSua, btnChiTiet, btnXuatExcel,btnReset;
 
     public CustomComboBox cbfilter;
     public customTextField fieldSearch;
     public CustomButton btnSearch;
     public int width = 1116;
+    public int width_pos=220;
 
     public PanelFunction() {
         cbfilter = new CustomComboBox();
@@ -83,18 +84,28 @@ public class PanelFunction extends JPanel {
         btnXoa = CreateComponent.createBtn("icon_delete.png", "Xóa");
         btnXoa.setBounds(220, 10, 110, 100);
 
-        btnChiTiet = CreateComponent.createBtn("info.png", "Chi tiết");
-        btnChiTiet.setBounds(330, 10, 110, 100);
+       
         this.setLayout(null);
         this.setBounds(20, 10, width - 50, 120);
         this.setBackground(Color.WHITE);
         this.add(btnThem);
         this.add(btnXoa);
         this.add(btnSua);
-        this.add(btnChiTiet);
         this.add(cbfilter);
         this.add(fieldSearch);
         this.add(btnSearch);
 
+    }
+    public void setBtnChitiet(){
+         btnChiTiet = CreateComponent.createBtn("info.png", "Chi tiết");
+         width_pos+=110;
+        btnChiTiet.setBounds(width_pos, 10, 110, 100);
+         this.add(btnChiTiet);
+    }
+    public void setBtnReset(){
+       btnReset = CreateComponent.createBtn("refresh_icon.png", "Tải lại");
+       width_pos+=110;
+        btnReset.setBounds(width_pos, 10, 110, 100);
+         this.add(btnReset);
     }
 }

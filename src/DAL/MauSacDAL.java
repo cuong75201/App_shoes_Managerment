@@ -29,12 +29,12 @@ public class MauSacDAL {
                         result.getString("Mamau"),
                         result.getString("Tenmau")
                 ));
-
-                result.close();
+            
+            }
+            result.close();
                 helper.closeConnect();
                 return list;
 
-            }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }

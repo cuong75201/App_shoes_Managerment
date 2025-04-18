@@ -12,6 +12,8 @@ import BLL.NhanVienBLL;
 
 import GUI.component.CustomButton;
 import GUI.main.SanPhamGUI;
+import GUI.main.PhanQuyenGUI;
+import GUI.main.HoaDonGUI;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -54,13 +56,13 @@ public class DashBoard extends JFrame {
 
     public void init() {
         lbhomecontent = new JLabel("SHOES MANAGEMENT APP");
-        lbhomecontent.setFont(new Font("Sans-serif", Font.BOLD, 25));
+        lbhomecontent.setFont(new Font("Sans-serif", Font.BOLD, 30));
         lbhomecontent.setForeground(Color.decode("#0295B1"));
         lbhomecontent.setIcon(new ImageIcon(new ImageIcon(System.getProperty("user.dir") + "/src/Assets/shoes_icon.png").getImage().getScaledInstance(75, 75, Image.SCALE_SMOOTH)));
         lbhomecontent.setBounds(300, 30, 500, 35);
 
         lbtitle = new JLabel("HỆ THỐNG QUẢN LÝ GIÀY HÀNG ĐẦU ĐẤT NƯỚC");
-        lbtitle.setBounds(200, 70, 700, 30);
+        lbtitle.setBounds(200, 70, 800, 30);
         lbtitle.setForeground(Color.decode("#0295B1"));
         lbtitle.setFont(new Font("Sans-serif", Font.BOLD, 30));
 
@@ -85,6 +87,10 @@ public class DashBoard extends JFrame {
         pnMain.add(pnContent, "DashBoard");
         SanPhamGUI pnSanPham = new SanPhamGUI();
         pnMain.add(pnSanPham, "SanPham");
+        PhanQuyenGUI pnPhanQuyen = new PhanQuyenGUI();
+        pnMain.add(pnPhanQuyen, "PhanQuyen");
+        HoaDonGUI pnHoaDon = new HoaDonGUI();
+        pnMain.add(pnHoaDon, "Bill");
 
         pnInfor = new JPanel();
         pnInfor.setLayout(null);
