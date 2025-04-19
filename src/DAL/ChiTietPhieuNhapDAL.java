@@ -14,7 +14,12 @@ public class ChiTietPhieuNhapDAL {
     public ArrayList<ChiTietPNDTO> getDSChiTietPN() throws SQLException {
         ArrayList<ChiTietPNDTO> list = new ArrayList<>();
         MySQLHelpers helper = new MySQLHelpers();
-        ResultSet result = helper.selectAllFromTable("tblchitietpn");
+        Map<String, String> params = new HashMap<>();
+        params.put("SELECT", "*");
+        params.put("TABLE", "tblchitietpn");
+        params.put("WHERE", "Trangthai = 1");
+        helper.buildingQueryParam(params);
+        ResultSet result = helper.executeQuery();
         try {
             while (result.next()) {
                 list.add(new ChiTietPNDTO(
@@ -86,6 +91,24 @@ public class ChiTietPhieuNhapDAL {
         }
         return false;
     }
+    
+    public boolean deleteChiTietPhieuNhap(String maPN, String maSP) {
+        // Thay vì xóa thật sự, ta chỉ cập nhật trạng thái
+        MySQLHelpers helper = new MySQLHelpers();
+        Map<String, String> params = new HashMap<>();
+        params.put("TABLE", "tblchitietpn");
+        params.put("WHERE", "MaPN = ? AND MaGiay = ? AND Trangthai = 1");
+        helper.buildingQueryParam(params);
+        Map<String, Object> updateValues = new HashMap<>();
+        updateValues.put("Trangthai", 0);
+        ArrayList<Object> conditionValue = new ArrayList<>();
+        conditionValue.add(maPN);
+        conditionValue.add(maSP);
+        boolean success = helper.updateData(updateValues, conditionValue);
+        helper.closeConnect();
+        return success;
+    }
+    
 //public static void main(String[] args) throws SQLException{
 //    ChiTietPhieuNhapDAL temp=new ChiTietPhieuNhapDAL();
 //    ArrayList<ChiTietPNDTO> list=temp.getDSChiTietPN();
