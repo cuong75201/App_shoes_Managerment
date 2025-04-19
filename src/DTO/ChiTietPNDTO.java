@@ -11,12 +11,14 @@ package DTO;
 public class ChiTietPNDTO {
     String strMaPN, strMaGiay;
     int iSoLuong, iGiaNhap;
+    private int trangthai;
 
     public ChiTietPNDTO(String strMaPN, String strMaGiay, int iSoLuong, int iGiaNhap) {
         this.strMaPN = strMaPN;
         this.strMaGiay = strMaGiay;
         this.iSoLuong = iSoLuong;
         this.iGiaNhap = iGiaNhap;
+        this.trangthai = 1;
     }
 
     public ChiTietPNDTO() {
