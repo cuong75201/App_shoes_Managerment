@@ -31,6 +31,10 @@ public class NhanVienBLL {
         return dal.deleteNhanVien(nv);
     }
 
+    public boolean deleteNhanVien(String maNV) {
+        return dal.deleteNhanVien(maNV);
+    }
+
     // Tìm theo mã nhân viên
     public NhanVienDTO searchNhanVienByMa(String maNV) {
         for (NhanVienDTO nv : dal.getListNhanVien()) {
