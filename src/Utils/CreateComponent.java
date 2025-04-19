@@ -27,7 +27,7 @@ public class CreateComponent {
         btn.setVerticalTextPosition(JButton.BOTTOM);
         btn.setHorizontalTextPosition(JButton.CENTER);
         btn.setForeground(Color.decode("#39BCD6"));
-        btn.setFont(new Font("Sans-serif", Font.BOLD, 15));
+        btn.setFont(new Font("Sans-serif", Font.BOLD, 14));
         btn.setBorderColor(btn.getBackground());
         btn.addMouseListener(new MouseListener() {
 

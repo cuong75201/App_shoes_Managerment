@@ -12,7 +12,7 @@ import BLL.NhanVienBLL;
 
 import GUI.component.CustomButton;
 import GUI.main.SanPhamGUI;
-import GUI.main.PhanQuyenGUI;
+import GUI.main.TaiKhoanGUI;
 import GUI.main.HoaDonGUI;
 
 import java.awt.Color;
@@ -87,10 +87,10 @@ public class DashBoard extends JFrame {
         pnMain.add(pnContent, "DashBoard");
         SanPhamGUI pnSanPham = new SanPhamGUI();
         pnMain.add(pnSanPham, "SanPham");
-        PhanQuyenGUI pnPhanQuyen = new PhanQuyenGUI();
-        pnMain.add(pnPhanQuyen, "PhanQuyen");
         HoaDonGUI pnHoaDon = new HoaDonGUI();
         pnMain.add(pnHoaDon, "Bill");
+        TaiKhoanGUI pnTaikhoan = new TaiKhoanGUI();
+        pnMain.add(pnTaikhoan,"TaiKhoan");
 
         pnInfor = new JPanel();
         pnInfor.setLayout(null);
@@ -160,9 +160,6 @@ public class DashBoard extends JFrame {
         btnThongKe.setBounds(10, 610, 230, 50);
         btnThongKe.addActionListener(e -> cardLayout.show(pnMain, "ThongKe"));
 
-        btnPhanQuyen = createButton("role-management-4-32.png", "Phân quyến");
-        btnPhanQuyen.setBounds(10, 660, 230, 50);
-        btnPhanQuyen.addActionListener(e -> cardLayout.show(pnMain, "PhanQuyen"));
 
         btnLogout = createButton("red-circle-logout-arrow-20586.png", "Đăng xuất");
         btnLogout.setBounds(10, 710, 230, 50);
@@ -178,7 +175,6 @@ public class DashBoard extends JFrame {
         pnButton.add(btnKhuyenMai);
         pnButton.add(btnTaiKhoan);
         pnButton.add(btnThongKe);
-        pnButton.add(btnPhanQuyen);
         pnButton.add(btnLogout);
 
         pnButton.setBackground(Color.WHITE);

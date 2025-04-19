@@ -31,6 +31,8 @@ import javax.swing.JPanel;
 import javax.swing.JComboBox;
 
 import Utils.CreateComponent;
+import Utils.XuatExcel;
+
 import java.awt.Font;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -142,6 +144,7 @@ public class SanPhamGUI extends JPanel {
                 20, 150, width - 50, 600);
         pnButton.setCbfilter(cbfilter);
         pnButton.setBtnReset();
+        pnButton.setBtnExcel();
         this.setLayout(
                 null);
 
@@ -306,15 +309,15 @@ public class SanPhamGUI extends JPanel {
                 }
                 int result = JOptionPane.showConfirmDialog(null, "Chắc chắn xóa?", "Xác nhận", JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
-                System.out.println(xx.getMaxxfromTennuoc(tblsanpham.getValueAt(selectedRow, 9).toString()));
+                System.out.println(xx.getMaxxfromTennuoc(tblsanpham.getValueAt(selectedRow, 8).toString()));
                 if (result == JOptionPane.YES_OPTION) {
                     SanPhamDTO spdto = new SanPhamDTO();
                     spdto.setStrMaGiay(tblsanpham.getValueAt(selectedRow, 0).toString());
                     spdto.setStrTenGiay(tblsanpham.getValueAt(selectedRow, 1).toString());
-                    spdto.setStrDoiTuongSD(tblsanpham.getValueAt(selectedRow, 2).toString());
-                    spdto.setiSoLuong(Integer.parseInt(tblsanpham.getValueAt(selectedRow, 3).toString()));
-                    spdto.setiGia(Integer.parseInt(tblsanpham.getValueAt(selectedRow, 4).toString()));
-                    spdto.setiSize(Integer.parseInt(tblsanpham.getValueAt(selectedRow, 5).toString()));
+                    spdto.setStrDoiTuongSD(tblsanpham.getValueAt(selectedRow, 5).toString());
+                    spdto.setiSoLuong(Integer.parseInt(tblsanpham.getValueAt(selectedRow, 2).toString()));
+                    spdto.setiGia(Integer.parseInt(tblsanpham.getValueAt(selectedRow, 3).toString()));
+                    spdto.setiSize(Integer.parseInt(tblsanpham.getValueAt(selectedRow, 4).toString()));
                     spdto.setStrChatLieu(tblsanpham.getValueAt(selectedRow, 6).toString());
                     spdto.setStrMaLoai(loai.getIdbyLoainame(tblsanpham.getValueAt(selectedRow, 7).toString()));
                     spdto.setStrMaMau(mau.getMamaufromTenMau(tblsanpham.getValueAt(selectedRow, 9).toString()));
@@ -386,6 +389,13 @@ public class SanPhamGUI extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e){
                  tblsanpham.setmodel(model);
+            }
+        });
+        pnButton.btnXuatExcel.addMouseListener(new MouseAdapter(){
+            @Override
+              public void mouseClicked(MouseEvent e){
+              XuatExcel export =new XuatExcel();
+              export.exportTableToExcel(tblsanpham);
             }
         });
     }
