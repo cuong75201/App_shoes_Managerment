@@ -432,27 +432,27 @@ public class PhieuNhapGUI extends JPanel {
         }
     }
 
-    private void showPhieuNhapDetails() {
-        int selectedRow = tblphieunhap.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this,
-                "Vui lòng chọn một phiếu nhập để xem chi tiết!",
-                "Thông báo",
-                JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        try {
-            PhieuNhapDTO temp = list_pn.get(selectedRow);
-            ChiTietPhieuNhapView tmp = new ChiTietPhieuNhapView(temp);
-            tmp.setVisible(true);
-            loadData();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                "Không thể hiển thị chi tiết phiếu nhập: " + e.getMessage(),
-                "Lỗi",
-                JOptionPane.ERROR_MESSAGE);
-        }
-    }
+    // private void showPhieuNhapDetails() {
+    //     int selectedRow = tblphieunhap.getSelectedRow();
+    //     if (selectedRow == -1) {
+    //         JOptionPane.showMessageDialog(this,
+    //             "Vui lòng chọn một phiếu nhập để xem chi tiết!",
+    //             "Thông báo",
+    //             JOptionPane.WARNING_MESSAGE);
+    //         return;
+    //     }
+    //     try {
+    //         PhieuNhapDTO temp = list_pn.get(selectedRow);
+    //         ChiTietPhieuNhapView tmp = new ChiTietPhieuNhapView(temp);
+    //         tmp.setVisible(true);
+    //         loadData();
+    //     } catch (Exception e) {
+    //         JOptionPane.showMessageDialog(this,
+    //             "Không thể hiển thị chi tiết phiếu nhập: " + e.getMessage(),
+    //             "Lỗi",
+    //             JOptionPane.ERROR_MESSAGE);
+    //     }
+    // }
     
     private void loadData() {
         DefaultTableModel model = (DefaultTableModel) tblphieunhap.getModel();
