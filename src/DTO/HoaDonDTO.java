@@ -1,20 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DTO;
 
-/**
- *
- * @author cuong
- */
 public class HoaDonDTO {
-     private String strMaHD, strMaNV, strMaKH, strMaKM, strNgayBan;
+    private String strMaHD;
+    private String strMaNV;
+    private String strMaKH;
+    private String strMaKM;
+    private String strNgayBan;
     private double tongTien;
-    
+    private int trangthai; // Thêm trường trạng thái
+
     public HoaDonDTO() {
     }
 
+    // Constructor cũ
     public HoaDonDTO(String strMaHD, String strMaNV, String strMaKH, String strMaKM, String strNgayBan, double tongTien) {
         this.strMaHD = strMaHD;
         this.strMaNV = strMaNV;
@@ -22,14 +20,20 @@ public class HoaDonDTO {
         this.strMaKM = strMaKM;
         this.strNgayBan = strNgayBan;
         this.tongTien = tongTien;
+        this.trangthai = 1; // Mặc định là 1 - đang hoạt động
     }
-
-    @Override
-    public String toString() {
-        return "HoaDonDTO{" + "strMaHD=" + strMaHD + ", strMaNV=" + strMaNV + ", strMaKH=" + strMaKH + ", strMaKM=" + strMaKM + ", strNgayBan=" + strNgayBan + ", tongTien=" + tongTien + '}';
-    }
-
     
+    // Constructor mới có thêm trạng thái
+    public HoaDonDTO(String strMaHD, String strMaNV, String strMaKH, String strMaKM, String strNgayBan, double tongTien, int trangthai) {
+        this.strMaHD = strMaHD;
+        this.strMaNV = strMaNV;
+        this.strMaKH = strMaKH;
+        this.strMaKM = strMaKM;
+        this.strNgayBan = strNgayBan;
+        this.tongTien = tongTien;
+        this.trangthai = trangthai;
+    }
+
     public String getStrMaHD() {
         return strMaHD;
     }
@@ -77,62 +81,17 @@ public class HoaDonDTO {
     public void setTongTien(double tongTien) {
         this.tongTien = tongTien;
     }
-
     
-    
-
-    public static int maHDTangdan(HoaDonDTO a, HoaDonDTO b){
-        return a.getStrMaHD().compareTo(b.getStrMaHD());
-    }
-    public static int maHDGiamdan(HoaDonDTO a, HoaDonDTO b){
-        return b.getStrMaHD().compareTo(a.getStrMaHD());
+    public int getTrangthai() {
+        return trangthai;
     }
     
-    public static int maKHTangdan(HoaDonDTO a, HoaDonDTO b){
-        return a.getStrMaKH().compareTo(b.getStrMaKH());
-    }
-    public static int maKHGiamdan(HoaDonDTO a, HoaDonDTO b){
-        return b.getStrMaKH().compareTo(a.getStrMaKH());
+    public void setTrangthai(int trangthai) {
+        this.trangthai = trangthai;
     }
     
-    public static int maKMTangdan(HoaDonDTO a, HoaDonDTO b){
-        return a.getStrMaKM().compareTo(b.getStrMaKM());
-    }
-    public static int maKMGiamdan(HoaDonDTO a, HoaDonDTO b){
-        return b.getStrMaKM().compareTo(a.getStrMaKM());
-    }
-    
-    public static int maNVTangdan(HoaDonDTO a, HoaDonDTO b){
-        return a.getStrMaNV().compareTo(b.getStrMaNV());
-    }
-    public static int maNVGiamdan(HoaDonDTO a, HoaDonDTO b){
-        return b.getStrMaNV().compareTo(a.getStrMaNV());
-    }
-    
-    public static int tongTienTangdan(HoaDonDTO a, HoaDonDTO b){
-        if (a.getTongTien()< b.getTongTien()) {
-            return -1;
-        } 
-        else {
-            if (a.getTongTien() == a.getTongTien()) {
-                return 0;
-            }
-            else {
-                return 1;
-            }
-        }
-    }
-    public static int tongTienGiamdan(HoaDonDTO a, HoaDonDTO b){
-        if (a.getTongTien() > b.getTongTien()) {
-                    return -1;
-        } 
-        else {
-            if (a.getTongTien() == a.getTongTien()) {
-                return 0;
-            }
-            else {
-                return 1;
-            }
-        }
+    @Override
+    public String toString() {
+        return "HoaDonDTO{" + "strMaHD=" + strMaHD + ", strMaNV=" + strMaNV + ", strMaKH=" + strMaKH + ", strMaKM=" + strMaKM + ", strNgayBan=" + strNgayBan + ", tongTien=" + tongTien + ", trangthai=" + trangthai + '}';
     }
 }

@@ -67,6 +67,7 @@ public class HoaDonGUI extends JPanel {
         // Panel Function
         panelFunction = new PanelFunction();
         panelFunction.setBtnChitiet();
+        panelFunction.setBtnReset(); // Thêm nút Reset
         this.add(panelFunction);
         
         // Set filter options
@@ -80,11 +81,6 @@ public class HoaDonGUI extends JPanel {
         
         // Table
         createTable();
-        
-        // Adjust UI
-        panelFunction.btnXuatExcel = new JButton("Xuất Excel");
-        panelFunction.btnXuatExcel.setBounds(440, 10, 110, 100);
-        panelFunction.add(panelFunction.btnXuatExcel);
     }
     
     private void createTable() {
@@ -143,6 +139,11 @@ public class HoaDonGUI extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 selectedRow = tblHoaDon.getSelectedRow();
+                
+                // Double-click to show details
+                if (e.getClickCount() == 2 && selectedRow != -1) {
+                    showHoaDonDetails();
+                }
             }
         });
         
@@ -184,11 +185,11 @@ public class HoaDonGUI extends JPanel {
             }
         });
         
-        // Button Export
-        panelFunction.btnXuatExcel.addActionListener(new ActionListener() {
+        // Button Reset
+        panelFunction.btnReset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                exportToExcel();
+                resetData();
             }
         });
         
@@ -505,28 +506,44 @@ public class HoaDonGUI extends JPanel {
             return;
         }
         
-        // In a real application, this would open a detail view showing the invoice items
-        // For now, just show basic info in a message dialog
-        HoaDonDTO hoaDon = listHoaDon.get(selectedRow);
-        
-        StringBuilder details = new StringBuilder();
-        details.append("CHI TIẾT HÓA ĐƠN\n\n");
-        details.append("Mã hóa đơn: ").append(hoaDon.getStrMaHD()).append("\n");
-        details.append("Mã nhân viên: ").append(hoaDon.getStrMaNV()).append("\n");
-        details.append("Mã khách hàng: ").append(hoaDon.getStrMaKH()).append("\n");
-        details.append("Mã khuyến mãi: ").append(hoaDon.getStrMaKM()).append("\n");
-        details.append("Ngày bán: ").append(hoaDon.getStrNgayBan()).append("\n");
-        details.append("Tổng tiền: ").append(String.format("%,.0f VND", hoaDon.getTongTien()));
-        
-        JOptionPane.showMessageDialog(this, 
-            details.toString(), 
-            "Chi tiết hóa đơn", 
-            JOptionPane.INFORMATION_MESSAGE);
+        try {
+            // Lấy dữ liệu của hóa đơn đã chọn
+            HoaDonDTO hoaDon = listHoaDon.get(selectedRow);
+            
+            // Mở form chi tiết hóa đơn
+            ChiTietHoaDonView chiTietView = new ChiTietHoaDonView(hoaDon);
+            chiTietView.setVisible(true);
+            
+            // Làm mới dữ liệu sau khi đóng form chi tiết
+            loadData();
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Lỗi khi hiển thị chi tiết hóa đơn: " + e.getMessage(), 
+                "Lỗi", 
+                JOptionPane.ERROR_MESSAGE);
+        }
     }
     
-    private void exportToExcel() {
+    private void resetData() {
+        // Làm mới dữ liệu
+        loadData();
+        
+        // Xóa bộ lọc nếu đang áp dụng
+        if (tblHoaDon.getRowSorter() != null) {
+            tblHoaDon.setRowSorter(null);
+        }
+        
+        // Reset các trường tìm kiếm
+        panelFunction.fieldSearch.setText("Tìm kiếm...");
+        panelFunction.cbfilter.setSelectedIndex(0);
+        
+        // Xóa dòng đang chọn
+        selectedRow = -1;
+        tblHoaDon.clearSelection();
+        
         JOptionPane.showMessageDialog(this, 
-            "Chức năng xuất Excel đang được phát triển.", 
+            "Đã làm mới dữ liệu thành công!", 
             "Thông báo", 
             JOptionPane.INFORMATION_MESSAGE);
     }

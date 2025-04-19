@@ -25,24 +25,34 @@ public class ChiTietHoaDonBLL {
         return false;
     }
     public boolean deleteChiTietHoaDon(ChiTietHDDTO temp){
-        if(cthoadon.xoaChiTietHoaDon(temp))
-            for(var tmp : list)
-                if(tmp.getStrMaGiay()==temp.getStrMaGiay()&&tmp.getStrMaHD()==temp.getStrMaHD()){
-                    list.remove(tmp);
+        if(cthoadon.xoaChiTietHoaDon(temp)){
+            for (int i = 0; i < list.size(); i++) {
+                ChiTietHDDTO tmp = list.get(i);
+                // Sửa == thành equals() để so sánh chuỗi đúng cách
+                if (tmp.getStrMaGiay().equals(temp.getStrMaGiay()) && 
+                    tmp.getStrMaHD().equals(temp.getStrMaHD())) {
+                    list.remove(i);
                     return true;
-                }
+                }    
+            }
+        }
         return false;
     }
-    public boolean updateChiTietHoaDon(ChiTietHDDTO temp){
-        if(cthoadon.suaChiTietHoaDon(temp))
-            for(var tmp : list)
-                if(tmp.getStrMaGiay()==temp.getStrMaGiay()&&tmp.getStrMaHD()==temp.getStrMaHD()){
-                    tmp.setiGiaBan(temp.getiGiaBan());
-                    tmp.setiSoLuong(temp.getiSoLuong());
-                    return true;
-                }
-        return false;
+    public boolean updateChiTietHoaDon(ChiTietHDDTO temp) {
+    if (cthoadon.suaChiTietHoaDon(temp)) {
+        for (int i = 0; i < list.size(); i++) {
+            ChiTietHDDTO tmp = list.get(i);
+            // Sửa == thành equals() để so sánh chuỗi đúng cách
+            if (tmp.getStrMaGiay().equals(temp.getStrMaGiay()) && 
+                tmp.getStrMaHD().equals(temp.getStrMaHD())) {
+                tmp.setiGiaBan(temp.getiGiaBan());
+                tmp.setiSoLuong(temp.getiSoLuong());
+                return true;
+            }
+        }
     }
+    return false;
+}
 //    public static void main(String[] args) throws SQLException{
 //        ChiTietHoaDonBLL temp=new ChiTietHoaDonBLL();
 //        ChiTietHDDTO tmp=new ChiTietHDDTO("SP1", "HD003", 10, 10);

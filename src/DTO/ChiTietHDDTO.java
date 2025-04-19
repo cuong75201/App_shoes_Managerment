@@ -11,6 +11,7 @@ package DTO;
 public class ChiTietHDDTO {
      private String strMaGiay, strMaHD;
     private int iSoLuong, iGiaBan;
+    private int trangthai;
 //    private 
 
     public ChiTietHDDTO() {
@@ -21,7 +22,16 @@ public class ChiTietHDDTO {
         this.strMaHD = strMaHD;
         this.iSoLuong = iSoLuong;
         this.iGiaBan = iGiaBan;
+        this.trangthai = 1;
     }
+    
+    public ChiTietHDDTO(String strMaGiay, String strMaHD, int iSoLuong, int iGiaBan, int trangthai) {
+    this.strMaGiay = strMaGiay;
+    this.strMaHD = strMaHD;
+    this.iSoLuong = iSoLuong;
+    this.iGiaBan = iGiaBan;
+    this.trangthai = trangthai;
+}
 
     @Override
     public String toString() {
@@ -60,6 +70,14 @@ public class ChiTietHDDTO {
 
     public void setiGiaBan(int iGiaBan) {
         this.iGiaBan = iGiaBan;
+    }
+    
+    public int getTrangthai() {
+    return trangthai;
+    }
+
+    public void setTrangthai(int trangthai) {
+    this.trangthai = trangthai;
     }
     
     public static int maSPTangdan(ChiTietHDDTO a, ChiTietHDDTO b){

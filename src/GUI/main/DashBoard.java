@@ -14,6 +14,7 @@ import GUI.component.CustomButton;
 import GUI.main.SanPhamGUI;
 import GUI.main.PhanQuyenGUI;
 import GUI.main.HoaDonGUI;
+import GUI.main.KhachHangGUI;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -91,6 +92,10 @@ public class DashBoard extends JFrame {
         pnMain.add(pnPhanQuyen, "PhanQuyen");
         HoaDonGUI pnHoaDon = new HoaDonGUI();
         pnMain.add(pnHoaDon, "Bill");
+        KhachHangGUI pnKhachHang = new KhachHangGUI();
+        pnMain.add(pnKhachHang, "KhachHang");
+        KhuyenMaiGUI pnKhuyenMai = new KhuyenMaiGUI();
+        pnMain.add(pnKhuyenMai, "KhuyenMai");
 
         pnInfor = new JPanel();
         pnInfor.setLayout(null);
