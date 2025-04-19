@@ -54,6 +54,10 @@ public class PhieuNhapBLL {
         return false;
     }
 
+    public boolean deletePhieuNhap(String maPN) {
+        return dal.deletePhieuNhap(maPN);
+    }
+
     // ✅ Tìm kiếm chính xác theo mã phiếu nhập
     public PhieuNhapDTO searchPhieuNhap(String maPN) {
         for (PhieuNhapDTO pn : danhSachPhieuNhap) {
