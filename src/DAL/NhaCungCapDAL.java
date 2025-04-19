@@ -22,7 +22,12 @@ public class NhaCungCapDAL {
     public ArrayList<NhaCungCapDTO> getListAccount() {
         ArrayList<NhaCungCapDTO> list = new ArrayList<>();
         MySQLHelpers helper = new MySQLHelpers();
-        ResultSet result = helper.selectAllFromTable("tblnhacungcap");
+        Map<String, String> params = new HashMap<>();
+        params.put("SELECT", "*");
+        params.put("TABLE", "tblnhacungcap");
+        params.put("WHERE", "Trangthai = 1");
+        helper.buildingQueryParam(params);
+        ResultSet result = helper.executeQuery();
         try {
             while (result.next()) {
                 list.add(new NhaCungCapDTO(
@@ -84,6 +89,24 @@ public class NhaCungCapDAL {
         ArrayList<Object> value = new ArrayList<>();
         value.add(NCC.getStrMaNCC());
         boolean success = helper.deleteData(value);
+        helper.closeConnect();
+        return success;
+    }
+    public boolean deleteNhaCungCap(String maNCC) {
+        // Thay vì xóa thật sự, ta chỉ cập nhật trạng thái
+        MySQLHelpers helper = new MySQLHelpers();
+        Map<String, String> params = new HashMap<>();
+        params.put("TABLE", "tblnhacungcap");
+        params.put("WHERE", "MaNCC = ? AND Trangthai = 1");
+        helper.buildingQueryParam(params);
+
+        Map<String, Object> updateValues = new HashMap<>();
+        updateValues.put("Trangthai", 0);
+
+        ArrayList<Object> conditionValue = new ArrayList<>();
+        conditionValue.add(maNCC);
+
+        boolean success = helper.updateData(updateValues, conditionValue);
         helper.closeConnect();
         return success;
     }
