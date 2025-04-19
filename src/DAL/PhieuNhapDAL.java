@@ -12,7 +12,12 @@ public class PhieuNhapDAL {
     public ArrayList<PhieuNhapDTO> getListPhieuNhap() {
         ArrayList<PhieuNhapDTO> list = new ArrayList<>();
         MySQLHelpers helper = new MySQLHelpers();
-        ResultSet result = helper.selectAllFromTable("tblphieunhap");
+        Map<String, String> params = new HashMap<>();
+        params.put("SELECT", "*");
+        params.put("TABLE", "tblphieunhap");
+        params.put("WHERE", "Trangthai = 1");
+        helper.buildingQueryParam(params);
+        ResultSet result = helper.executeQuery();
 
         try {
             while (result.next()) {
@@ -85,6 +90,24 @@ public class PhieuNhapDAL {
         value.add(pn.getStrMaPN());
 
         boolean success = helper.deleteData(value);
+        helper.closeConnect();
+        return success;
+    }
+
+    public boolean deletePhieuNhap(String maPN) {
+        // Thay vì xóa thật sự, ta chỉ cập nhật trạng thái
+        MySQLHelpers helper = new MySQLHelpers();
+        Map<String, String> params = new HashMap<>();
+        params.put("TABLE", "tblphieunhap");
+        params.put("WHERE", "MaPN = ? AND Trangthai = 1");
+        helper.buildingQueryParam(params);
+
+        Map<String, Object> updateValues = new HashMap<>();
+        updateValues.put("Trangthai", 0);
+
+        ArrayList<Object> conditionValue = new ArrayList<>();
+        conditionValue.add(maPN);
+        boolean success = helper.updateData(updateValues, conditionValue);
         helper.closeConnect();
         return success;
     }
