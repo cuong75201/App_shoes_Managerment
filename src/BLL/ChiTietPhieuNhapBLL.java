@@ -33,6 +33,17 @@ public class ChiTietPhieuNhapBLL {
                 }
         return false;
     }
+
+    public boolean deleteChiTietPhieuNhap(String maPN, String maSP) {
+        if(ctphieunhap.deleteChiTietPhieuNhap(maPN, maSP))
+            for(var tmp : list)
+                if(tmp.getStrMaGiay()==maSP&&tmp.getStrMaPN()==maSP){
+                    list.remove(tmp);
+                    return true;
+                }
+        return false;
+    }
+    
     public boolean updateChiTietPhieuNhap(ChiTietPNDTO temp){
         if(ctphieunhap.suaChiTietPhieuNhap(temp))
             for(var tmp : list)
