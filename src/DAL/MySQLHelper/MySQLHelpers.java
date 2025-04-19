@@ -267,5 +267,33 @@ public class MySQLHelpers {
     public static void main(String[] args) {
         
     }
+    
+    /**
+ * Thực hiện truy vấn SELECT dựa trên các tham số đã thiết lập
+ * @return ResultSet chứa kết quả truy vấn, null nếu có lỗi
+ */
+public ResultSet executeQuery() {
+    try {
+        String sql = "SELECT " + this.queryParams.get("SELECT") + " FROM " + this.queryParams.get("TABLE");
+        
+        if (this.queryParams.get("JOIN") != null && !this.queryParams.get("JOIN").isEmpty()) {
+            sql += " " + this.queryParams.get("JOIN");
+        }
+        
+        if (this.queryParams.get("WHERE") != null && !this.queryParams.get("WHERE").isEmpty()) {
+            sql += " WHERE " + this.queryParams.get("WHERE");
+        }
+        
+        if (this.queryParams.get("OTHER") != null && !this.queryParams.get("OTHER").isEmpty()) {
+            sql += " " + this.queryParams.get("OTHER");
+        }
+        
+        PreparedStatement preparedStatement = this.connection.prepareStatement(sql);
+        return preparedStatement.executeQuery();
+    } catch (SQLException exception) {
+        JOptionPane.showMessageDialog(null, exception.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+    }
+    return null;
+}
 
 }

@@ -108,6 +108,7 @@ public class PanelFunction extends JPanel {
         btnReset.setBounds(width_pos, 10, 110, 100);
          this.add(btnReset);
     }
+
     public void setBtnExcel(){
         btnXuatExcel=CreateComponent.createBtn("excel.png","Xuất Excel");
         width_pos+=110;
