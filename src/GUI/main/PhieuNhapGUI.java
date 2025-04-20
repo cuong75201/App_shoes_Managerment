@@ -113,7 +113,7 @@ public class PhieuNhapGUI extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 int selectedRow = tblphieunhap.getSelectedRow();
                 if (e.getClickCount() == 2 && selectedRow != -1) {
-//                    showPhieuNhapDetails();
+                    showPhieuNhapDetails();
                 }
             }
         });
@@ -145,7 +145,7 @@ public class PhieuNhapGUI extends JPanel {
         pnButton.btnChiTiet.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                showPhieuNhapDetails();
+                showPhieuNhapDetails();
             }
         });
         pnButton.btnReset.addActionListener(new ActionListener() {
