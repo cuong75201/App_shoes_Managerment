@@ -5,7 +5,11 @@
 package GUI.main;
 
 import BLL.HoaDonBLL;
+import BLL.NhanVienBLL;
+import BLL.KhachHangBLL;
 import DTO.HoaDonDTO;
+import DTO.NhanVienDTO;
+import DTO.KhachHangDTO;
 import GUI.component.PanelFunction;
 import GUI.component.CustomButton;
 import GUI.component.CustomComboBox;
@@ -40,7 +44,8 @@ public class HoaDonGUI extends JPanel {
     
     // Dialog components
     private JDialog dialogHoaDon;
-    private customTextField txtMaHD, txtMaNV, txtMaKH, txtMaKM, txtNgayBan, txtTongTien;
+    private customTextField txtMaHD, txtMaKM, txtNgayBan, txtTongTien;
+    private CustomComboBox cbKhachHang, cbNhanVien;
     private CustomButton btnLuu, btnHuy;
     
     // BLL
@@ -211,71 +216,86 @@ public class HoaDonGUI extends JPanel {
         dialogHoaDon.setLocationRelativeTo(null);
         dialogHoaDon.setModal(true);
         dialogHoaDon.setResizable(false);
-        
+
         // Create components
         int y = 20;
         int height = 35;
         int gap = 50;
-        
+
+        // Mã hóa đơn
         JLabel lblMaHD = new JLabel("Mã hóa đơn:");
         lblMaHD.setBounds(20, y, 100, height);
         dialogHoaDon.add(lblMaHD);
-        
+
         txtMaHD = new customTextField();
         txtMaHD.setBounds(130, y, 230, height);
         txtMaHD.setBorderColor(Color.decode("#E1E1E1"));
         dialogHoaDon.add(txtMaHD);
-        
+
+        // Nhân viên
         y += gap;
-        JLabel lblMaNV = new JLabel("Mã nhân viên:");
+        JLabel lblMaNV = new JLabel("Nhân viên:");
         lblMaNV.setBounds(20, y, 100, height);
         dialogHoaDon.add(lblMaNV);
-        
-        txtMaNV = new customTextField();
-        txtMaNV.setBounds(130, y, 230, height);
-        txtMaNV.setBorderColor(Color.decode("#E1E1E1"));
-        dialogHoaDon.add(txtMaNV);
-        
+
+        cbNhanVien = new CustomComboBox();
+        cbNhanVien.setBounds(130, y, 230, height);
+        // Thêm danh sách nhân viên vào combo box
+        NhanVienBLL nvBLL = new NhanVienBLL();
+        for (NhanVienDTO nv : nvBLL.getListNhanVien()) {
+            cbNhanVien.addItem(nv.getstrMaNV() + " - " + nv.getStrHo() + " " + nv.getStrTen());
+        }
+        dialogHoaDon.add(cbNhanVien);
+
+        // Khách hàng
         y += gap;
-        JLabel lblMaKH = new JLabel("Mã khách hàng:");
-        lblMaKH.setBounds(20, y, 100, height);
-        dialogHoaDon.add(lblMaKH);
-        
-        txtMaKH = new customTextField();
-        txtMaKH.setBounds(130, y, 230, height);
-        txtMaKH.setBorderColor(Color.decode("#E1E1E1"));
-        dialogHoaDon.add(txtMaKH);
-        
+        JLabel lblKhachHang = new JLabel("Khách hàng:");
+        lblKhachHang.setBounds(20, y, 100, height);
+        dialogHoaDon.add(lblKhachHang);
+
+        cbKhachHang = new CustomComboBox();
+        cbKhachHang.setBounds(130, y, 230, height);
+
+        // Thêm danh sách khách hàng vào combo box
+        KhachHangBLL khBLL = new KhachHangBLL();
+        for (KhachHangDTO kh : khBLL.getKhachHangList()) {
+            cbKhachHang.addItem(kh.getStrMaKH() + " - " + kh.getStrTen());
+        }
+        dialogHoaDon.add(cbKhachHang);
+
+        // Mã khuyến mãi
         y += gap;
         JLabel lblMaKM = new JLabel("Mã khuyến mãi:");
         lblMaKM.setBounds(20, y, 100, height);
         dialogHoaDon.add(lblMaKM);
-        
+
         txtMaKM = new customTextField();
         txtMaKM.setBounds(130, y, 230, height);
         txtMaKM.setBorderColor(Color.decode("#E1E1E1"));
         dialogHoaDon.add(txtMaKM);
-        
+
+        // Ngày bán
         y += gap;
         JLabel lblNgayBan = new JLabel("Ngày bán:");
         lblNgayBan.setBounds(20, y, 100, height);
         dialogHoaDon.add(lblNgayBan);
-        
+
         txtNgayBan = new customTextField();
         txtNgayBan.setBounds(130, y, 230, height);
         txtNgayBan.setBorderColor(Color.decode("#E1E1E1"));
         dialogHoaDon.add(txtNgayBan);
-        
+
+        // Tổng tiền
         y += gap;
         JLabel lblTongTien = new JLabel("Tổng tiền:");
         lblTongTien.setBounds(20, y, 100, height);
         dialogHoaDon.add(lblTongTien);
-        
+
         txtTongTien = new customTextField();
         txtTongTien.setBounds(130, y, 230, height);
         txtTongTien.setBorderColor(Color.decode("#E1E1E1"));
         dialogHoaDon.add(txtTongTien);
-        
+
         // Buttons
         btnLuu = new CustomButton("Lưu");
         btnLuu.setBounds(100, 320, 80, 30);
@@ -283,25 +303,56 @@ public class HoaDonGUI extends JPanel {
         btnLuu.setForeground(Color.WHITE);
         btnLuu.setBorderColor(btnLuu.getBackground());
         dialogHoaDon.add(btnLuu);
-        
+
         btnHuy = new CustomButton("Hủy");
         btnHuy.setBounds(220, 320, 80, 30);
         btnHuy.setBackground(Color.decode("#E74C3C"));
         btnHuy.setForeground(Color.WHITE);
         btnHuy.setBorderColor(btnHuy.getBackground());
         dialogHoaDon.add(btnHuy);
-        
+
         // Fill data if editing
         if (!isAdding && hoaDon != null) {
             txtMaHD.setText(hoaDon.getStrMaHD());
-            txtMaHD.setEditable(false);
-            txtMaNV.setText(hoaDon.getStrMaNV());
-            txtMaKH.setText(hoaDon.getStrMaKH());
             txtMaKM.setText(hoaDon.getStrMaKM());
             txtNgayBan.setText(hoaDon.getStrNgayBan());
             txtTongTien.setText(String.valueOf(hoaDon.getTongTien()));
+
+            // Chọn nhân viên hiện tại trong combobox
+            String maNV = hoaDon.getStrMaNV();
+            for (int i = 0; i < cbNhanVien.getItemCount(); i++) {
+                String item = cbNhanVien.getItemAt(i).toString();
+                if (item.startsWith(maNV + " - ")) {
+                    cbNhanVien.setSelectedIndex(i);
+                    break;
+                }
+            }
+
+            // Chọn khách hàng hiện tại trong combobox
+            String maKH = hoaDon.getStrMaKH();
+            for (int i = 0; i < cbKhachHang.getItemCount(); i++) {
+                String item = cbKhachHang.getItemAt(i).toString();
+                if (item.startsWith(maKH + " - ")) {
+                    cbKhachHang.setSelectedIndex(i);
+                    break;
+                }
+            }
+        } else {
+            // Nếu đang thêm mới, tạo mã hóa đơn tự động
+            String maHD = hoaDonBLL.generateNewMaHD(); // Cần thêm phương thức này vào HoaDonBLL
+            txtMaHD.setText(maHD);
+
+            // Thiết lập ngày hiện tại
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            txtNgayBan.setText(sdf.format(new Date()));
+
+            // Mặc định tổng tiền = 0
+            txtTongTien.setText("0");
         }
-        
+
+        // Luôn không cho sửa mã hóa đơn (cả khi thêm và sửa)
+        txtMaHD.setEditable(false);
+
         // Button events
         btnLuu.addActionListener(new ActionListener() {
             @Override
@@ -309,33 +360,56 @@ public class HoaDonGUI extends JPanel {
                 saveHoaDon();
             }
         });
-        
+
         btnHuy.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dialogHoaDon.dispose();
             }
         });
-        
+
         // Show dialog
         dialogHoaDon.setVisible(true);
     }
-    
-    private void saveHoaDon() {
+
+        private void saveHoaDon() {
         // Validate inputs
         if (txtMaHD.getText().trim().isEmpty() || 
-            txtMaNV.getText().trim().isEmpty() || 
-            txtMaKH.getText().trim().isEmpty() || 
             txtNgayBan.getText().trim().isEmpty() || 
             txtTongTien.getText().trim().isEmpty()) {
-            
+
             JOptionPane.showMessageDialog(dialogHoaDon, 
                 "Vui lòng nhập đầy đủ thông tin!", 
                 "Lỗi", 
                 JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
+        // Lấy thông tin từ ComboBox
+        if (cbNhanVien.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(dialogHoaDon, 
+                "Vui lòng chọn nhân viên!", 
+                "Lỗi", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (cbKhachHang.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(dialogHoaDon, 
+                "Vui lòng chọn khách hàng!", 
+                "Lỗi", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Lấy mã nhân viên từ ComboBox
+        String selectedNV = cbNhanVien.getSelectedItem().toString();
+        String maNV = selectedNV.split(" - ")[0];
+
+        // Lấy mã khách hàng từ ComboBox
+        String selectedKH = cbKhachHang.getSelectedItem().toString();
+        String maKH = selectedKH.split(" - ")[0];
+
         // Validate number format
         double tongTien;
         try {
@@ -354,7 +428,7 @@ public class HoaDonGUI extends JPanel {
                 JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         // Validate date format
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         sdf.setLenient(false);
@@ -367,19 +441,19 @@ public class HoaDonGUI extends JPanel {
                 JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         // Create HoaDonDTO object
         HoaDonDTO hoaDon = new HoaDonDTO(
             txtMaHD.getText().trim(),
-            txtMaNV.getText().trim(),
-            txtMaKH.getText().trim(),
+            maNV,  // Mã nhân viên từ ComboBox
+            maKH,  // Mã khách hàng từ ComboBox
             txtMaKM.getText().trim(),
             txtNgayBan.getText().trim(),
             tongTien
         );
-        
+
         boolean success;
-        
+
         // Add or update
         if (isAdding) {
             // Check if invoice ID already exists
@@ -390,7 +464,7 @@ public class HoaDonGUI extends JPanel {
                     JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            
+
             success = hoaDonBLL.insertHoaDon(hoaDon);
             if (success) {
                 JOptionPane.showMessageDialog(dialogHoaDon, 
@@ -419,11 +493,11 @@ public class HoaDonGUI extends JPanel {
                 return;
             }
         }
-        
+
         // Close dialog and refresh data
         dialogHoaDon.dispose();
         loadData();
-    }
+}
     
     private void deleteHoaDon() {
         if (selectedRow == -1) {

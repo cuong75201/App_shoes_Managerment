@@ -121,4 +121,33 @@ public class HoaDonBLL {
     public boolean checkHoaDonExists(String maHD) {
         return hoaDonDAL.checkHoaDonExists(maHD);
     }
+    
+    public String generateNewMaHD() {
+    // Lấy danh sách hóa đơn hiện có
+    ArrayList<HoaDonDTO> listHD = getHoaDonList();
+    
+    // Nếu không có hóa đơn nào, bắt đầu với HD001
+    if (listHD.isEmpty()) {
+        return "HD001";
+    }
+    
+    // Tìm mã hóa đơn lớn nhất
+    int maxId = 0;
+    for (HoaDonDTO hd : listHD) {
+        String maHD = hd.getStrMaHD();
+        if (maHD.startsWith("HD")) {
+            try {
+                int id = Integer.parseInt(maHD.substring(2));
+                if (id > maxId) {
+                    maxId = id;
+                }
+            } catch (NumberFormatException e) {
+                // Bỏ qua nếu định dạng không phù hợp
+            }
+        }
+    }
+    
+    // Tạo mã mới với số hiệu tiếp theo
+    return String.format("HD%03d", maxId + 1);
+}
 }

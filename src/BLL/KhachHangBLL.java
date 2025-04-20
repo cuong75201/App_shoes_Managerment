@@ -177,4 +177,13 @@ public class KhachHangBLL {
         }
         return pattern.matcher(email).matches();
     }
+    
+    public boolean isKhachHangExist(String maKH) {
+    for (KhachHangDTO kh : getKhachHangList()) {
+        if (kh.getStrMaKH().equalsIgnoreCase(maKH)) {
+            return true;
+        }
+    }
+    return false;
+}
 }

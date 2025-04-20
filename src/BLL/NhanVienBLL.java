@@ -89,5 +89,14 @@ public class NhanVienBLL {
         }
         return result;
     }
+    
+    public boolean isNhanVienExist(String maNV) {
+    for (NhanVienDTO nv : getListNhanVien()) {
+        if (nv.getstrMaNV().equalsIgnoreCase(maNV)) {
+            return true;
+        }
+    }
+    return false;
+}
 }
 
