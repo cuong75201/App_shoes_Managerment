@@ -27,7 +27,7 @@ public class ChiTietKhuyenMaiBLL {
     public boolean deleteChiTietKhuyenMai(ChiTietKMDTO temp){
         if(ctkhuyenmai.xoaChiTietKhuyenMai(temp)){
             for(var tmp : list)
-                if(tmp.getStrMaGiay()==temp.getStrMaGiay()&&tmp.getStrMaKM()==temp.getStrMaKM())
+                if(tmp.getStrMaGiay().equals(temp.getStrMaGiay())&&tmp.getStrMaKM().equals(temp.getStrMaKM()))
                     list.remove(tmp);
                     return true;
                 }
@@ -36,7 +36,7 @@ public class ChiTietKhuyenMaiBLL {
     public boolean updateChiTietKhuyenMai(ChiTietKMDTO temp){
         if(ctkhuyenmai.suaChiTietKhuyenMai(temp))
             for(var tmp : list)
-                if(tmp.getStrMaGiay()==temp.getStrMaGiay()&&tmp.getStrMaKM()==temp.getStrMaKM()){
+                if(tmp.getStrMaGiay().equals(temp.getStrMaGiay())&&tmp.getStrMaKM().equals(temp.getStrMaKM())){
                     tmp.setTiLeKM(temp.getTiLeKM());
                     return true;
                 }
