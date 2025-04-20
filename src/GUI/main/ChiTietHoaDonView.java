@@ -27,6 +27,14 @@ import java.util.Vector;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.awt.print.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
+
 /**
  *
  * @author cuong
@@ -326,13 +334,10 @@ public class ChiTietHoaDonView extends JDialog {
         
         // Nút In hóa đơn
         btnInHoaDon.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(ChiTietHoaDonView.this, 
-                    "Chức năng in hóa đơn đang được phát triển.", 
-                    "Thông báo", 
-                    JOptionPane.INFORMATION_MESSAGE);
-            }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            printInvoice(); // Thay thế dòng thông báo cũ bằng lệnh gọi phương thức in
+        }
         });
         
         // Nút Thêm sản phẩm
@@ -756,5 +761,330 @@ public class ChiTietHoaDonView extends JDialog {
             "Thông báo", 
             JOptionPane.INFORMATION_MESSAGE);
     }
+    }
+    private void printInvoice() {
+    // Hiển thị hộp thoại xác nhận trước khi in
+    int confirm = JOptionPane.showConfirmDialog(this,
+        "Bạn có muốn xem trước hóa đơn trước khi in không?",
+        "Xác nhận",
+        JOptionPane.YES_NO_CANCEL_OPTION);
+        
+    if (confirm == JOptionPane.CANCEL_OPTION) {
+        return; // Người dùng hủy thao tác in
+    }
+    
+    if (confirm == JOptionPane.YES_OPTION) {
+        // Tạo cửa sổ xem trước khi in
+        JDialog previewDialog = new JDialog(this, "Xem trước hóa đơn", true);
+        previewDialog.setSize(600, 800);
+        previewDialog.setLocationRelativeTo(this);
+        
+        // Tạo panel để hiển thị bản xem trước
+        JPanel previewPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                
+                // Vẽ hóa đơn lên panel
+                try {
+                    new InvoicePrintable().print(g2d, new PageFormat(), 0);
+                } catch (PrinterException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        
+        previewPanel.setPreferredSize(new Dimension(550, 750));
+        
+        JScrollPane scrollPane = new JScrollPane(previewPanel);
+        previewDialog.add(scrollPane, BorderLayout.CENTER);
+        
+        // Panel chứa các nút điều khiển
+        JPanel buttonPanel = new JPanel();
+        CustomButton btnPrint = new CustomButton("In hóa đơn");
+        btnPrint.setBackground(Color.decode("#3498DB"));
+        btnPrint.setForeground(Color.WHITE);
+        btnPrint.setBorderColor(btnPrint.getBackground());
+        
+        CustomButton btnCancel = new CustomButton("Hủy");
+        btnCancel.setBackground(Color.decode("#E74C3C"));
+        btnCancel.setForeground(Color.WHITE);
+        btnCancel.setBorderColor(btnCancel.getBackground());
+        
+        buttonPanel.add(btnPrint);
+        buttonPanel.add(btnCancel);
+        previewDialog.add(buttonPanel, BorderLayout.SOUTH);
+        
+        // Thêm sự kiện cho nút In
+        btnPrint.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                previewDialog.dispose();
+                printActualInvoice();
+            }
+        });
+        
+        // Thêm sự kiện cho nút Hủy
+        btnCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                previewDialog.dispose();
+            }
+        });
+        
+        previewDialog.setVisible(true);
+    } else {
+        // In ngay không xem trước
+        printActualInvoice();
+    }
 }
+
+private void printActualInvoice() {
+    PrinterJob job = PrinterJob.getPrinterJob();
+    job.setPrintable(new InvoicePrintable());
+    
+    if (job.printDialog()) {
+        try {
+            job.print();
+            JOptionPane.showMessageDialog(this, 
+                "In hóa đơn thành công!", 
+                "Thông báo", 
+                JOptionPane.INFORMATION_MESSAGE);
+                
+            // Lưu lịch sử in hóa đơn
+            saveInvoicePrintHistory();
+        } catch (PrinterException ex) {
+            JOptionPane.showMessageDialog(this, 
+                "Lỗi khi in: " + ex.getMessage(), 
+                "Lỗi", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+}
+
+private void saveInvoicePrintHistory() {
+    // Phương thức này có thể được mở rộng để lưu lịch sử in hóa đơn vào cơ sở dữ liệu
+    // Ví dụ: thời gian in, người in, trạng thái in, v.v.
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    String printTime = dateFormat.format(new Date());
+    
+    System.out.println("Đã in hóa đơn " + hoaDon.getStrMaHD() + " vào lúc " + printTime);
+    
+    // Ghi chú: Trong phiên bản hoàn chỉnh, bạn có thể muốn thêm một bảng trong cơ sở dữ liệu
+    // để lưu trữ lịch sử in hóa đơn và thêm mã ở đây để lưu vào cơ sở dữ liệu
+}
+
+// Lớp định dạng in hóa đơn được cải thiện
+private class InvoicePrintable implements Printable {
+    @Override
+    public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
+        if (pageIndex > 0) {
+            return NO_SUCH_PAGE;
+        }
+        
+        Graphics2D g2d = (Graphics2D) graphics;
+        
+        // Thiết lập chất lượng vẽ cao hơn
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        
+        g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+        
+        // Thiết lập font
+        Font titleFont = new Font("SansSerif", Font.BOLD, 18);
+        Font headerFont = new Font("SansSerif", Font.BOLD, 12);
+        Font normalFont = new Font("SansSerif", Font.PLAIN, 12);
+        
+        int y = 20; // Vị trí bắt đầu
+        int lineHeight = 15; // Độ cao mỗi dòng
+        int leftMargin = 50; // Lề trái
+        int width = (int) pageFormat.getImageableWidth();
+        
+        // Vẽ viền trang
+        g2d.setColor(Color.LIGHT_GRAY);
+        g2d.drawRect(5, 5, width - 10, (int)pageFormat.getImageableHeight() - 10);
+        g2d.setColor(Color.BLACK);
+        
+        // Vẽ tiêu đề
+        g2d.setFont(titleFont);
+        String title = "HÓA ĐƠN BÁN HÀNG";
+        int titleWidth = g2d.getFontMetrics().stringWidth(title);
+        g2d.drawString(title, (width - titleWidth) / 2, y);
+        y += 30;
+        
+        // Vẽ thông tin cửa hàng
+        g2d.setFont(headerFont);
+        String shopName = "SHOES SHOP";
+        g2d.drawString(shopName, leftMargin, y);
+        
+        // Vẽ đường gạch chân dưới tên cửa hàng
+        int shopNameWidth = g2d.getFontMetrics().stringWidth(shopName);
+        g2d.drawLine(leftMargin, y + 2, leftMargin + shopNameWidth, y + 2);
+        
+        y += lineHeight + 5;
+        
+        g2d.setFont(normalFont);
+        g2d.drawString("Địa chỉ: 123 Đường Nguyễn Huệ, Quận 1, TP.HCM", leftMargin, y);
+        y += lineHeight;
+        g2d.drawString("Điện thoại: 0123456789", leftMargin, y);
+        y += lineHeight;
+        g2d.drawString("Email: contact@shoesshop.com", leftMargin, y);
+        y += lineHeight * 2;
+        
+        // Vẽ đường ngăn cách
+        g2d.drawLine(leftMargin, y - 5, width - leftMargin, y - 5);
+        
+        // Vẽ thông tin hóa đơn
+        g2d.setFont(headerFont);
+        g2d.drawString("THÔNG TIN HÓA ĐƠN", leftMargin, y + 15);
+        y += lineHeight + 20;
+        
+        // Tạo bảng thông tin với 2 cột
+        g2d.setFont(normalFont);
+        int col2X = width / 2;
+        
+        g2d.drawString("Mã hóa đơn:", leftMargin, y);
+        g2d.drawString(hoaDon.getStrMaHD(), leftMargin + 100, y);
+        
+        g2d.drawString("Ngày bán:", col2X, y);
+        g2d.drawString(hoaDon.getStrNgayBan(), col2X + 100, y);
+        y += lineHeight + 5;
+        
+        g2d.drawString("Nhân viên:", leftMargin, y);
+        g2d.drawString(hoaDon.getStrMaNV(), leftMargin + 100, y);
+        
+        g2d.drawString("Khách hàng:", col2X, y);
+        g2d.drawString(hoaDon.getStrMaKH(), col2X + 100, y);
+        y += lineHeight + 5;
+        
+        g2d.drawString("Khuyến mãi:", leftMargin, y);
+        g2d.drawString((hoaDon.getStrMaKM().isEmpty() ? "Không có" : hoaDon.getStrMaKM()), leftMargin + 100, y);
+        
+        y += lineHeight * 2;
+        
+        // Vẽ đường ngăn cách
+        g2d.drawLine(leftMargin, y - 5, width - leftMargin, y - 5);
+        
+        // Vẽ tiêu đề bảng chi tiết
+        g2d.setFont(headerFont);
+        g2d.drawString("CHI TIẾT HÓA ĐƠN", leftMargin, y + 15);
+        y += lineHeight + 20;
+        
+        // Vẽ header của bảng với đường viền
+        int tableWidth = width - 2 * leftMargin;
+        int[] colWidths = {tableWidth / 10, 3 * tableWidth / 10, 4 * tableWidth / 10, 2 * tableWidth / 10};
+        String[] headers = {"STT", "Mã giày", "Tên sản phẩm", "Số lượng"};
+        
+        // Vẽ nền cho header
+        g2d.setColor(new Color(230, 230, 230));
+        g2d.fillRect(leftMargin, y - 15, tableWidth, 20);
+        g2d.setColor(Color.BLACK);
+        
+        // Vẽ viền bảng
+        g2d.drawRect(leftMargin, y - 15, tableWidth, 20);
+        
+        // Vẽ các cột
+        int startX = leftMargin;
+        for (int i = 0; i < colWidths.length - 1; i++) {
+            startX += colWidths[i];
+            g2d.drawLine(startX, y - 15, startX, y + 5);
+        }
+        
+        // Vẽ header text
+        g2d.setFont(headerFont);
+        startX = leftMargin;
+        for (int i = 0; i < headers.length; i++) {
+            int textWidth = g2d.getFontMetrics().stringWidth(headers[i]);
+            g2d.drawString(headers[i], startX + (colWidths[i] - textWidth) / 2, y);
+            startX += colWidths[i];
+        }
+        y += 10;
+        
+        // Vẽ nội dung của bảng
+        g2d.setFont(normalFont);
+        SanPhamDAL sanPhamDAL = new SanPhamDAL();
+        
+        int rowHeight = lineHeight + 5;
+        int tableStartY = y;
+        
+        for (int i = 0; i < listChiTietHD.size(); i++) {
+            ChiTietHDDTO chiTiet = listChiTietHD.get(i);
+            int rowY = y + i * rowHeight;
+            
+            // Vẽ đường viền hàng
+            g2d.drawRect(leftMargin, rowY, tableWidth, rowHeight);
+            
+            // Vẽ các đường phân cách cột
+            startX = leftMargin;
+            for (int j = 0; j < colWidths.length - 1; j++) {
+                startX += colWidths[j];
+                g2d.drawLine(startX, rowY, startX, rowY + rowHeight);
+            }
+            
+            // Vẽ nội dung hàng
+            startX = leftMargin;
+            
+            // STT
+            String stt = String.valueOf(i + 1);
+            int textWidth = g2d.getFontMetrics().stringWidth(stt);
+            g2d.drawString(stt, startX + (colWidths[0] - textWidth) / 2, rowY + rowHeight - 5);
+            startX += colWidths[0];
+            
+            // Mã giày
+            g2d.drawString(chiTiet.getStrMaGiay(), startX + 5, rowY + rowHeight - 5);
+            startX += colWidths[1];
+            
+            // Tên sản phẩm
+            String tenSanPham = "Sản phẩm " + chiTiet.getStrMaGiay();
+            SanPhamDTO sanPham = sanPhamDAL.getSanPhamByMa(chiTiet.getStrMaGiay());
+            if (sanPham != null) {
+                tenSanPham = sanPham.getStrTenGiay();
+            }
+            g2d.drawString(tenSanPham, startX + 5, rowY + rowHeight - 5);
+            startX += colWidths[2];
+            
+            // Số lượng
+            String soLuong = String.valueOf(chiTiet.getiSoLuong());
+            textWidth = g2d.getFontMetrics().stringWidth(soLuong);
+            g2d.drawString(soLuong, startX + (colWidths[3] - textWidth) / 2, rowY + rowHeight - 5);
+        }
+        
+        // Cập nhật y sau khi vẽ bảng
+        y += listChiTietHD.size() * rowHeight + lineHeight;
+        
+        // Vẽ tổng tiền
+        g2d.setFont(headerFont);
+        String tongTienStr = "Tổng tiền: " + String.format("%,.0f VND", hoaDon.getTongTien());
+        int tongTienWidth = g2d.getFontMetrics().stringWidth(tongTienStr);
+        g2d.drawString(tongTienStr, width - leftMargin - tongTienWidth, y);
+        y += lineHeight * 2;
+        
+        // Vẽ đường ngăn cách
+        g2d.drawLine(leftMargin, y - 5, width - leftMargin, y - 5);
+        
+        // Vẽ thông tin chân trang
+        g2d.setFont(normalFont);
+        
+        // Thời gian in
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String printDate = "Thời gian in: " + dateFormat.format(new Date());
+        g2d.drawString(printDate, leftMargin, y + 10);
+        y += lineHeight * 3;
+        
+        // Chữ ký
+        int signatureX1 = leftMargin + width / 4 - 30;
+        int signatureX2 = leftMargin + 3 * width / 4 - 30;
+        
+        g2d.drawString("Người bán hàng", signatureX1, y);
+        g2d.drawString("Khách hàng", signatureX2, y);
+        y += lineHeight;
+        g2d.drawString("(Ký, ghi rõ họ tên)", signatureX1 - 10, y);
+        g2d.drawString("(Ký, ghi rõ họ tên)", signatureX2 - 10, y);
+        
+        return PAGE_EXISTS;
+    }
+}
+
 }

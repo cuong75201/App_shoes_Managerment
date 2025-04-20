@@ -29,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
+import java.util.Locale;
 
 /**
  *
@@ -343,7 +344,7 @@ public class HoaDonGUI extends JPanel {
             txtMaHD.setText(maHD);
 
             // Thiết lập ngày hiện tại
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
             txtNgayBan.setText(sdf.format(new Date()));
 
             // Mặc định tổng tiền = 0
