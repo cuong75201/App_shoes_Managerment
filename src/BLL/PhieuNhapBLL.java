@@ -62,6 +62,10 @@ public class PhieuNhapBLL {
         return false;
     }
 
+    public boolean deletePhieuNhap(String maPN) {
+        return dal.deletePhieuNhap(maPN);
+    }
+
     // ✅ Tìm kiếm chính xác theo mã phiếu nhập
     public PhieuNhapDTO searchPhieuNhap(String maPN) {
         for (PhieuNhapDTO pn : danhSachPhieuNhap) {
@@ -165,5 +169,16 @@ public class PhieuNhapBLL {
             }
         }
         return (int) sum;
+    }
+    public boolean updateTongTien(String maPN, double tongtien){
+        for(var tmp : danhSachPhieuNhap)
+            if(tmp.getStrMaPN().equals(maPN)){
+                tmp.setTongTien(tongtien);
+                if(dal.updatePhieuNhap(tmp))
+                    return true;
+                else
+                    return false;
+            }
+        return false;
     }
 }

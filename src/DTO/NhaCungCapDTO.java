@@ -10,6 +10,7 @@ package DTO;
  */
 public class NhaCungCapDTO {
      String strMaNCC, strTenNCC, strDiaChi, strEmail;
+     private int trangthai;
 
     public NhaCungCapDTO() {
     }
@@ -19,6 +20,7 @@ public class NhaCungCapDTO {
         this.strTenNCC = strTenNCC;
         this.strDiaChi = strDiaChi;
         this.strEmail = strEmail;
+        this.trangthai = 1;
     }
 
     public String getStrMaNCC() {
@@ -52,10 +54,18 @@ public class NhaCungCapDTO {
     public void setStrEmail(String strEmail) {
         this.strEmail = strEmail;
     }
+     
+    public int getTrangthai() {
+        return trangthai;
+    }
+    
+    public void setTrangthai(int trangthai) {
+        this.trangthai = trangthai;
+    }
 
     @Override
     public String toString() {
-        return "NhaCungCapDTO{" + "strMaNCC=" + strMaNCC + ", strTenNCC=" + strTenNCC + ", strDiaChi=" + strDiaChi + ", strEmail=" + strEmail + '}';
+        return "NhaCungCapDTO{" + "strMaNCC=" + strMaNCC + ", strTenNCC=" + strTenNCC + ", strDiaChi=" + strDiaChi + ", strEmail=" + strEmail + ", trangthai="+ trangthai +'}';
     }
     
 }

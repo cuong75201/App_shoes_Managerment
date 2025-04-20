@@ -100,6 +100,12 @@ public class DashBoard extends JFrame {
         ThongKeGUI pnThongKe=new ThongKeGUI();
         pnMain.add(pnThongKe,"ThongKe");
 
+        NhaCungCapGUI pnNhaCungCap=new NhaCungCapGUI();
+        pnMain.add(pnNhaCungCap, "NhaCungCap");
+        NhanVienGUI pnNhanVien=new NhanVienGUI();
+        pnMain.add(pnNhanVien, "NhanVien");
+        PhieuNhapGUI pnPhieuNhap=new PhieuNhapGUI();
+        pnMain.add(pnPhieuNhap, "PhieuNhap");
         pnInfor = new JPanel();
         pnInfor.setLayout(null);
         pnInfor.setBounds(0, 0, 250, 100);

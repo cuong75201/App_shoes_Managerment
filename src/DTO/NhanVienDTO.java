@@ -9,7 +9,7 @@ package DTO;
  * @author cuong
  */
 public class NhanVienDTO {
-      private String strMaNV;
+    private String strMaNV;
     private String strHo;
     private String strTen;
     private String strGioiTinh;
@@ -19,6 +19,7 @@ public class NhanVienDTO {
     private String iDienThoai;
     private int iLuong;
     private String strAnh;
+    private int trangthai;
 
     public NhanVienDTO() {
     }
@@ -34,6 +35,7 @@ public class NhanVienDTO {
         this.iDienThoai = iDienThoai;
         this.iLuong = iLuong;
         this.strAnh = strAnh;
+        this.trangthai=1; 
     }
 
     public String getStrChucVu() {
@@ -114,6 +116,14 @@ public class NhanVienDTO {
 
     public void setStrAnh(String strAnh) {
         this.strAnh = strAnh;
+    }
+      
+    public int getTrangthai() {
+        return trangthai;
+    }
+    
+    public void setTrangthai(int trangthai) {
+        this.trangthai = trangthai;
     }
     
 }

@@ -186,4 +186,13 @@ public class KhachHangBLL {
         }
         return result;
     }
+    
+    public boolean isKhachHangExist(String maKH) {
+    for (KhachHangDTO kh : getKhachHangList()) {
+        if (kh.getStrMaKH().equalsIgnoreCase(maKH)) {
+            return true;
+        }
+    }
+    return false;
+}
 }

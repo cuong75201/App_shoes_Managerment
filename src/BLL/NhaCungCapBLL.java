@@ -36,6 +36,10 @@ public class NhaCungCapBLL {
         return dal.DeleteNCC(ncc);
     }
 
+    public boolean deleteNhaCungCap(String maNCC) {
+        return dal.deleteNhaCungCap(maNCC);
+    }
+
     // Tìm kiếm nhà cung cấp theo nhiều tiêu chí: mã, tên, địa chỉ, email
     public ArrayList<NhaCungCapDTO> searchNhaCungCap(String keyword) {
         ArrayList<NhaCungCapDTO> result = new ArrayList<>();

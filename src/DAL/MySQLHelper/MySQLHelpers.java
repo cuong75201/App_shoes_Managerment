@@ -277,6 +277,15 @@ public class MySQLHelpers {
  * @return ResultSet chứa kết quả truy vấn, null nếu có lỗi
  */
 public ResultSet executeQuery() {
+    if (this.connection == null) {
+        try {
+            // Thử kết nối lại
+            this.connection = DriverManager.getConnection(Utils.Config.URL, Utils.Config.USER_NAME, Utils.Config.PASSWORD);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Không thể kết nối đến cơ sở dữ liệu: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
     try {
         String sql = "SELECT " + this.queryParams.get("SELECT") + " FROM " + this.queryParams.get("TABLE");
         

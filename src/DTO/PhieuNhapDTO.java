@@ -9,8 +9,9 @@ package DTO;
  * @author cuong
  */
 public class PhieuNhapDTO {
-     String strMaPN, strMaNCC, strMaNV, strNgayNhap;
+    String strMaPN, strMaNCC, strMaNV, strNgayNhap;
     double tongTien;
+    private int trangthai;
 
     public PhieuNhapDTO() {
     }
@@ -23,6 +24,7 @@ public class PhieuNhapDTO {
         this.strMaNV = strMaNV;
         this.strNgayNhap = strNgayNhap;
         this.tongTien = tongTien;
+        this.trangthai = 1;
     }
 
     public String getStrMaPN() {
@@ -67,6 +69,6 @@ public class PhieuNhapDTO {
 
     @Override
     public String toString() {
-        return "PhieuNhapDTO{" + "strMaPN=" + strMaPN + ", strMaNCC=" + strMaNCC + ", strMaNV=" + strMaNV + ", strNgayNhap=" + strNgayNhap + ", tongTien=" + tongTien + '}';
+        return "PhieuNhapDTO{" + "strMaPN=" + strMaPN + ", strMaNCC=" + strMaNCC + ", strMaNV=" + strMaNV + ", strNgayNhap=" + strNgayNhap + ", tongTien=" + tongTien + ", trangthai=" + trangthai +  '}';
     }
 }
