@@ -431,13 +431,13 @@ public class HoaDonGUI extends JPanel {
         }
 
         // Validate date format
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
         sdf.setLenient(false);
         try {
             Date date = sdf.parse(txtNgayBan.getText().trim());
         } catch (ParseException e) {
             JOptionPane.showMessageDialog(dialogHoaDon, 
-                "Ngày bán phải có định dạng YYYY-MM-DD!", 
+                "Ngày bán phải có định dạng DD MMM YYYY (ví dụ: 15 Jun 2020)!", 
                 "Lỗi", 
                 JOptionPane.ERROR_MESSAGE);
             return;
