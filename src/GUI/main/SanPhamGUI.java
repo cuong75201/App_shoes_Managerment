@@ -38,6 +38,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -101,9 +102,6 @@ public class SanPhamGUI extends JPanel {
         for (XuatXuDTO xxdto : list_xx) {
             cbxx.addItem(xxdto.getStrTennuoc());
         }
-        addSanPham = new ThemSanPham(cbloai, cbmau, cbxx, cbth);
-
-        addSanPham.pnMasp.field.setText(sp.getDefaultMasp());
 
         pnButton = new PanelFunction();
         cbfilter = new CustomComboBox();
@@ -139,7 +137,7 @@ public class SanPhamGUI extends JPanel {
         tblsanpham.setFont(new Font("Sans-serif", Font.PLAIN, 14));
         tblsanpham.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 15));
         scrollPane = new JScrollPane(tblsanpham);
-
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
         scrollPane.setBounds(
                 20, 150, width - 50, 600);
         pnButton.setCbfilter(cbfilter);
@@ -160,6 +158,10 @@ public class SanPhamGUI extends JPanel {
         pnButton.btnThem.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                addSanPham = new ThemSanPham(cbloai, cbmau, cbxx, cbth);
+                addSanPham.pnMasp.field.setText(sp.getDefaultMasp());
+                addSanPham.pnSoluong.field.setText("0");
+                addSanPham.pnSoluong.field.setEditable(false);
                 addSanPham.setVisible(true);
                 addSanPham.btnCancel.addMouseListener(new MouseAdapter() {
                     @Override
@@ -171,14 +173,11 @@ public class SanPhamGUI extends JPanel {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         SanPhamDTO spdto = new SanPhamDTO();
-                        if (addSanPham.pnSoluong.field.getText().trim().isEmpty() || addSanPham.pnGia.field.getText().trim().isEmpty() || addSanPham.pnSize.field.getText().trim().isEmpty() || addSanPham.pnTensp.field.getText().trim().isEmpty() || addSanPham.pnDoituong.field.getText().trim().isEmpty() || addSanPham.pnChatlieu.field.getText().trim().isEmpty()) {
+                        if (addSanPham.pnGia.field.getText().trim().isEmpty() || addSanPham.pnSize.field.getText().trim().isEmpty() || addSanPham.pnTensp.field.getText().trim().isEmpty() || addSanPham.pnDoituong.field.getText().trim().isEmpty() || addSanPham.pnChatlieu.field.getText().trim().isEmpty()) {
                             JOptionPane.showMessageDialog(null, "Các trường không được để trống", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
                             return;
                         }
-                        if (!isInteger(addSanPham.pnSoluong.field.getText())) {
-                            JOptionPane.showMessageDialog(null, "Số lượng không hợp lệ", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
-                            return;
-                        }
+
                         if (!isInteger(addSanPham.pnGia.field.getText())) {
                             JOptionPane.showMessageDialog(null, "Giá không hợp lệ", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
                             return;
@@ -198,6 +197,7 @@ public class SanPhamGUI extends JPanel {
                         spdto.setStrMaMau(mau.getMamaufromTenMau(addSanPham.pnmau.cb.getSelectedItem().toString()));
                         spdto.setStrMaxx(xx.getMaxxfromTennuoc(addSanPham.pnxx.cb.getSelectedItem().toString()));
                         spdto.setStrMaThuongHieu(th.getMaTHfromTenTH(addSanPham.pnthuonghieu.cb.getSelectedItem().toString()));
+                        spdto.setiTrangthai(1);
                         if (sp.addProduct(spdto)) {
                             Object[] rowData = {
                                 spdto.getStrMaGiay(),
@@ -216,6 +216,8 @@ public class SanPhamGUI extends JPanel {
                             model.addRow(rowData);
                             addSanPham.setVisible(false);
                         };
+                        addSanPham.dispose();
+
                     }
                 });
             }
@@ -224,6 +226,10 @@ public class SanPhamGUI extends JPanel {
         pnButton.btnSua.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                addSanPham = new ThemSanPham(cbloai, cbmau, cbxx, cbth);
+                addSanPham.pnMasp.field.setText(sp.getDefaultMasp());
+                addSanPham.pnSoluong.field.setText("0");
+                addSanPham.pnSoluong.field.setEditable(false);
                 int selectedRow = tblsanpham.getSelectedRow();
                 if (selectedRow == -1) {
                     JOptionPane.showMessageDialog(null, "Vui lòng chọn dòng cần sửa", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -373,7 +379,7 @@ public class SanPhamGUI extends JPanel {
                         th.getTenTHfromMaTH(spdto.getStrMaThuongHieu())
                     };
                     System.out.println(loai.getLoaiNameById(spdto.getStrMaLoai())
-);
+                    );
 
                     modelfilter.addRow(rowData);
                 }
@@ -385,17 +391,17 @@ public class SanPhamGUI extends JPanel {
             }
 
         });
-        pnButton.btnReset.addMouseListener(new MouseAdapter(){
+        pnButton.btnReset.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e){
-                 tblsanpham.setmodel(model);
+            public void mouseClicked(MouseEvent e) {
+                tblsanpham.setmodel(model);
             }
         });
-        pnButton.btnXuatExcel.addMouseListener(new MouseAdapter(){
+        pnButton.btnXuatExcel.addMouseListener(new MouseAdapter() {
             @Override
-              public void mouseClicked(MouseEvent e){
-              XuatExcel export =new XuatExcel();
-              export.exportTableToExcel(tblsanpham);
+            public void mouseClicked(MouseEvent e) {
+                XuatExcel export = new XuatExcel();
+                export.exportTableToExcel(tblsanpham);
             }
         });
     }

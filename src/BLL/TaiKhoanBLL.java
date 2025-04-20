@@ -98,7 +98,7 @@ public class TaiKhoanBLL {
                 return "Quản lý khuyến mãi"; // Xem sản phẩm, tạo khuyến mãi
             case 4:
                 return "Quản lý hóa đơn"; //Xem, sửa, xóa hóa đơn 
-            case 5: 
+            case 5:
                 return "Quản lý nhập hàng"; // Xem, thêm danh sách hàng hóa , phiếu nhập, nhà cung cấp
             case 6:
                 return "Thống kê doanh thu"; //
@@ -106,4 +106,60 @@ public class TaiKhoanBLL {
                 return "Không tồn tại";
         }
     }
+
+    public int ChucVutoCapBac(String chucVu) {
+        switch (chucVu) {
+            case "Quản trị viên":
+                return 1;
+            case "Quản lý hàng hóa":
+                return 2;
+            case "Quản lý khuyến mãi":
+                return 3;
+            case "Quản lý hóa đơn":
+                return 4;
+            case "Quản lý nhập hàng":
+                return 5;
+            case "Thống kê doanh thu":
+                return 6;
+            default:
+                return -1; // hoặc throw exception nếu cần
+        }
+    }
+
+    public boolean TestMaNV(String manv) {
+        for (TaiKhoanDTO tkdto : ListAccount) {
+            if (tkdto.getStrTenDangNhap().equals(manv)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int trangThaiToInt(String trangThai) {
+        if (trangThai.equalsIgnoreCase("hoạt động")) {
+            return 1;
+        } else if (trangThai.equalsIgnoreCase("khóa")) {
+            return 0;
+        } else {
+            return -1; // Trạng thái không hợp lệ
+        }
+    }
+    public TaiKhoanDTO searchTKbyMa(String ma){
+        for (TaiKhoanDTO tkdto:ListAccount){
+            if(tkdto.getStrTenDangNhap().equalsIgnoreCase(ma)){
+                return tkdto;
+            }
+        }
+            return null;
+    }
+    public String intToTrangThai(int trangThai) {
+    switch (trangThai) {
+        case 1:
+            return "Hoạt động";
+        case 0:
+            return "Khóa";
+        default:
+            return "không xác định"; // Hoặc đại ca muốn để rỗng, hoặc throw exception cũng được
+    }
+}
 }

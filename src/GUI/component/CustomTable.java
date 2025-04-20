@@ -20,12 +20,17 @@ public class CustomTable extends JTable {
         this.setModel(model);
         init();
     }
-    public void setmodel(DefaultTableModel model){
+
+    public void setmodel(DefaultTableModel model) {
         this.setModel(model);
         init();
     }
+
     public void init() {
+
         // Cài đặt các thuộc tính cơ bản của bảng
+        this.getTableHeader().setReorderingAllowed(false);
+
         this.setShowVerticalLines(false);  // Ẩn các đường phân cách dọc
         this.setShowHorizontalLines(true); // Hiển thị các đường phân cách ngang
         this.setBackground(Color.WHITE);   // Màu nền của bảng
@@ -35,7 +40,6 @@ public class CustomTable extends JTable {
         // Cài đặt màu nền của thanh tiêu đề
         this.getTableHeader().setBackground(Color.decode("#F2F2F2"));
         this.getTableHeader().setForeground(Color.BLACK);  // Màu chữ của tiêu đề 
-
         // Cài đặt màu nền cho các hàng trong bảng
         this.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override

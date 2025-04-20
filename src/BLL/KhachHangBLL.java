@@ -177,4 +177,13 @@ public class KhachHangBLL {
         }
         return pattern.matcher(email).matches();
     }
+     public ArrayList<KhachHangDTO> searchKhachHangByHoTen(String ten) {
+        ArrayList<KhachHangDTO> result = new ArrayList<>();
+        for (KhachHangDTO nv : getKhachHangList()) {
+            if ((nv.getStrHo()+" "+nv.getStrTen()).toLowerCase().contains(ten.toLowerCase())) {
+                result.add(nv);
+            }
+        }
+        return result;
+    }
 }

@@ -12,14 +12,24 @@ public class TaiKhoanDTO {
      private String strTenDangNhap;
     private String strMatKhau;
     private int iCapBac;
+    private int iTrangThai;
     
     public TaiKhoanDTO() {
     }
 
-    public TaiKhoanDTO(String strTenDangNhap, String strMatKhau, int iCapBac) {
+    public TaiKhoanDTO(String strTenDangNhap, String strMatKhau, int iCapBac,int iTrangThai) {
         this.strTenDangNhap = strTenDangNhap;
         this.strMatKhau = strMatKhau;
         this.iCapBac = iCapBac;
+        this.iTrangThai=iTrangThai;
+    }
+
+    public int getiTrangThai() {
+        return iTrangThai;
+    }
+
+    public void setiTrangThai(int iTrangThai) {
+        this.iTrangThai = iTrangThai;
     }
 
     public String getStrTenDangNhap() {

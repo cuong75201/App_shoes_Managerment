@@ -85,5 +85,14 @@ public class NhanVienBLL {
         }
         return result;
     }
+        public ArrayList<NhanVienDTO> searchNhanVienByHoTen(String ten) {
+        ArrayList<NhanVienDTO> result = new ArrayList<>();
+        for (NhanVienDTO nv : dal.getListNhanVien()) {
+            if ((nv.getStrHo()+" "+nv.getStrTen()).toLowerCase().contains(ten.toLowerCase())) {
+                result.add(nv);
+            }
+        }
+        return result;
+    }
 }
 

@@ -25,7 +25,8 @@ public class TaiKhoanDAL {
                 list.add(new TaiKhoanDTO(
                         result.getString("tendangnhap"),
                         result.getString("matkhau"),
-                        result.getInt("capbac")
+                        result.getInt("capbac"),
+                        result.getInt("trangthai")
                 ));
             }
             result.close();
@@ -41,12 +42,13 @@ public class TaiKhoanDAL {
         MySQLHelpers helper = new MySQLHelpers();
         Map<String, String> params = new HashMap<>();
         params.put("TABLE", "tbltaikhoan");
-        params.put("FIELD", "tendangnhap,matkhau,capbac");
+        params.put("FIELD", "tendangnhap,matkhau,capbac,trangthai");
         helper.buildingQueryParam(params);
         ArrayList<Object> values = new ArrayList<>();
         values.add(tk.getStrTenDangNhap());
         values.add(tk.getStrMatKhau());
         values.add(tk.getiCapBac());
+        values.add(tk.getiTrangThai());
         boolean success = helper.insertData(values);
         helper.closeConnect();
         return success;
@@ -60,8 +62,8 @@ public class TaiKhoanDAL {
         helper.buildingQueryParam(params);
         Map<String, Object> UpdateValue = new HashMap<>();
         UpdateValue.put("tendangnhap", tk.getStrTenDangNhap());
-        UpdateValue.put("matkhau", tk.getStrMatKhau());
         UpdateValue.put("capbac", tk.getiCapBac());
+        UpdateValue.put("trangthai",tk.getiTrangThai());
         ArrayList<Object> valueCondition = new ArrayList<>();
         valueCondition.add(tk.getStrTenDangNhap());
         boolean success = helper.updateData(UpdateValue, valueCondition);

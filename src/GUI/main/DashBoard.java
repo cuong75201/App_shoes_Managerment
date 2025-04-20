@@ -15,6 +15,7 @@ import GUI.main.SanPhamGUI;
 import GUI.main.TaiKhoanGUI;
 import GUI.main.HoaDonGUI;
 import GUI.main.KhachHangGUI;
+import GUI.main.ThongKeGUI;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -96,6 +97,8 @@ public class DashBoard extends JFrame {
         pnMain.add(pnKhachHang, "KhachHang");
         KhuyenMaiGUI pnKhuyenMai = new KhuyenMaiGUI();
         pnMain.add(pnKhuyenMai, "KhuyenMai");
+        ThongKeGUI pnThongKe=new ThongKeGUI();
+        pnMain.add(pnThongKe,"ThongKe");
 
         pnInfor = new JPanel();
         pnInfor.setLayout(null);
@@ -186,7 +189,7 @@ public class DashBoard extends JFrame {
         pnButton.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.decode("#CED8DC")));
 
         pnButton.setBounds(0, 0, 250, 800);
-
+        
         this.add(pnInfor);
         this.add(pnButton);
         this.add(pnMain);
@@ -251,6 +254,6 @@ public class DashBoard extends JFrame {
 
     public static void main(String[] args) {
 
-        new DashBoard(new TaiKhoanDTO("admin", "21232f297a57a5a743894a0e4a801fc3", 1));
+        new DashBoard(new TaiKhoanDTO("admin", "21232f297a57a5a743894a0e4a801fc3", 1,1));
     }
 }

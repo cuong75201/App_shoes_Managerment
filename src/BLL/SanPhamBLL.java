@@ -73,18 +73,24 @@ public class SanPhamBLL {
     }
 
     public String getDefaultMasp() {
-        if (listProduct.size() == 0) {
-            return "SP1";
-        }
-        int i = 0;
-        String s = "SP";
-        for (SanPhamDTO sp : listProduct) {
-            int masp = Integer.parseInt(sp.getStrMaGiay().split("SP")[1]);
-            i = masp + 1;
-        }
-        s += i;
-        return s;
+    if (listProduct.size() == 0) {
+        return "SP1";
     }
+
+    int max = 0;
+    for (SanPhamDTO sp : listProduct) {
+        try {
+            int masp = Integer.parseInt(sp.getStrMaGiay().replace("SP", ""));
+            if (masp > max) {
+                max = masp;
+            }
+        } catch (NumberFormatException e) {
+            // Nếu mã không đúng định dạng SPxxx thì bỏ qua
+        }
+    }
+
+    return "SP" + (max + 1);
+}
 
     public ArrayList<SanPhamDTO> SearchbyMasp(String ma) {
         ArrayList<SanPhamDTO> result = new ArrayList<>();
@@ -134,5 +140,15 @@ public class SanPhamBLL {
         }
         return result;
 
+    }
+    public int CountSP(){
+        int count=0;
+        for(SanPhamDTO spdto:listProduct){
+            if(spdto.getiTrangthai()==0){
+                continue;
+            }
+            count++;
+        }
+        return count;
     }
 }
