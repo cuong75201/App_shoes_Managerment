@@ -82,4 +82,15 @@ public class PhieuNhapBLL {
         }
         return ketQua;
     }
+    public boolean updateTongTien(String maPN, double tongtien){
+        for(var tmp : danhSachPhieuNhap)
+            if(tmp.getStrMaPN().equals(maPN)){
+                tmp.setTongTien(tongtien);
+                if(dal.updatePhieuNhap(tmp))
+                    return true;
+                else
+                    return false;
+            }
+        return false;
+    }
 }
