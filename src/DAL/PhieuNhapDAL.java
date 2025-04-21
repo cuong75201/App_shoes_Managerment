@@ -39,6 +39,26 @@ public class PhieuNhapDAL {
         return list;
     }
 
+    public ArrayList<String> getAllMaPN() {
+    ArrayList<String> maPNList = new ArrayList<>();
+    MySQLHelpers helper = new MySQLHelpers();
+    Map<String, String> params = new HashMap<>();
+    params.put("SELECT", "MaPN");
+    params.put("TABLE", "tblphieunhap");
+    helper.buildingQueryParam(params);
+    ResultSet result = helper.executeQuery();
+    try {
+        while (result.next()) {
+            maPNList.add(result.getString("MaPN"));
+        }
+        result.close();
+        helper.closeConnect();
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+    }
+    return maPNList;
+}
+
     public boolean insertPhieuNhap(PhieuNhapDTO pn) {
         MySQLHelpers helper = new MySQLHelpers();
         Map<String, String> params = new HashMap<>();
