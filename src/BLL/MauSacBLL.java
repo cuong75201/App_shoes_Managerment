@@ -37,6 +37,9 @@ public class MauSacBLL {
     public boolean deleteMauSac(MauSacDTO mausac) {
         return dal.DeleteMauSac(mausac);
     }
+    public boolean deleteMauSac(String Mamau) {
+        return dal.deleteMauSac(Mamau);
+    }
 
     // Tìm kiếm màu sắc theo mã hoặc tên
     public ArrayList<MauSacDTO> searchMauSac(String keyword) {
