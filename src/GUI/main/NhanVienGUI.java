@@ -212,6 +212,7 @@ public class NhanVienGUI extends JPanel {
         txtMaNV = new customTextField();
         txtMaNV.setBounds(130, y, 230, height);
         txtMaNV.setBorderColor(Color.decode("#E1E1E1"));
+        txtMaNV.setEditable(false);
         dialogNhanVien.add(txtMaNV);
 
         y += gap;
@@ -311,6 +312,9 @@ public class NhanVienGUI extends JPanel {
             txtEmail.setText(nv.getStrEmail());
             txtLuong.setText(String.valueOf(nv.getiLuong()));
         }
+        else {
+        txtMaNV.setText(generateAutoMaNCC()); // Gán mã tự động khi thêm mới
+    }
 
         // Button events
         btnLuu.addActionListener(new ActionListener() {
@@ -442,6 +446,28 @@ public class NhanVienGUI extends JPanel {
         }
     }
 
+    private String generateAutoMaNCC() {
+    ArrayList<String> maNVList = nvBLL.getAllMaNV();
+    int maxNumber = 0;
+
+    // Duyệt qua danh sách mã để tìm số lớn nhất
+    for (String maNV : maNVList) {
+        try {
+            // Lấy phần số từ mã (bỏ tiền tố id)
+            String numberPart = maNV.replaceAll("[^0-9]", "");
+            int number = Integer.parseInt(numberPart);
+            if (number > maxNumber) {
+                maxNumber = number;
+            }
+        } catch (NumberFormatException e) {
+            // Bỏ qua nếu mã không đúng định dạng
+        }
+    }
+
+    // Tạo mã mới: NCC + số tăng lên 1 (ví dụ: NCC1, NCC2, ...)
+    return "id" + (maxNumber + 1);
+}
+    
     private void loadData() {
         DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
         model.setRowCount(0);
