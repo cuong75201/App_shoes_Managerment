@@ -1,8 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package GUI.ThuoctTinh;
+package GUI.ThuocTinh;
 import BLL.ThuongHieuBLL;
 import DTO.ThuongHieuDTO;
 import GUI.component.CustomButton;
@@ -363,3 +359,5 @@ public class ThuongHieu extends JPanel {
         tblthuonghieu.setRowSorter(null);
     }
 }
+/**
+ *
