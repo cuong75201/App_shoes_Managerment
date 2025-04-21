@@ -31,7 +31,7 @@ public class NhanVienGUI extends JPanel {
     private JScrollPane scrollPane;
     private JDialog dialogNhanVien;
     private boolean isAdding = false;
-    private customTextField txtMaNV, txtHo, txtTen, txtGioiTinh, txtDiaChi, txtDienThoai, txtEmail, txtLuong, txtChucVu;
+    private customTextField txtMaNV, txtHo, txtTen, txtGioiTinh, txtDiaChi, txtDienThoai, txtEmail, txtLuong;
     private CustomButton btnLuu, btnHuy;
     private int width = 1116, height = 800;
 
@@ -52,7 +52,7 @@ public class NhanVienGUI extends JPanel {
         cbfilter.addItem("Email");
 
         DefaultTableModel model = new DefaultTableModel(
-            new String[]{"Mã NV", "Họ", "Tên", "Giới tính", "Địa chỉ", "Điện thoại", "Email", "Lương", "Chức vụ"}, 0
+            new String[]{"Mã NV", "Họ", "Tên", "Giới tính", "Địa chỉ", "Điện thoại", "Email", "Lương"}, 0
         );
         for (var temp : list_nv) {
             Object[] rowData = {
@@ -61,10 +61,9 @@ public class NhanVienGUI extends JPanel {
                 temp.getStrTen(),
                 temp.getStrGioiTinh(),
                 temp.getStrDiaChi(),
-                temp.getiDienThoai(), // DienThoai là String
+                temp.getiDienThoai(),
                 temp.getStrEmail(),
-                temp.getiLuong(),
-                temp.getStrChucVu()
+                temp.getiLuong()
             };
             model.addRow(rowData);
         }
@@ -195,7 +194,7 @@ public class NhanVienGUI extends JPanel {
     private void showNhanVienDialog(NhanVienDTO nv) {
         dialogNhanVien = new JDialog();
         dialogNhanVien.setTitle(isAdding ? "Thêm nhân viên" : "Sửa nhân viên");
-        dialogNhanVien.setSize(400, 550);
+        dialogNhanVien.setSize(400, 500); // Giảm chiều cao vì xóa trường ChucVu
         dialogNhanVien.setLayout(null);
         dialogNhanVien.setLocationRelativeTo(null);
         dialogNhanVien.setModal(true);
@@ -285,16 +284,6 @@ public class NhanVienGUI extends JPanel {
         txtLuong.setBorderColor(Color.decode("#E1E1E1"));
         dialogNhanVien.add(txtLuong);
 
-        y += gap;
-        JLabel lblChucVu = new JLabel("Chức vụ:");
-        lblChucVu.setBounds(20, y, 100, height);
-        dialogNhanVien.add(lblChucVu);
-
-        txtChucVu = new customTextField();
-        txtChucVu.setBounds(130, y, 230, height);
-        txtChucVu.setBorderColor(Color.decode("#E1E1E1"));
-        dialogNhanVien.add(txtChucVu);
-
         // Buttons
         btnLuu = new CustomButton("Lưu");
         btnLuu.setBounds(100, y + 50, 80, 30);
@@ -318,10 +307,9 @@ public class NhanVienGUI extends JPanel {
             txtTen.setText(nv.getStrTen());
             txtGioiTinh.setText(nv.getStrGioiTinh());
             txtDiaChi.setText(nv.getStrDiaChi());
-            txtDienThoai.setText(nv.getiDienThoai()); // iDienThoai là String
+            txtDienThoai.setText(nv.getiDienThoai());
             txtEmail.setText(nv.getStrEmail());
             txtLuong.setText(String.valueOf(nv.getiLuong()));
-            txtChucVu.setText(nv.getStrChucVu());
         }
 
         // Button events
@@ -351,8 +339,7 @@ public class NhanVienGUI extends JPanel {
             txtDiaChi.getText().trim().isEmpty() ||
             txtDienThoai.getText().trim().isEmpty() ||
             txtEmail.getText().trim().isEmpty() ||
-            txtLuong.getText().trim().isEmpty() ||
-            txtChucVu.getText().trim().isEmpty()) {
+            txtLuong.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(dialogNhanVien,
                     "Vui lòng nhập đầy đủ thông tin!",
                     "Lỗi",
@@ -392,15 +379,14 @@ public class NhanVienGUI extends JPanel {
 
         // Create NhanVienDTO object
         try {
-            NhanVienDTO temp = new NhanVienDTO(
+                NhanVienDTO temp = new NhanVienDTO(
                 txtMaNV.getText().trim(),
                 txtHo.getText().trim(),
                 txtTen.getText().trim(),
                 txtGioiTinh.getText().trim(),
                 txtDiaChi.getText().trim(),
                 txtEmail.getText().trim(),
-                txtChucVu.getText().trim(),
-                dienThoai, // iDienThoai là String
+                dienThoai,
                 Integer.parseInt(luongStr),
                 "" // Anh field, set empty as it's not used in dialog
             );
@@ -467,10 +453,9 @@ public class NhanVienGUI extends JPanel {
                 temp.getStrTen(),
                 temp.getStrGioiTinh(),
                 temp.getStrDiaChi(),
-                temp.getiDienThoai(), // iDienThoai là String
+                temp.getiDienThoai(),
                 temp.getStrEmail(),
-                temp.getiLuong(),
-                temp.getStrChucVu()
+                temp.getiLuong()
             };
             model.addRow(row);
         }
