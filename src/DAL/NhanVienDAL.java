@@ -44,6 +44,27 @@ public class NhanVienDAL {
         return list;
     }
 
+    public ArrayList<String> getAllMaNV() {
+    ArrayList<String> maNVList = new ArrayList<>();
+    MySQLHelpers helper = new MySQLHelpers();
+    Map<String, String> params = new HashMap<>();
+    params.put("SELECT", "MaNV");
+    params.put("TABLE", "tblnhanvien");
+    // Không thêm điều kiện WHERE để lấy cả bản ghi có Trangthai = 0
+    helper.buildingQueryParam(params);
+    ResultSet result = helper.executeQuery();
+    try {
+        while (result.next()) {
+            maNVList.add(result.getString("MaNV"));
+        }
+        result.close();
+        helper.closeConnect();
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+    }
+    return maNVList;
+}
+
     public boolean insertNhanVien(NhanVienDTO nv) {
         MySQLHelpers helper = new MySQLHelpers();
         Map<String, String> params = new HashMap<>();
