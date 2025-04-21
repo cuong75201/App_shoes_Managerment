@@ -67,17 +67,6 @@ public class NhanVienBLL {
         return result;
     }
 
-    // Tìm theo chức vụ
-    public ArrayList<NhanVienDTO> searchNhanVienByChucVu(String chucVu) {
-        ArrayList<NhanVienDTO> result = new ArrayList<>();
-        for (NhanVienDTO nv : dal.getListNhanVien()) {
-            if (nv.getStrChucVu().equalsIgnoreCase(chucVu)) {
-                result.add(nv);
-            }
-        }
-        return result;
-    }
-
     // Tìm theo khoảng lương
     public ArrayList<NhanVienDTO> searchNhanVienByLuong(int minLuong, int maxLuong) {
         ArrayList<NhanVienDTO> result = new ArrayList<>();
