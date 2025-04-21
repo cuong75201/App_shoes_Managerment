@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package GUI.ThuocTinh;
 import BLL.XuatXuBLL;
 import DTO.XuatXuDTO;
@@ -90,7 +86,7 @@ public class XuatXu extends JPanel {
                 selectedRow= tblxuatxu.getSelectedRow();
                 if (selectedRow != -1) {
                     isAdding = false;
-                    showThuongHieuDialog(list_XuatXu.get(selectedRow));
+                    showXuatXuDialog(list_XuatXu.get(selectedRow));
                 } else {
                     JOptionPane.showMessageDialog(null, "Vui lòng chọn xuất xứ cần sửa!", "Thông báo", JOptionPane.WARNING_MESSAGE);
                 }
@@ -134,7 +130,7 @@ public class XuatXu extends JPanel {
                 "Xác nhận",
                 JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {            
-            boolean success = xx.deleteXuatXu(list_XuatXu.get(selectedRow).getStrMathuonghieu());
+            boolean success = xx.deleteXuatXu(list_XuatXu.get(selectedRow).getStrMaxuatxu());
             if (success) {
                 JOptionPane.showMessageDialog(this,
                         "Xóa xuất xứ thành công!",
@@ -238,7 +234,7 @@ public class XuatXu extends JPanel {
         btnLuu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                saveNhaCungCap();
+                saveXuatXu();
             }
         });
 
@@ -253,12 +249,13 @@ public class XuatXu extends JPanel {
   
     private void saveXuatXu() {
         if (txtMaxuatxu.getText().trim().isEmpty() ||
-                txtTennuoc.getText().trim().isEmpty() ||
+                txtTennuoc.getText().trim().isEmpty() ){
     //            txtDiachi.getText().trim().isEmpty() ||
       //          txtEmail.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(dialogXuatXu,
                     "Vui lòng nhập đầy đủ thông tin!",
                     "Lỗi",
+  
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -268,9 +265,7 @@ public class XuatXu extends JPanel {
         // Create NhaCungCapDTO object
         XuatXuDTO temp = new XuatXuDTO(
                 txtMaxuatxu.getText().trim(),
-                txtTennuoc.getText().trim(),
-       //         txtDiac.getText().trim(),
-         //       txtEmail.getText().trim()
+                txtTennuoc.getText().trim()
         );
         boolean success;
         // Add or update
@@ -298,7 +293,7 @@ public class XuatXu extends JPanel {
                 return;
             }
         } else {
-            success = th.UpdateXuatXu(temp);
+            success = xx.UpdateXuatXu(temp);
             if (success) {
                 JOptionPane.showMessageDialog(dialogXuatXu,
                         "Cập nhật xuất xứ thành công!",
@@ -335,4 +330,6 @@ public class XuatXu extends JPanel {
  *
  * @author ADMIN
  */
+
+
 
