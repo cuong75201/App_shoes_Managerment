@@ -15,7 +15,6 @@ public class NhanVienDTO {
     private String strGioiTinh;
     private String strDiaChi;
     private String strEmail;
-    private String strChucVu;
     private String iDienThoai;
     private int iLuong;
     private String strAnh;
@@ -24,26 +23,17 @@ public class NhanVienDTO {
     public NhanVienDTO() {
     }
 
-    public NhanVienDTO(String strMaNV, String strHo, String strTen, String strGioiTinh, String strDiaChi, String strEmail, String strChucVu, String iDienThoai, int iLuong, String strAnh) {
+    public NhanVienDTO(String strMaNV, String strHo, String strTen, String strGioiTinh, String strDiaChi, String strEmail, String iDienThoai, int iLuong, String strAnh) {
         this.strMaNV = strMaNV;
         this.strHo = strHo;
         this.strTen = strTen;
         this.strGioiTinh = strGioiTinh;
         this.strDiaChi = strDiaChi;
         this.strEmail = strEmail;
-        this.strChucVu = strChucVu;
         this.iDienThoai = iDienThoai;
         this.iLuong = iLuong;
         this.strAnh = strAnh;
         this.trangthai=1; 
-    }
-
-    public String getStrChucVu() {
-        return strChucVu;
-    }
-
-    public void setStrChucVu(String strChucVu) {
-        this.strChucVu = strChucVu;
     }
     
     public String getstrMaNV() {
