@@ -60,6 +60,9 @@ public class XuatXuBLL {
 
         return false;
     }
+     public boolean deleteXuatXu(String Maxuatxu) {
+        return xx.deleteXuatXu(Maxuatxu);
+    }
         public String getTennuocfromMaxx(String maxx){
         for (XuatXuDTO xxdto:list_XuatXu){
             if(xxdto.getStrMaxuatxu().equals(maxx)){
