@@ -19,6 +19,10 @@ public class NhanVienBLL {
         return dal.getListNhanVien();
     }
 
+    public ArrayList<String> getAllMaNV(){
+        return dal.getAllMaNV();
+    }
+
     public boolean addNhanVien(NhanVienDTO nv) {
         return dal.insertNhanVien(nv);
     }
