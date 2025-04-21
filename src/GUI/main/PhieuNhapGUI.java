@@ -232,6 +232,8 @@ public class PhieuNhapGUI extends JPanel {
         txtTongTien = new customTextField();
         txtTongTien.setBounds(130, y, 230, height);
         txtTongTien.setBorderColor(Color.decode("#E1E1E1"));
+        txtTongTien.setText("0");
+        txtTongTien.setEditable(false);
         dialogphieunhap.add(txtTongTien);
         
         btnLuu = new CustomButton("Lưu");
