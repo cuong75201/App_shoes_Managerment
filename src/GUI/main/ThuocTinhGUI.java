@@ -1,15 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package GUI.main;
 
 import GUI.component.CustomButton;
 
 import Utils.CreateComponent;
-import GUI.ThuoctTinh.ThuongHieu;
-import GUI.ThuoctTinh.MauSac;
-import GUI.ThuoctTinh.XuatXu;
+import GUI.ThuocTinh.ThuongHieu;
+import GUI.ThuocTinh.MauSac;
+import GUI.ThuocTinh.XuatXu;
 import java.awt.CardLayout;
 import java.awt.Color;
 import javax.swing.JFrame;
