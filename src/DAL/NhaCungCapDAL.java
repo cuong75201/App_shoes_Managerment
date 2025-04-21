@@ -46,6 +46,27 @@ public class NhaCungCapDAL {
         return list;
     }
 
+    public ArrayList<String> getAllMaNCC() {
+    ArrayList<String> maNCCList = new ArrayList<>();
+    MySQLHelpers helper = new MySQLHelpers();
+    Map<String, String> params = new HashMap<>();
+    params.put("SELECT", "MaNCC");
+    params.put("TABLE", "tblnhacungcap");
+    // Không thêm điều kiện WHERE để lấy cả bản ghi có Trangthai = 0
+    helper.buildingQueryParam(params);
+    ResultSet result = helper.executeQuery();
+    try {
+        while (result.next()) {
+            maNCCList.add(result.getString("MaNCC"));
+        }
+        result.close();
+        helper.closeConnect();
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+    }
+    return maNCCList;
+}
+
     public boolean InsertNCC(NhaCungCapDTO NCC) {
         MySQLHelpers helper = new MySQLHelpers();
         Map<String, String> params = new HashMap<>();
