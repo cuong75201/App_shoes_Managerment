@@ -16,6 +16,8 @@ import GUI.component.CustomComboBox;
 import BLL.PhieuNhapBLL;
 import BLL.HoaDonBLL;
 
+import Utils.XuatExcel;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,7 +42,7 @@ public class DoanhThu extends JPanel {
     private customTextField fieldStart, fieldEnd;
     private CustomTable tblThongKe;
     private JScrollPane scrollPane;
-    private CustomButton btnTK;
+    private CustomButton btnTK, btnXuatExcel;
     private PhieuNhapBLL pn;
     private HoaDonBLL hd;
 
@@ -89,6 +91,13 @@ public class DoanhThu extends JPanel {
                 }
             }
         });
+        
+        btnXuatExcel.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                XuatExcel.exportTableToExcel(tblThongKe);
+            }
+        });
 
         this.add(pnContent);
         this.setLayout(null);
@@ -113,6 +122,13 @@ public class DoanhThu extends JPanel {
         btnTK.setForeground(Color.WHITE);
         btnTK.setBorderColor(btnTK.getBackground());
         btnTK.setBounds(660, 20, 100, 30);
+
+        btnXuatExcel = new CustomButton("Xuất Excel");
+        btnXuatExcel.setBackground(Color.decode("#A5D6A7"));
+        btnXuatExcel.setForeground(Color.WHITE);
+        btnXuatExcel.setBorderColor(btnXuatExcel.getBackground());
+        btnXuatExcel.setBounds(780, 20, 100, 30);
+
         btnTK.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -147,6 +163,7 @@ public class DoanhThu extends JPanel {
         pnContent.add(end);
         pnContent.add(fieldEnd);
         pnContent.add(btnTK);
+        pnContent.add(btnXuatExcel);
     }
 
     public void ThongKeTheoThang() {
@@ -161,6 +178,13 @@ public class DoanhThu extends JPanel {
         btnTK.setForeground(Color.WHITE);
         btnTK.setBorderColor(btnTK.getBackground());
         btnTK.setBounds(520, 20, 100, 30);
+        
+        btnXuatExcel = new CustomButton("Xuất Excel");
+        btnXuatExcel.setBackground(Color.decode("#A5D6A7"));
+        btnXuatExcel.setForeground(Color.WHITE);
+        btnXuatExcel.setBorderColor(btnXuatExcel.getBackground());
+        btnXuatExcel.setBounds(640, 20, 100, 30);
+        
         btnTK.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -193,6 +217,8 @@ public class DoanhThu extends JPanel {
         pnContent.add(start);
         pnContent.add(fieldStart);
         pnContent.add(btnTK);
+        pnContent.add(btnXuatExcel);
+
     }
 
     public void ThongKeTheoNgay() {
@@ -213,6 +239,13 @@ public class DoanhThu extends JPanel {
         btnTK.setForeground(Color.WHITE);
         btnTK.setBorderColor(btnTK.getBackground());
         btnTK.setBounds(660, 20, 100, 30);
+        
+        btnXuatExcel = new CustomButton("Xuất Excel");
+        btnXuatExcel.setBackground(Color.decode("#A5D6A7"));
+        btnXuatExcel.setForeground(Color.WHITE);
+        btnXuatExcel.setBorderColor(btnXuatExcel.getBackground());
+        btnXuatExcel.setBounds(780, 20, 100, 30);
+        
         btnTK.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -255,6 +288,8 @@ public class DoanhThu extends JPanel {
         pnContent.add(end);
         pnContent.add(fieldEnd);
         pnContent.add(btnTK);
+        pnContent.add(btnXuatExcel);
+
     }
 
     public boolean kiemTraNamHopLe(String strNamBatDau, String strNamKetThuc) {

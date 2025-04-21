@@ -35,6 +35,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class DashBoard extends JFrame {
@@ -45,13 +46,16 @@ public class DashBoard extends JFrame {
     private TaiKhoanDTO tk;
     private NhanVienDTO nv;
     private NhanVienBLL nvBLL;
+    private TaiKhoanBLL tkBLL;
     private CardLayout cardLayout;
     private JPanel pnButton, pnInfor, pnContent, pnMain;
     private JButton btnDashBoard, btnSanpham, btnNhaCungCap, btnNhanVien, btnBill, btnKhachHang, btnThuocTinh, btnPhieuNhap, btnKhuyenMai, btnTaiKhoan, btnThongKe, btnPhanQuyen, btnLogout;
     private JLabel lbinfor, lbicon, lbroles, lbhomecontent, lbhomebanner, lbtitle;
 
     public DashBoard(TaiKhoanDTO tk) {
+        this.tk=tk;
         nvBLL = new NhanVienBLL();
+        tkBLL=new TaiKhoanBLL();
         this.nv = nvBLL.searchNhanVienByMa(tk.getStrTenDangNhap());
         this.init();
     }
@@ -119,7 +123,7 @@ public class DashBoard extends JFrame {
         lbicon.setIcon(new ImageIcon(new ImageIcon(System.getProperty("user.dir") + "/src/Assets/ImgNhanVien/" + nv.getStrAnh()).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
         lbicon.setBounds(10, 20, 60, 60);
 
-        lbroles = new JLabel(nv.getStrChucVu());
+        lbroles = new JLabel(tkBLL.CapBactoChucVu(tk.getiCapBac()));
         lbroles.setFont(new Font("Sans-serif", Font.ITALIC, 13));
         lbroles.setBounds(80, 40, 150, 30);
 
@@ -132,47 +136,152 @@ public class DashBoard extends JFrame {
         pnButton.setLayout(null);
         btnDashBoard = createButton("home_24dp_000000.png", "Trang chủ");
         btnDashBoard.setBounds(10, 110, 230, 50);
-        btnDashBoard.addActionListener(e -> cardLayout.show(pnMain, "DashBoard"));
+        btnDashBoard.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(pnMain, "DashBoard");
+            }
+        });
 
         btnSanpham = createButton("product-29-32.png", "Sản phẩm");
-        btnSanpham.setBounds(10, 160, 230, 50);
-        btnSanpham.addActionListener(e -> cardLayout.show(pnMain, "SanPham"));
+        btnSanpham.setBounds(10, 160, 230, 50); 
+        btnSanpham.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(tk.getiCapBac()==2){
+                    JOptionPane.showMessageDialog(null,"Lỗi quyền truy cập","Lỗi",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                cardLayout.show(pnMain, "SanPham");
+            }
+        });
 
         btnNhaCungCap = createButton("supplier-15-32.png", "Nhà cung cấp");
         btnNhaCungCap.setBounds(10, 210, 230, 50);
-        btnNhaCungCap.addActionListener(e -> cardLayout.show(pnMain, "NhaCungCap"));
+        btnNhaCungCap.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(tk.getiCapBac()==2 || tk.getiCapBac()==3 || tk.getiCapBac()==5 || tk.getiCapBac()==6){
+                    JOptionPane.showMessageDialog(null,"Lỗi quyền truy cập","Lỗi",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                 cardLayout.show(pnMain, "NhaCungCap");
+            }
+        });
 
         btnNhanVien = createButton("staff-7-32.png", "Nhân viên");
         btnNhanVien.setBounds(10, 260, 230, 50);
-        btnNhanVien.addActionListener(e -> cardLayout.show(pnMain, "NhanVien"));
+        btnNhanVien.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(tk.getiCapBac()==2 || tk.getiCapBac()==3 || tk.getiCapBac()==4 || tk.getiCapBac()==5 || tk.getiCapBac()==6){
+                    JOptionPane.showMessageDialog(null,"Lỗi quyền truy cập","Lỗi",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                 cardLayout.show(pnMain, "NhanVien");
+            }
+        });
 
         btnBill = createButton("bill-3-32.png", "Hóa đơn");
         btnBill.setBounds(10, 310, 230, 50);
-        btnBill.addActionListener(e -> cardLayout.show(pnMain, "Bill"));
-
+        btnBill.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(tk.getiCapBac()==2 || tk.getiCapBac()==3 || tk.getiCapBac()==4 || tk.getiCapBac()==5){
+                    JOptionPane.showMessageDialog(null,"Lỗi quyền truy cập","Lỗi",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                 cardLayout.show(pnMain, "Bill");
+            }
+        });;
+        
         btnKhachHang = createButton("my-client-32.png", "Khách hàng");
         btnKhachHang.setBounds(10, 360, 230, 50);
-        btnKhachHang.addActionListener(e -> cardLayout.show(pnMain, "KhachHang"));
+        btnKhachHang.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(tk.getiCapBac()==2 || tk.getiCapBac()==3 || tk.getiCapBac()==4){
+                    JOptionPane.showMessageDialog(null,"Lỗi quyền truy cập","Lỗi",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                 cardLayout.show(pnMain, "KhachHang");
+            }
+        });
 
         btnThuocTinh = createButton("attribute-1-32.png", "Thuộc tính");
         btnThuocTinh.setBounds(10, 410, 230, 50);
-        btnThuocTinh.addActionListener(e -> cardLayout.show(pnMain, "ThuocTinh"));
+        btnThuocTinh.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(tk.getiCapBac()==2 || tk.getiCapBac()==6){
+                    JOptionPane.showMessageDialog(null,"Lỗi quyền truy cập","Lỗi",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                 cardLayout.show(pnMain, "ThuocTinh");
+            }
+        });
 
         btnPhieuNhap = createButton("bill-25-32.png", "Phiếu nhập");
         btnPhieuNhap.setBounds(10, 460, 230, 50);
-        btnPhieuNhap.addActionListener(e -> cardLayout.show(pnMain, "PhieuNhap"));
+        btnPhieuNhap.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(tk.getiCapBac()==2 || tk.getiCapBac()==3 || tk.getiCapBac()==5 || tk.getiCapBac()==6){
+                    JOptionPane.showMessageDialog(null,"Lỗi quyền truy cập","Lỗi",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                 cardLayout.show(pnMain, "PhieuNhap");
+            }
+        });
 
         btnKhuyenMai = createButton("promotion-8-32.png", "Khuyến mãi");
         btnKhuyenMai.setBounds(10, 510, 230, 50);
-        btnKhuyenMai.addActionListener(e -> cardLayout.show(pnMain, "KhuyenMai"));
+        btnKhuyenMai.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(tk.getiCapBac()==2 || tk.getiCapBac()==3 || tk.getiCapBac()==4){
+                    JOptionPane.showMessageDialog(null,"Lỗi quyền truy cập","Lỗi",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                 cardLayout.show(pnMain, "KhuyenMai");
+            }
+        });
 
         btnTaiKhoan = createButton("account-3-32.png", "Tài khoản");
         btnTaiKhoan.setBounds(10, 560, 230, 50);
-        btnTaiKhoan.addActionListener(e -> cardLayout.show(pnMain, "TaiKhoan"));
+        btnTaiKhoan.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(tk.getiCapBac()!=1 ){
+                    JOptionPane.showMessageDialog(null,"Lỗi quyền truy cập","Lỗi",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                 cardLayout.show(pnMain, "TaiKhoan");
+            }
+        });
 
         btnThongKe = createButton("statistical-table-32.png", "Thống kê");
         btnThongKe.setBounds(10, 610, 230, 50);
-        btnThongKe.addActionListener(e -> cardLayout.show(pnMain, "ThongKe"));
+        btnThongKe.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(tk.getiCapBac()==3 || tk.getiCapBac()==4 || tk.getiCapBac()==5){
+                    JOptionPane.showMessageDialog(null,"Lỗi quyền truy cập","Lỗi",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                 cardLayout.show(pnMain, "ThongKe");
+            }
+        });
 
 
         btnLogout = createButton("red-circle-logout-arrow-20586.png", "Đăng xuất");

@@ -7,21 +7,28 @@ package GUI.main;
 import GUI.component.customPasswordField;
 import GUI.component.customTextField;
 import GUI.component.CustomButton;
+import GUI.Form.QuenMatKhau;
+
+import Utils.SendEmail;
 
 import DTO.TaiKhoanDTO;
 import BLL.TaiKhoanBLL;
+import BLL.NhanVienBLL;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import java.util.Random;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,10 +36,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class LoginScreen extends JFrame {
-
+    
+    QuenMatKhau qmk;
+    
     private TaiKhoanBLL list_tk;
+
     public LoginScreen() {
-        list_tk=new TaiKhoanBLL();
+        list_tk = new TaiKhoanBLL();
         this.initComponents();
     }
 
@@ -118,23 +128,24 @@ public class LoginScreen extends JFrame {
         ButtonLogin.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                String username=usernameField.getText();
-                String password=new String(passwordField.getPassword());
-                TaiKhoanDTO tk=new TaiKhoanDTO();
+                String username = usernameField.getText();
+                String password = new String(passwordField.getPassword());
+                TaiKhoanDTO tk = new TaiKhoanDTO();
                 tk.setStrTenDangNhap(username);
                 tk.setStrMatKhau(list_tk.hashMD5(password));
-                if(list_tk.TestAccount(tk)){
+                if (list_tk.TestAccount(tk)) {
+                    tk = list_tk.getCapBacfromMa(tk.getStrTenDangNhap());
+                    System.out.println(tk);
                     dispose();
                     new DashBoard(tk);
-                }
-                else{
-                    JOptionPane.showMessageDialog(null,"Tên đăng nhập hoặc mật khẩu không chính xác","Lỗi",JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Tên đăng nhập hoặc mật khẩu không chính xác", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-               
+
             }
 
             @Override
@@ -155,18 +166,28 @@ public class LoginScreen extends JFrame {
                 ButtonLogin.setBorderColor(Color.decode("#303F9F"));
                 ButtonLogin.setForeground(Color.decode("#303F9F"));
             }
-        
+
         });
+
         
+
         JLabel lbForgotPassword = new JLabel("Quên mật khẩu");
         lbForgotPassword.setSize(150, 50);
         lbForgotPassword.setFont(new Font("Serif", Font.ITALIC, 18));
-        lbForgotPassword.setLocation(300,380);
-        lbForgotPassword.addMouseListener(new MouseAdapter(){
-            
+        lbForgotPassword.setLocation(300, 380);
+        lbForgotPassword.addMouseListener(new MouseAdapter() {
+
         });
-        
-        
+
+        lbForgotPassword.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                qmk=new QuenMatKhau();
+                qmk.setVisible(true);
+              
+            }
+        });
+
         JLabel lbTitle = new JLabel("Đăng nhập hệ thống quản lý");
         lbTitle.setFont(new Font("Serif", Font.BOLD, 24));
         JPanel pnTitle = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -188,7 +209,7 @@ public class LoginScreen extends JFrame {
 
         rightPanel.add(lbPassword);
         rightPanel.add(passwordField);
-        
+
         rightPanel.add(ButtonLogin);
         rightPanel.add(lbForgotPassword);
         panel.add(leftPanel);
@@ -196,7 +217,7 @@ public class LoginScreen extends JFrame {
         this.add(panel);
         this.setVisible(true);
         this.setResizable(false);
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
     }
 }

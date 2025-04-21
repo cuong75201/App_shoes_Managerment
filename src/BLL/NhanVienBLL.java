@@ -9,6 +9,7 @@ import DTO.NhanVienDTO;
 import java.util.ArrayList;
 
 public class NhanVienBLL {
+
     private NhanVienDAL dal;
 
     public NhanVienBLL() {
@@ -19,7 +20,7 @@ public class NhanVienBLL {
         return dal.getListNhanVien();
     }
 
-    public ArrayList<String> getAllMaNV(){
+    public ArrayList<String> getAllMaNV() {
         return dal.getAllMaNV();
     }
 
@@ -82,23 +83,31 @@ public class NhanVienBLL {
         }
         return result;
     }
-        public ArrayList<NhanVienDTO> searchNhanVienByHoTen(String ten) {
+
+    public ArrayList<NhanVienDTO> searchNhanVienByHoTen(String ten) {
         ArrayList<NhanVienDTO> result = new ArrayList<>();
         for (NhanVienDTO nv : dal.getListNhanVien()) {
-            if ((nv.getStrHo()+" "+nv.getStrTen()).toLowerCase().contains(ten.toLowerCase())) {
+            if ((nv.getStrHo() + " " + nv.getStrTen()).toLowerCase().contains(ten.toLowerCase())) {
                 result.add(nv);
             }
         }
         return result;
     }
-    
-    public boolean isNhanVienExist(String maNV) {
-    for (NhanVienDTO nv : getListNhanVien()) {
-        if (nv.getstrMaNV().equalsIgnoreCase(maNV)) {
-            return true;
-        }
-    }
-    return false;
-}
-}
 
+    public boolean isNhanVienExist(String maNV) {
+        for (NhanVienDTO nv : getListNhanVien()) {
+            if (nv.getstrMaNV().equalsIgnoreCase(maNV)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public String searchEmailfromManv(String manv){
+        for (NhanVienDTO nvdto:getListNhanVien()){
+            if(nvdto.getstrMaNV().equals(manv)){
+                return nvdto.getStrEmail();
+            }
+        }
+        return "";
+    }
+}

@@ -1,4 +1,4 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -62,6 +62,7 @@ public class TaiKhoanDAL {
         helper.buildingQueryParam(params);
         Map<String, Object> UpdateValue = new HashMap<>();
         UpdateValue.put("tendangnhap", tk.getStrTenDangNhap());
+        UpdateValue.put("matkhau",tk.getStrMatKhau());
         UpdateValue.put("capbac", tk.getiCapBac());
         UpdateValue.put("trangthai",tk.getiTrangThai());
         ArrayList<Object> valueCondition = new ArrayList<>();

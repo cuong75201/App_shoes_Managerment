@@ -13,7 +13,7 @@ import javax.swing.table.TableModel;
 import java.io.FileOutputStream;
 import java.io.IOException;
 public class XuatExcel {
-     public void exportTableToExcel(CustomTable table, String filePath) {
+     public static void exportTableToExcel(CustomTable table, String filePath) {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Danh sách");
 
@@ -46,7 +46,7 @@ public class XuatExcel {
             JOptionPane.showMessageDialog(null, "Lỗi khi xuất Excel!");
         }
     }
-     public void exportTableToExcel(CustomTable table) {
+     public static void exportTableToExcel(CustomTable table) {
     JFileChooser fileChooser = new JFileChooser();
     fileChooser.setDialogTitle("Chọn nơi lưu file Excel");
     fileChooser.setSelectedFile(new File("du-lieu.xlsx"));

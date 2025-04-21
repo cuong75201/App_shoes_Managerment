@@ -32,17 +32,17 @@ import javax.swing.table.DefaultTableModel;
 
 public class ChonNhanVien extends JFrame {
 
-    private int width = 1000, height = 600;
-    private JPanel PanelSerch;
-    private JScrollPane scrollPane;
-    private customTextField fieldSearch;
-    private CustomButton btnSearch;
-    private CustomTable tblnhanvien;
-    private DefaultTableModel model;
-    private NhanVienBLL nv;
-    private TaiKhoanBLL tk;
-    private ArrayList<NhanVienDTO> list_nv;
-    private ThemTaiKhoan tkform;
+    public int width = 1000, height = 600;
+    public JPanel PanelSerch;
+    public JScrollPane scrollPane;
+    public customTextField fieldSearch;
+    public CustomButton btnSearch;
+    public CustomTable tblnhanvien;
+    public DefaultTableModel model;
+    public NhanVienBLL nv;
+    public TaiKhoanBLL tk;
+    public ArrayList<NhanVienDTO> list_nv;
+    public ThemTaiKhoan tkform;
 
     public ChonNhanVien() {
         tk = new TaiKhoanBLL();
@@ -78,40 +78,40 @@ public class ChonNhanVien extends JFrame {
         });
     }
 
-    public void EventMouse() {
-        btnSearch.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int rowSelected = tblnhanvien.getSelectedRow();
-                if (rowSelected == -1) {
-                    JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-                tkform = new ThemTaiKhoan();
-
-                tkform.setVisible(true);
-                dispose();
-                tkform.faccount.setText(tblnhanvien.getValueAt(rowSelected, 0).toString());
-                tkform.btnSave.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        String password = new String(tkform.fpass.getPassword());
-
-                        if (password.isEmpty()) {
-                            JOptionPane.showMessageDialog(null, "Password không được để trống", "Warning", JOptionPane.ERROR_MESSAGE);
-                            return;
-                        }
-                        TaiKhoanDTO tkdto = new TaiKhoanDTO(tkform.faccount.getText(), tk.hashMD5(password), tk.ChucVutoCapBac(tkform.cbcapbac.getSelectedItem().toString()), tk.trangThaiToInt(tkform.cbhoatdong.getSelectedItem().toString()));
-                        if (tk.addAccount(tkdto)) {
-                            tkform.dispose();
-
-                            JOptionPane.showMessageDialog(null, "Thêm thành công", "Thành công", JOptionPane.INFORMATION_MESSAGE);
-                        }
-                    }
-                });
-            }
-        });
-    }
+//    public void EventMouse() {
+//        btnSearch.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                int rowSelected = tblnhanvien.getSelectedRow();
+//                if (rowSelected == -1) {
+//                    JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+//                    return;
+//                }
+//                tkform = new ThemTaiKhoan();
+//
+//                tkform.setVisible(true);
+//                dispose();
+//                tkform.faccount.setText(tblnhanvien.getValueAt(rowSelected, 0).toString());
+//                tkform.btnSave.addMouseListener(new MouseAdapter() {
+//                    @Override
+//                    public void mouseClicked(MouseEvent e) {
+//                        String password = new String(tkform.fpass.getPassword());
+//
+//                        if (password.isEmpty()) {
+//                            JOptionPane.showMessageDialog(null, "Password không được để trống", "Warning", JOptionPane.ERROR_MESSAGE);
+//                            return;
+//                        }
+//                        TaiKhoanDTO tkdto = new TaiKhoanDTO(tkform.faccount.getText(), tk.hashMD5(password), tk.ChucVutoCapBac(tkform.cbcapbac.getSelectedItem().toString()), tk.trangThaiToInt(tkform.cbhoatdong.getSelectedItem().toString()));
+//                        if (tk.addAccount(tkdto)) {
+//                            tkform.dispose();
+//
+//                            JOptionPane.showMessageDialog(null, "Thêm thành công", "Thành công", JOptionPane.INFORMATION_MESSAGE);
+//                        }
+//                    }
+//                });
+//            }
+//        });
+//    }
 
     public void init() {
         model = new DefaultTableModel(new String[]{"MaNV", "Họ Tên", "Địa chỉ", "Điện thoại"}, 0);
@@ -171,7 +171,6 @@ public class ChonNhanVien extends JFrame {
         PanelSerch.setBackground(Color.decode("#F2F2F2"));
 
         EventKey();
-        EventMouse();
 
         this.add(PanelSerch);
         this.add(scrollPane);

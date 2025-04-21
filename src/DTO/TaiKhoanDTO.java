@@ -48,6 +48,11 @@ public class TaiKhoanDTO {
         this.strMatKhau = strMatKhau;
     }
 
+    @Override
+    public String toString() {
+        return "TaiKhoanDTO{" + "strTenDangNhap=" + strTenDangNhap + ", strMatKhau=" + strMatKhau + ", iCapBac=" + iCapBac + ", iTrangThai=" + iTrangThai + '}';
+    }
+
     public int getiCapBac() {
         return iCapBac;
     }

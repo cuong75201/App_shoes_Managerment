@@ -15,6 +15,7 @@ import GUI.Form.SuaTaiKhoan;
 import BLL.TaiKhoanBLL;
 
 import DTO.TaiKhoanDTO;
+import GUI.Form.ThemTaiKhoan;
 
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
@@ -71,6 +72,47 @@ public class TaiKhoanGUI extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 changeNV = new ChonNhanVien();
                 changeNV.setVisible(true);
+                changeNV.btnSearch.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        int rowSelected = changeNV.tblnhanvien.getSelectedRow();
+                        if (rowSelected == -1) {
+                            JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+                            return;
+                        }
+                        changeNV.tkform = new ThemTaiKhoan();
+
+                        changeNV.tkform.setVisible(true);
+                        changeNV.dispose();
+                        changeNV.tkform.faccount.setText(changeNV.tblnhanvien.getValueAt(rowSelected, 0).toString());
+                        changeNV.tkform.btnSave.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                String password = new String(changeNV.tkform.fpass.getPassword());
+
+                                if (password.isEmpty()) {
+                                    JOptionPane.showMessageDialog(null, "Password không được để trống", "Warning", JOptionPane.ERROR_MESSAGE);
+                                    return;
+                                }
+                                TaiKhoanDTO tkdto = new TaiKhoanDTO(changeNV.tkform.faccount.getText(), tk.hashMD5(password), tk.ChucVutoCapBac(changeNV.tkform.cbcapbac.getSelectedItem().toString()), tk.trangThaiToInt(changeNV.tkform.cbhoatdong.getSelectedItem().toString()));
+                                if (tk.addAccount(tkdto)) {
+                                    changeNV.tkform.dispose();
+
+                                    JOptionPane.showMessageDialog(null, "Thêm thành công", "Thành công", JOptionPane.INFORMATION_MESSAGE);
+                                        Object[] rowData = {
+                                            tkdto.getStrTenDangNhap(),
+                                            tk.CapBactoChucVu(tkdto.getiCapBac()),
+                                            tk.intToTrangThai(tkdto.getiTrangThai())
+                                        };
+                                        model.addRow(rowData);
+                                    
+                                    tbltaikhoan.setmodel(model);
+                                }
+                            }
+                        });
+                    }
+
+                });
             }
         });
 
@@ -144,11 +186,11 @@ public class TaiKhoanGUI extends JPanel {
                         modelfilter.addRow(rowData);
                     }
                     tbltaikhoan.setmodel(modelfilter);
-                    
+
                 }
             }
         });
-         pnButton.btnReset.addMouseListener(new MouseAdapter() {
+        pnButton.btnReset.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 tbltaikhoan.setmodel(model);

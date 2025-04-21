@@ -93,15 +93,15 @@ public class TaiKhoanBLL {
             case 1:
                 return "Quản trị viên";
             case 2:
-                return "Quản lý hàng hóa"; // Xem, sửa xóa danh sách hàng hóa
+                return "Thư ký"; // Xem, sửa xóa danh sách hàng hóa
             case 3:
-                return "Quản lý khuyến mãi"; // Xem sản phẩm, tạo khuyến mãi
+                return "Kiểm tra hàng hóa"; // Xem sản phẩm, tạo khuyến mãi
             case 4:
-                return "Quản lý hóa đơn"; //Xem, sửa, xóa hóa đơn 
+                return "Nhập Hàng"; //Xem, sửa, xóa hóa đơn 
             case 5:
-                return "Quản lý nhập hàng"; // Xem, thêm danh sách hàng hóa , phiếu nhập, nhà cung cấp
+                return "Khuyến Mãi"; // Xem, thêm danh sách hàng hóa , phiếu nhập, nhà cung cấp
             case 6:
-                return "Thống kê doanh thu"; //
+                return "Hóa Đơn"; //
             default:
                 return "Không tồn tại";
         }
@@ -111,15 +111,15 @@ public class TaiKhoanBLL {
         switch (chucVu) {
             case "Quản trị viên":
                 return 1;
-            case "Quản lý hàng hóa":
+            case "Thư ký":
                 return 2;
-            case "Quản lý khuyến mãi":
+            case "Kiểm tra hàng hóa":
                 return 3;
-            case "Quản lý hóa đơn":
+            case "Nhập Hàng":
                 return 4;
-            case "Quản lý nhập hàng":
+            case "Khuyến Mãi":
                 return 5;
-            case "Thống kê doanh thu":
+            case "Hóa Đơn":
                 return 6;
             default:
                 return -1; // hoặc throw exception nếu cần
@@ -162,4 +162,12 @@ public class TaiKhoanBLL {
             return "không xác định"; // Hoặc đại ca muốn để rỗng, hoặc throw exception cũng được
     }
 }
+    public TaiKhoanDTO getCapBacfromMa(String Ma){
+        for(TaiKhoanDTO tkdto:ListAccount){
+            if(tkdto.getStrTenDangNhap().equals(Ma)){
+                return tkdto;
+            }
+        }
+        return null;
+    }
 }

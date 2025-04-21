@@ -26,13 +26,13 @@ public class ThemTaiKhoan extends JFrame {
 
     TaiKhoanBLL tk;
     int width = 490, height = 800;
-    JPanel panelTop, pnContent;
-    JLabel lbtitle;
-    customTextField faccount;
-    customPasswordField fpass;
-    JLabel lbaccount, lbpass, lbcapbac, lbhoatdong;
-    CustomComboBox cbcapbac, cbhoatdong;
-    CustomButton btnSave,btnCancel;
+    public JPanel panelTop, pnContent;
+    public JLabel lbtitle;
+    public customTextField faccount;
+    public customPasswordField fpass;
+    public JLabel lbaccount, lbpass, lbcapbac, lbhoatdong;
+    public CustomComboBox cbcapbac, cbhoatdong;
+    public CustomButton btnSave,btnCancel;
     public ThemTaiKhoan() {
         tk = new TaiKhoanBLL();
         init();
