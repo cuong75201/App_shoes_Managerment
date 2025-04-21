@@ -200,6 +200,7 @@ public class NhaCungCapGUI extends JPanel {
         txtMaNCC = new customTextField();
         txtMaNCC.setBounds(130, y, 230, height);
         txtMaNCC.setBorderColor(Color.decode("#E1E1E1"));
+        txtMaNCC.setEditable(false); // Không cho chỉnh sửa MaNCC
         dialogNhaCungCap.add(txtMaNCC);
 
         y += gap;
@@ -255,6 +256,10 @@ public class NhaCungCapGUI extends JPanel {
             txtDiaChi.setText(ncc.getStrDiaChi());
             txtEmail.setText(ncc.getStrEmail());
         }
+        else {
+        txtMaNCC.setText(generateAutoMaNCC()); // Gán mã tự động khi thêm mới
+    }
+            
         // Button events
         btnLuu.addActionListener(new ActionListener() {
             @Override
@@ -343,7 +348,29 @@ public class NhaCungCapGUI extends JPanel {
         dialogNhaCungCap.dispose();
         loadData();
     }
-        
+
+    private String generateAutoMaNCC() {
+    ArrayList<String> maNCCList = ncc.getAllMaNCC();
+    int maxNumber = 0;
+
+    // Duyệt qua danh sách mã để tìm số lớn nhất
+    for (String maNCC : maNCCList) {
+        try {
+            // Giả sử mã có định dạng NCCxxx, lấy phần số (xxx)
+            String numberPart = maNCC.replaceAll("[^0-9]", "");
+            int number = Integer.parseInt(numberPart);
+            if (number > maxNumber) {
+                maxNumber = number;
+            }
+        } catch (NumberFormatException e) {
+            // Bỏ qua nếu mã không đúng định dạng
+        }
+    }
+
+    // Tạo mã mới: NCC + số tăng lên 1, định dạng với 3 chữ số (ví dụ: NCC001)
+    return "NCC" + (maxNumber+1);
+}
+    
     private void loadData(){
         DefaultTableModel model = (DefaultTableModel) tblnhacungcap.getModel();
         model.setRowCount(0);
