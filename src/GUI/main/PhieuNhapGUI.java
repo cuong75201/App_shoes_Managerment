@@ -197,6 +197,7 @@ public class PhieuNhapGUI extends JPanel {
         txtMaPN = new customTextField();
         txtMaPN.setBounds(130, y, 230, height);
         txtMaPN.setBorderColor(Color.decode("#E1E1E1"));
+        txtMaPN.setEditable(false);
         dialogphieunhap.add(txtMaPN);
         
         y += gap;
@@ -254,6 +255,9 @@ public class PhieuNhapGUI extends JPanel {
             cbnv.setSelectedItem(phieunhap.getStrMaNV());
             txtNgayNhap.setText(phieunhap.getStrNgayNhap());
             txtTongTien.setText(String.valueOf(phieunhap.getTongTien()));
+        }
+        else {
+            txtMaPN.setText(generateAutoMaPN());
         }
         
         btnLuu.addActionListener(new ActionListener() {
@@ -453,6 +457,28 @@ public class PhieuNhapGUI extends JPanel {
                  JOptionPane.ERROR_MESSAGE);
          }
      }
+
+    private String generateAutoMaPN() {
+    ArrayList<String> maPNList = pn.getAllMaPN();
+    int maxNumber = 0;
+
+    // Duyệt qua danh sách mã để tìm số lớn nhất
+    for (String maPN : maPNList) {
+        try {
+            // Lấy phần số từ mã (bỏ tiền tố PN)
+            String numberPart = maPN.replaceAll("[^0-9]", "");
+            int number = Integer.parseInt(numberPart);
+            if (number > maxNumber) {
+                maxNumber = number;
+            }
+        } catch (NumberFormatException e) {
+            // Bỏ qua nếu mã không đúng định dạng
+        }
+    }
+
+    // Tạo mã mới: PN + số tăng lên 1, định dạng với 3 chữ số (ví dụ: PN001)
+    return String.format("PN%03d", maxNumber + 1);
+}
     
     private void loadData() {
         DefaultTableModel model = (DefaultTableModel) tblphieunhap.getModel();
