@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package GUI.ThuocTinh;
 import BLL.MauSacBLL;
 import DTO.MauSacDTO;
@@ -256,7 +252,7 @@ import javax.swing.table.TableRowSorter;
   
     private void saveMauSac() {
         if (txtMamau.getText().trim().isEmpty() ||
-                txtTenmau.getText().trim().isEmpty() ||
+                txtTenmau.getText().trim().isEmpty() ){
             JOptionPane.showMessageDialog(dialogMauSac,
                     "Vui lòng nhập đầy đủ thông tin!",
                     "Lỗi",
@@ -274,8 +270,8 @@ import javax.swing.table.TableRowSorter;
         // Add or update
         if (isAdding) {
             // Check if supplier ID already exists
-            for(var tmp : ms.getList_ThuongHieu())
-                if(tmp.getStrMathuonghieu().equals(temp.getStrMamau())){
+            for(var tmp : ms.getListMauSac())
+                if(tmp.getStrMamau().equals(temp.getStrMamau())){
                     JOptionPane.showMessageDialog(dialogMauSac,
                         "Mã màu sắc đã tồn tại!",
                         "Lỗi",
@@ -296,7 +292,7 @@ import javax.swing.table.TableRowSorter;
                 return;
             }
         } else {
-            success = ms.UpdateMauSac(temp);
+            success = ms.updateMauSac(temp);
             if (success) {
                 JOptionPane.showMessageDialog(dialogMauSac,
                         "Cập nhật màu sắc thành công!",
@@ -328,6 +324,10 @@ import javax.swing.table.TableRowSorter;
         tblmausac.setRowSorter(null);
     }
 }
+
+
+
+
 
 
 
