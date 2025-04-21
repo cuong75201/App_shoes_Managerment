@@ -28,7 +28,6 @@ public class NhanVienDAL {
                         result.getString("GioiTinh"),
                         result.getString("DiaChi"),
                         result.getString("Email"),
-                        result.getString("ChucVu"),
                         result.getString("DienThoai"),
                         result.getInt("Luong"),
                         result.getString("Anh")
@@ -49,7 +48,7 @@ public class NhanVienDAL {
         MySQLHelpers helper = new MySQLHelpers();
         Map<String, String> params = new HashMap<>();
         params.put("TABLE", "tblnhanvien");
-        params.put("FIELD", "MaNV,Ho,Ten,GioiTinh,DiaChi,Email,ChucVu,DienThoai,Luong,Anh");
+        params.put("FIELD", "MaNV,Ho,Ten,GioiTinh,DiaChi,Email,DienThoai,Luong,Anh");
         helper.buildingQueryParam(params);
 
         ArrayList<Object> values = new ArrayList<>();
@@ -59,7 +58,6 @@ public class NhanVienDAL {
         values.add(nv.getStrGioiTinh());
         values.add(nv.getStrDiaChi());
         values.add(nv.getStrEmail());
-        values.add(nv.getStrChucVu());
         values.add(nv.getiDienThoai());
         values.add(nv.getiLuong());
         values.add(nv.getStrAnh());
@@ -82,7 +80,6 @@ public class NhanVienDAL {
         updateValue.put("GioiTinh", nv.getStrGioiTinh());
         updateValue.put("DiaChi", nv.getStrDiaChi());
         updateValue.put("Email", nv.getStrEmail());
-        updateValue.put("ChucVu", nv.getStrChucVu());
         updateValue.put("DienThoai", nv.getiDienThoai());
         updateValue.put("Luong", nv.getiLuong());
         updateValue.put("Anh", nv.getStrAnh());
