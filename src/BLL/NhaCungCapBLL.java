@@ -21,6 +21,10 @@ public class NhaCungCapBLL {
         return dal.getListAccount();
     }
 
+    public ArrayList<String> getAllMaNCC() {
+    return dal.getAllMaNCC();
+}
+
     // Thêm nhà cung cấp
     public boolean addNhaCungCap(NhaCungCapDTO ncc) {
         return dal.InsertNCC(ncc);
