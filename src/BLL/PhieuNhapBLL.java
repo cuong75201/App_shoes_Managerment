@@ -30,6 +30,10 @@ public class PhieuNhapBLL {
         return danhSachPhieuNhap;
     }
 
+    public ArrayList<String> getAllMaPN() {
+    return dal.getAllMaPN();
+}
+
     // Thêm phiếu nhập
     public boolean addPhieuNhap(PhieuNhapDTO pn) {
         if (dal.insertPhieuNhap(pn)) {
