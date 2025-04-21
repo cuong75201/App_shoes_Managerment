@@ -90,5 +90,23 @@ public class ThuongHieuDAL {
         helper.closeConnect();
         return success;
     }
+    public boolean deleteThuongHieu(String Mathuonghieu) {
+        // Thay vì xóa thật sự, ta chỉ cập nhật trạng thái
+        MySQLHelpers helper = new MySQLHelpers();
+        Map<String, String> params = new HashMap<>();
+        params.put("TABLE", "tblthuonghieu");
+        params.put("WHERE", "Mathuonghieu = ? ");
+        helper.buildingQueryParam(params);
+
+        Map<String, Object> updateValues = new HashMap<>();
+        updateValues.put("Trangthai", 0);
+
+        ArrayList<Object> conditionValue = new ArrayList<>();
+        conditionValue.add(Mathuonghieu);
+
+        boolean success = helper.updateData(updateValues, conditionValue);
+        helper.closeConnect();
+        return success;
+    }
  
 }

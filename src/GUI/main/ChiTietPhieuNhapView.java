@@ -6,49 +6,49 @@ import DTO.ChiTietPNDTO;
 import DTO.PhieuNhapDTO;
 import DTO.SanPhamDTO;
 import DAL.SanPhamDAL;
-
 import GUI.component.CustomButton;
 import GUI.component.CustomTable;
 import GUI.component.customTextField;
-import java.awt.Color;
-import java.awt.Font;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
-import javax.swing.BorderFactory;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableModel;
 
-public class ChiTietPhieuNhapView extends JDialog{
-    private JLabel lblTitle, lblMaPN, lblMaNCC, lblMaNV, lblNgayNhap, lblTongTien;
+public class ChiTietPhieuNhapView extends JDialog {
+    
+    // Components
+    private JLabel lblTitle, lblMaPN, lblNgayNhap, lblNhaCungCap, lblNhanVien, lblTongTien;
     private CustomTable tblChiTietPhieuNhap;
     private DefaultTableModel tableModel;
     private JScrollPane scrollPane;
     private CustomButton btnDong, btnInPhieuNhap, btnThemSanPham, btnXoaSanPham, btnLuuChiTiet;
     
-    private JPanel pnlThemPhieuNhap;
+    // Panel thêm sản phẩm
+    private JPanel pnlThemSanPham;
     private JLabel lblMaSP, lblSoLuong, lblGiaNhap;
     private customTextField txtMaSP, txtSoLuong, txtGiaNhap;
     private CustomButton btnThem, btnHuy;
     
-    private PhieuNhapDTO pn;
-    private ArrayList<ChiTietPNDTO> list_ctpn;
-    private ChiTietPhieuNhapBLL ctpn;
+    // Data
+    private PhieuNhapDTO phieuNhap;
+    private ArrayList<ChiTietPNDTO> listChiTietPN;
+    private ChiTietPhieuNhapBLL chiTietPhieuNhapBLL;
+    private int selectedRow = -1;
     
-    public ChiTietPhieuNhapView(PhieuNhapDTO pn){
+    public ChiTietPhieuNhapView(PhieuNhapDTO phieuNhap) {
         super();
         setTitle("Chi tiết phiếu nhập");
         setModal(true);
-        this.pn = pn;
+        this.phieuNhap = phieuNhap;
+        
         try {
-            this.ctpn = new ChiTietPhieuNhapBLL();
+            this.chiTietPhieuNhapBLL = new ChiTietPhieuNhapBLL();
             init();
             loadData();
             addEvents();
@@ -59,16 +59,20 @@ public class ChiTietPhieuNhapView extends JDialog{
                 JOptionPane.ERROR_MESSAGE);
         }
     }
-        private void init() {
+    
+    private void init() {
         this.setSize(900, 700);
         this.setLayout(null);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.getContentPane().setBackground(Color.WHITE);
         
+        // Title
         lblTitle = new JLabel("CHI TIẾT PHIẾU NHẬP", SwingConstants.CENTER);
         lblTitle.setBounds(0, 20, 900, 30);
         lblTitle.setFont(new Font("SansSerif", Font.BOLD, 20));
+        this.add(lblTitle);
+        
         // Thông tin phiếu nhập
         JPanel pnlInfo = new JPanel();
         pnlInfo.setLayout(null);
@@ -78,40 +82,45 @@ public class ChiTietPhieuNhapView extends JDialog{
             "Thông tin phiếu nhập"));
         pnlInfo.setBackground(Color.WHITE);
         this.add(pnlInfo);
+        
         int y = 25;
         
-        lblMaPN = new JLabel("Mã phiếu nhập: " + pn.getStrMaPN());
+        lblMaPN = new JLabel("Mã phiếu nhập: " + phieuNhap.getStrMaPN());
         lblMaPN.setBounds(20, y, 350, 20);
         lblMaPN.setFont(new Font("SansSerif", Font.PLAIN, 14));
         pnlInfo.add(lblMaPN);
         
-        lblNgayNhap = new JLabel("Ngày nhập: " + pn.getStrNgayNhap());
+        lblNgayNhap = new JLabel("Ngày nhập: " + phieuNhap.getStrNgayNhap());
         lblNgayNhap.setBounds(400, y, 350, 20);
         lblNgayNhap.setFont(new Font("SansSerif", Font.PLAIN, 14));
         pnlInfo.add(lblNgayNhap);
         
         y += 25;
         
-        lblMaNCC = new JLabel("Nhà cung cấp: " + pn.getStrMaNCC());
-        lblMaNCC.setBounds(20, y, 350, 20);
-        lblMaNCC.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        pnlInfo.add(lblMaNCC);
+        lblNhaCungCap = new JLabel("Nhà cung cấp: " + phieuNhap.getStrMaNCC());
+        lblNhaCungCap.setBounds(20, y, 350, 20);
+        lblNhaCungCap.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        pnlInfo.add(lblNhaCungCap);
         
-        lblMaNV = new JLabel("Nhân viên: " + pn.getStrMaNV());
-        lblMaNV.setBounds(400, y, 350, 20);
-        lblMaNV.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        pnlInfo.add(lblMaNV);
+        lblNhanVien = new JLabel("Nhân viên: " + phieuNhap.getStrMaNV());
+        lblNhanVien.setBounds(400, y, 350, 20);
+        lblNhanVien.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        pnlInfo.add(lblNhanVien);
         
         y += 25;
         
-        lblTongTien = new JLabel("Tổng tiền: " + String.format("%,.0f VND", pn.getTongTien()));
+        lblTongTien = new JLabel("Tổng tiền: " + String.format("%,.0f VND", phieuNhap.getTongTien()));
         lblTongTien.setBounds(20, y, 350, 20);
         lblTongTien.setFont(new Font("SansSerif", Font.PLAIN, 14));
         pnlInfo.add(lblTongTien);
         
+        // Tạo bảng chi tiết
         createTable();
-        createAddPhieuNhapPanel();
         
+        // Panel Thêm sản phẩm
+        createAddProductPanel();
+        
+        // Buttons
         btnDong = new CustomButton("Đóng");
         btnDong.setBounds(780, 620, 100, 30);
         btnDong.setBackground(Color.decode("#E74C3C"));
@@ -146,120 +155,134 @@ public class ChiTietPhieuNhapView extends JDialog{
         btnLuuChiTiet.setForeground(Color.WHITE);
         btnLuuChiTiet.setBorderColor(btnLuuChiTiet.getBackground());
         this.add(btnLuuChiTiet);
-        }
+    }
+    
     private void createTable() {
         tableModel = new DefaultTableModel();
+        tableModel.addColumn("STT");
         tableModel.addColumn("Mã giày");
-        tableModel.addColumn("Mã phiếu nhập");
+        tableModel.addColumn("Tên sản phẩm");
         tableModel.addColumn("Số lượng");
         tableModel.addColumn("Giá nhập");
+        
         tblChiTietPhieuNhap = new CustomTable(tableModel);
         scrollPane = new JScrollPane(tblChiTietPhieuNhap);
         scrollPane.setBounds(20, 200, 860, 240);
         this.add(scrollPane);
-        }
-    
-    private void updateTable() {
-    tableModel.setRowCount(0);
-    double tong = 0;
-    for (var temp : list_ctpn) {
-        Vector<Object> row = new Vector<>();
-        row.add(temp.getStrMaGiay());
-        row.add(temp.getStrMaPN());
-        row.add(temp.getiSoLuong());
-        row.add(String.format("%,d", temp.getiGiaNhap()));
-        tableModel.addRow(row);
-        tong += temp.getiSoLuong() * temp.getiGiaNhap();
     }
-    lblTongTien.setText("Tổng tiền: " + String.format("%,.0f VND", tong));
-    pn.setTongTien(tong);
-}
     
-    private void createAddPhieuNhapPanel(){
-        pnlThemPhieuNhap=new JPanel();
-        pnlThemPhieuNhap.setLayout(null);
-        pnlThemPhieuNhap.setBounds(20, 450, 860, 150);
-        pnlThemPhieuNhap.setBorder(BorderFactory.createTitledBorder(
+    private void createAddProductPanel() {
+        pnlThemSanPham = new JPanel();
+        pnlThemSanPham.setLayout(null);
+        pnlThemSanPham.setBounds(20, 450, 860, 150);
+        pnlThemSanPham.setBorder(BorderFactory.createTitledBorder(
             BorderFactory.createLineBorder(Color.decode("#E1E1E1")), 
             "Thêm sản phẩm"));
-        pnlThemPhieuNhap.setBackground(Color.WHITE);
-        this.add(pnlThemPhieuNhap);
-        pnlThemPhieuNhap.setVisible(false); // Ẩn ban đầu
+        pnlThemSanPham.setBackground(Color.WHITE);
+        this.add(pnlThemSanPham);
+        pnlThemSanPham.setVisible(false);
         
         int y = 30;
         
         lblMaSP = new JLabel("Mã sản phẩm:");
         lblMaSP.setBounds(20, y, 100, 25);
         lblMaSP.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        pnlThemPhieuNhap.add(lblMaSP);
+        pnlThemSanPham.add(lblMaSP);
         
         txtMaSP = new customTextField();
         txtMaSP.setBounds(120, y, 150, 25);
         txtMaSP.setBorderColor(Color.decode("#E1E1E1"));
-        pnlThemPhieuNhap.add(txtMaSP);
+        pnlThemSanPham.add(txtMaSP);
         
         lblSoLuong = new JLabel("Số lượng:");
         lblSoLuong.setBounds(300, y, 100, 25);
         lblSoLuong.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        pnlThemPhieuNhap.add(lblSoLuong);
+        pnlThemSanPham.add(lblSoLuong);
         
         txtSoLuong = new customTextField();
         txtSoLuong.setBounds(400, y, 100, 25);
         txtSoLuong.setBorderColor(Color.decode("#E1E1E1"));
-        pnlThemPhieuNhap.add(txtSoLuong);
+        pnlThemSanPham.add(txtSoLuong);
         
         lblGiaNhap = new JLabel("Giá nhập:");
         lblGiaNhap.setBounds(520, y, 100, 25);
         lblGiaNhap.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        pnlThemPhieuNhap.add(lblGiaNhap);
+        pnlThemSanPham.add(lblGiaNhap);
         
         txtGiaNhap = new customTextField();
         txtGiaNhap.setBounds(620, y, 100, 25);
         txtGiaNhap.setBorderColor(Color.decode("#E1E1E1"));
-        pnlThemPhieuNhap.add(txtGiaNhap);
+        pnlThemSanPham.add(txtGiaNhap);
         
         y += 40;
         
-        // Thêm và Hủy
         btnThem = new CustomButton("Thêm");
         btnThem.setBounds(300, y, 100, 30);
         btnThem.setBackground(Color.decode("#2ECC71"));
         btnThem.setForeground(Color.WHITE);
         btnThem.setBorderColor(btnThem.getBackground());
-        pnlThemPhieuNhap.add(btnThem);
+        pnlThemSanPham.add(btnThem);
         
         btnHuy = new CustomButton("Hủy");
         btnHuy.setBounds(420, y, 100, 30);
         btnHuy.setBackground(Color.decode("#E74C3C"));
         btnHuy.setForeground(Color.WHITE);
         btnHuy.setBorderColor(btnHuy.getBackground());
-        pnlThemPhieuNhap.add(btnHuy);
+        pnlThemSanPham.add(btnHuy);
     }
-    private void loadData(){
-        list_ctpn=new ArrayList<>();
-        for(var temp : ctpn.getListChiTietPhieuNhap())
-            if(temp.getStrMaPN().equals(pn.getStrMaPN()))
-                list_ctpn.add(temp);
-        tableModel.setRowCount(0);
-        double tong=0;
-        for(var temp : list_ctpn){
-            Vector<Object> row = new Vector<>();
-            row.add(temp.getStrMaGiay());
-            row.add(temp.getStrMaPN());
-            row.add(temp.getiSoLuong());
-            row.add(String.format("%,d", temp.getiGiaNhap()));
-            tableModel.addRow(row);
-            tong=tong+temp.getiSoLuong()*temp.getiGiaNhap();
+    
+    private void loadData() {
+        // Tải dữ liệu trực tiếp từ database
+        listChiTietPN = new ArrayList<>();
+        ArrayList<ChiTietPNDTO> allChiTiet = chiTietPhieuNhapBLL.getListChiTietPhieuNhap();
+        for (ChiTietPNDTO chiTiet : allChiTiet) {
+            if (chiTiet.getStrMaPN().equals(phieuNhap.getStrMaPN())) {
+                listChiTietPN.add(chiTiet);
+            }
         }
-        lblTongTien.setText("Tổng tiền: " + String.format("%,.0f VND", tong));
+
+        SanPhamDAL sanPhamDAL = new SanPhamDAL();
+        tableModel.setRowCount(0);
+        
+        int stt = 1;
+        double tongTien = 0;
+        for (ChiTietPNDTO chiTiet : listChiTietPN) {
+            Vector<Object> row = new Vector<>();
+            row.add(stt++);
+            row.add(chiTiet.getStrMaGiay());
+            
+            String tenSanPham = "Sản phẩm " + chiTiet.getStrMaGiay();
+            SanPhamDTO sanPham = sanPhamDAL.getSanPhamByMa(chiTiet.getStrMaGiay());
+            if (sanPham != null) {
+                tenSanPham = sanPham.getStrTenGiay();
+            }
+            row.add(tenSanPham);
+            row.add(chiTiet.getiSoLuong());
+            row.add(String.format("%,d", chiTiet.getiGiaNhap()));
+            
+            tableModel.addRow(row);
+            tongTien += chiTiet.getiSoLuong() * chiTiet.getiGiaNhap();
+        }
+        
+        lblTongTien.setText("Tổng tiền: " + String.format("%,.0f VND", tongTien));
+        phieuNhap.setTongTien(tongTien);
     }
-    private void addEvents(){
+    
+    private void addEvents() {
+        tblChiTietPhieuNhap.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                selectedRow = tblChiTietPhieuNhap.getSelectedRow();
+            }
+        });
+        
         btnDong.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
             }
         });
+        
         btnInPhieuNhap.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -269,30 +292,35 @@ public class ChiTietPhieuNhapView extends JDialog{
                     JOptionPane.INFORMATION_MESSAGE);
             }
         });
+        
         btnThemSanPham.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 toggleAddProductPanel(true);
             }
         });
+        
         btnXoaSanPham.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 deleteProduct();
             }
         });
+        
         btnLuuChiTiet.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 saveChanges();
             }
         });
+        
         btnThem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addPhieuNhap();
+                addProduct();
             }
         });
+        
         btnHuy.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -300,8 +328,9 @@ public class ChiTietPhieuNhapView extends JDialog{
             }
         });
     }
+    
     private void toggleAddProductPanel(boolean show) {
-        pnlThemPhieuNhap.setVisible(show);
+        pnlThemSanPham.setVisible(show);
         if (show) {
             txtMaSP.setText("");
             txtSoLuong.setText("");
@@ -309,10 +338,12 @@ public class ChiTietPhieuNhapView extends JDialog{
             txtMaSP.requestFocus();
         }
     }
-    private void addPhieuNhap(){
+    
+    private void addProduct() {
         String maSP = txtMaSP.getText().trim();
         String soLuongStr = txtSoLuong.getText().trim();
         String giaNhapStr = txtGiaNhap.getText().trim();
+        
         if (maSP.isEmpty() || soLuongStr.isEmpty() || giaNhapStr.isEmpty()) {
             JOptionPane.showMessageDialog(this, 
                 "Vui lòng nhập đầy đủ thông tin!", 
@@ -320,15 +351,17 @@ public class ChiTietPhieuNhapView extends JDialog{
                 JOptionPane.ERROR_MESSAGE);
             return;
         }
-        SanPhamDAL sanpham = new SanPhamDAL();
-        SanPhamDTO sp = sanpham.getSanPhamByMa(maSP);
-        if (sp == null) {
+        
+        SanPhamDAL sanPhamDAL = new SanPhamDAL();
+        SanPhamDTO sanPham = sanPhamDAL.getSanPhamByMa(maSP);
+        if (sanPham == null) {
             JOptionPane.showMessageDialog(this, 
                 "Sản phẩm với mã " + maSP + " không tồn tại trong cơ sở dữ liệu!", 
                 "Lỗi", 
                 JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
         int soLuong, giaNhap;
         try {
             soLuong = Integer.parseInt(soLuongStr);
@@ -347,16 +380,17 @@ public class ChiTietPhieuNhapView extends JDialog{
                 JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        
         int soLuongDaCoTrongPN = 0;
         ChiTietPNDTO chiTietHienTai = null;
-        for (var chiTiet : list_ctpn) 
+        for (ChiTietPNDTO chiTiet : listChiTietPN) {
             if (chiTiet.getStrMaGiay().equals(maSP)) {
                 soLuongDaCoTrongPN = chiTiet.getiSoLuong();
                 chiTietHienTai = chiTiet;
                 break;
             }
-
+        }
+        
         if (chiTietHienTai != null) {
             int option = JOptionPane.showConfirmDialog(this, 
                 "Sản phẩm đã tồn tại trong phiếu nhập! Bạn có muốn cập nhật số lượng và giá nhập không?", 
@@ -364,49 +398,67 @@ public class ChiTietPhieuNhapView extends JDialog{
                 JOptionPane.YES_NO_OPTION);
             
             if (option == JOptionPane.YES_OPTION) {
+                // Cập nhật trực tiếp vào database
                 chiTietHienTai.setiSoLuong(soLuong);
                 chiTietHienTai.setiGiaNhap(giaNhap);
-                updateTable();
-                toggleAddProductPanel(false);
+                boolean updated = chiTietPhieuNhapBLL.updateChiTietPhieuNhap(chiTietHienTai);
+                if (updated) {
+                    // Cập nhật số lượng tồn kho
+                    int chenhLech = soLuong - soLuongDaCoTrongPN;
+                    int soLuongMoi = sanPham.getiSoLuong() + chenhLech;
+                    sanPhamDAL.updateSoluong(sanPham.getStrMaGiay(), soLuongMoi);
+                    
+                    // Tải lại dữ liệu từ database
+                    loadData();
+                    toggleAddProductPanel(false);
+                    JOptionPane.showMessageDialog(this,
+                            "Cập nhật sản phẩm thành công!",
+                            "Thông báo", 
+                            JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                            "Cập nhật sản phẩm thất bại!",
+                            "Lỗi", 
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
-            JOptionPane.showMessageDialog(this, 
-            "Cập nhật thành công! Nhấn 'Lưu thay đổi' để cập nhật vào database.", 
-            "Thông báo", 
-            JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        ChiTietPNDTO newPN = new ChiTietPNDTO(
-            pn.getStrMaPN(), 
-            maSP, 
-            soLuong, 
-            giaNhap
-        );
-        list_ctpn.add(newPN);
-        updateTable();
-        toggleAddProductPanel(false);
-        JOptionPane.showMessageDialog(this, 
-            "Thêm sản phẩm thành công! Nhấn 'Lưu thay đổi' để cập nhật vào database.", 
-            "Thông báo", 
-            JOptionPane.INFORMATION_MESSAGE);
-}       
-    private void saveChanges(){
-                try {
-            // Lấy danh sách chi tiết phiếu nhập hiện tại từ database
+        
+        ChiTietPNDTO chiTietMoi = new ChiTietPNDTO(phieuNhap.getStrMaPN(), maSP, soLuong, giaNhap);
+        boolean added = chiTietPhieuNhapBLL.addChiTietPhieuNhap(chiTietMoi);
+        if (added) {
+            int soLuongMoi = sanPham.getiSoLuong() + soLuong;
+            sanPhamDAL.updateSoluong(sanPham.getStrMaGiay(), soLuongMoi);
+            loadData();
+            toggleAddProductPanel(false);
+            JOptionPane.showMessageDialog(this, 
+                "Thêm sản phẩm thành công!", 
+                "Thông báo", 
+                JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, 
+                "Thêm sản phẩm thất bại!", 
+                "Lỗi", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void saveChanges() {
+        try {
             ArrayList<ChiTietPNDTO> chiTietPNHienTai = new ArrayList<>();
-            for (ChiTietPNDTO chiTiet : ctpn.getListChiTietPhieuNhap()) {
-                if (chiTiet.getStrMaPN().equals(pn.getStrMaPN())) {
+            for (ChiTietPNDTO chiTiet : chiTietPhieuNhapBLL.getListChiTietPhieuNhap()) {
+                if (chiTiet.getStrMaPN().equals(phieuNhap.getStrMaPN())) {
                     chiTietPNHienTai.add(chiTiet);
                 }
             }
             
-            // Kiểm tra số lượng tồn kho
             SanPhamDAL sanPhamDAL = new SanPhamDAL();
             
-            // Danh sách chi tiết cần xóa (có trong DB nhưng không còn trong GUI)
             ArrayList<ChiTietPNDTO> chiTietCanXoa = new ArrayList<>();
             for (ChiTietPNDTO chiTietHienTai : chiTietPNHienTai) {
                 boolean timThay = false;
-                for (ChiTietPNDTO chiTietMoi : list_ctpn) {
+                for (ChiTietPNDTO chiTietMoi : listChiTietPN) {
                     if (chiTietHienTai.getStrMaGiay().equals(chiTietMoi.getStrMaGiay())) {
                         timThay = true;
                         break;
@@ -417,17 +469,14 @@ public class ChiTietPhieuNhapView extends JDialog{
                 }
             }
             
-            // Danh sách chi tiết cần thêm mới (có trong GUI nhưng chưa có trong DB)
             ArrayList<ChiTietPNDTO> chiTietCanThem = new ArrayList<>();
-            // Danh sách chi tiết cần cập nhật (có cả trong GUI và DB nhưng thông tin đã thay đổi)
             ArrayList<ChiTietPNDTO> chiTietCanCapNhat = new ArrayList<>();
             
-            for (ChiTietPNDTO chiTietMoi : list_ctpn) {
+            for (ChiTietPNDTO chiTietMoi : listChiTietPN) {
                 boolean timThay = false;
                 for (ChiTietPNDTO chiTietHienTai : chiTietPNHienTai) {
                     if (chiTietMoi.getStrMaGiay().equals(chiTietHienTai.getStrMaGiay())) {
                         timThay = true;
-                        // Kiểm tra xem thông tin có thay đổi không
                         if (chiTietMoi.getiSoLuong() != chiTietHienTai.getiSoLuong() || 
                             chiTietMoi.getiGiaNhap() != chiTietHienTai.getiGiaNhap()) {
                             chiTietCanCapNhat.add(chiTietMoi);
@@ -440,43 +489,35 @@ public class ChiTietPhieuNhapView extends JDialog{
                 }
             }
             
-            // Thực hiện xóa các chi tiết không còn
             for (ChiTietPNDTO chiTiet : chiTietCanXoa) {
-                if (!ctpn.deleteChiTietPhieuNhap(chiTiet.getStrMaPN(), chiTiet.getStrMaGiay())) {
+                if (!chiTietPhieuNhapBLL.deleteChiTietPhieuNhap(chiTiet)) {
                     throw new Exception("Không thể xóa chi tiết phiếu nhập: " + chiTiet.getStrMaGiay());
                 }
                 
-                // Giảm số lượng trong tồn kho
                 SanPhamDTO sanPham = sanPhamDAL.getSanPhamByMa(chiTiet.getStrMaGiay());
                 if (sanPham != null) {
                     int soLuongMoi = sanPham.getiSoLuong() - chiTiet.getiSoLuong();
-                    sanPham.setiSoLuong(soLuongMoi);
                     sanPhamDAL.updateSoluong(sanPham.getStrMaGiay(), soLuongMoi);
                 }
             }
             
-            // Thực hiện thêm các chi tiết mới
             for (ChiTietPNDTO chiTiet : chiTietCanThem) {
-                if (!ctpn.addChiTietPhieuNhap(chiTiet)) {
+                if (!chiTietPhieuNhapBLL.addChiTietPhieuNhap(chiTiet)) {
                     throw new Exception("Không thể thêm chi tiết phiếu nhập: " + chiTiet.getStrMaGiay());
                 }
                 
-                // Tăng số lượng trong tồn kho
                 SanPhamDTO sanPham = sanPhamDAL.getSanPhamByMa(chiTiet.getStrMaGiay());
                 if (sanPham != null) {
                     int soLuongMoi = sanPham.getiSoLuong() + chiTiet.getiSoLuong();
-                    sanPham.setiSoLuong(soLuongMoi);
                     sanPhamDAL.updateSoluong(sanPham.getStrMaGiay(), soLuongMoi);
                 }
             }
             
-            // Thực hiện cập nhật các chi tiết đã thay đổi
             for (ChiTietPNDTO chiTiet : chiTietCanCapNhat) {
-                if (!ctpn.updateChiTietPhieuNhap(chiTiet)) {
+                if (!chiTietPhieuNhapBLL.updateChiTietPhieuNhap(chiTiet)) {
                     throw new Exception("Không thể cập nhật chi tiết phiếu nhập: " + chiTiet.getStrMaGiay());
                 }
                 
-                // Tìm số lượng cũ
                 int soLuongCu = 0;
                 for (ChiTietPNDTO chiTietCu : chiTietPNHienTai) {
                     if (chiTietCu.getStrMaGiay().equals(chiTiet.getStrMaGiay())) {
@@ -485,32 +526,29 @@ public class ChiTietPhieuNhapView extends JDialog{
                     }
                 }
                 
-                // Cập nhật số lượng trong tồn kho
                 SanPhamDTO sanPham = sanPhamDAL.getSanPhamByMa(chiTiet.getStrMaGiay());
                 if (sanPham != null) {
                     int chenhLech = chiTiet.getiSoLuong() - soLuongCu;
                     int soLuongMoi = sanPham.getiSoLuong() + chenhLech;
-                    sanPham.setiSoLuong(soLuongMoi);
                     sanPhamDAL.updateSoluong(sanPham.getStrMaGiay(), soLuongMoi);
                 }
             }
             
-            // Tính tổng tiền mới
-            double tongtien = 0;
-            for (ChiTietPNDTO chiTiet : list_ctpn) {
-                tongtien += chiTiet.getiSoLuong() * chiTiet.getiGiaNhap();
+            double tongTien = 0;
+            for (ChiTietPNDTO chiTiet : listChiTietPN) {
+                tongTien += chiTiet.getiSoLuong() * chiTiet.getiGiaNhap();
             }
             
-            // Cập nhật tổng tiền của phiếu nhập trong database
             PhieuNhapBLL phieuNhapBLL = new PhieuNhapBLL();
-            if (!phieuNhapBLL.updateTongTien(pn.getStrMaPN(), tongtien)) {
+            if (!phieuNhapBLL.updateTongTien(phieuNhap.getStrMaPN(), tongTien)) {
                 throw new Exception("Không thể cập nhật tổng tiền phiếu nhập");
             }
             
-            // Cập nhật lại giao diện
-            pn.setTongTien(tongtien);
-            lblTongTien.setText("Tổng tiền: " + String.format("%,.0f VND", tongtien));
-            updateTable();
+            phieuNhap.setTongTien(tongTien);
+            lblTongTien.setText("Tổng tiền: " + String.format("%,.0f VND", tongTien));
+            
+            // Tải lại dữ liệu từ database để đồng bộ listChiTietPN
+            loadData();
             
             JOptionPane.showMessageDialog(this, 
                 "Lưu thay đổi thành công!", 
@@ -526,8 +564,6 @@ public class ChiTietPhieuNhapView extends JDialog{
     }
     
     private void deleteProduct() {
-        int selectedRow=-1;
-        selectedRow=tblChiTietPhieuNhap.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, 
                 "Vui lòng chọn sản phẩm cần xóa!", 
@@ -542,22 +578,55 @@ public class ChiTietPhieuNhapView extends JDialog{
             JOptionPane.YES_NO_OPTION);
             
         if (confirm == JOptionPane.YES_OPTION) {
-            // Lấy mã sản phẩm từ bảng
-            String maSP = tblChiTietPhieuNhap.getValueAt(selectedRow, 0).toString();
+            String maSP = tblChiTietPhieuNhap.getValueAt(selectedRow, 1).toString();
+            ChiTietPNDTO chiTietXoa = null;
             
-            // Tìm và xóa khỏi danh sách
-            for (int i = 0; i < list_ctpn.size(); i++) {
-                if (list_ctpn.get(i).getStrMaGiay().equals(maSP)) {
-                    list_ctpn.remove(i);
+            // Tìm chi tiết phiếu nhập cần xóa
+            for (ChiTietPNDTO chiTiet : listChiTietPN) {
+                if (chiTiet.getStrMaGiay().equals(maSP)) {
+                    chiTietXoa = chiTiet;
                     break;
                 }
             }
-            // Cập nhật lại dữ liệu hiển thị
-            updateTable();
-            JOptionPane.showMessageDialog(this, 
-                "Xóa sản phẩm thành công! Nhấn 'Lưu thay đổi' để cập nhật vào database.", 
-                "Thông báo", 
-                JOptionPane.INFORMATION_MESSAGE);
+            
+            if (chiTietXoa != null) {
+                // Xóa trực tiếp khỏi database
+                boolean deleted = chiTietPhieuNhapBLL.deleteChiTietPhieuNhap(chiTietXoa);
+                if (deleted) {
+                    // Cập nhật số lượng tồn kho
+                    SanPhamDAL sanPhamDAL = new SanPhamDAL();
+                    SanPhamDTO sanPham = sanPhamDAL.getSanPhamByMa(chiTietXoa.getStrMaGiay());
+                    if (sanPham != null) {
+                        int soLuongMoi = sanPham.getiSoLuong() - chiTietXoa.getiSoLuong();
+                        sanPhamDAL.updateSoluong(sanPham.getStrMaGiay(), soLuongMoi);
+                    }
+                    
+                    // Cập nhật tổng tiền
+                    double tongTien = 0;
+                    for (ChiTietPNDTO chiTiet : listChiTietPN) {
+                        if (!chiTiet.getStrMaGiay().equals(maSP)) {
+                            tongTien += chiTiet.getiSoLuong() * chiTiet.getiGiaNhap();
+                        }
+                    }
+                    PhieuNhapBLL phieuNhapBLL = new PhieuNhapBLL();
+                    phieuNhapBLL.updateTongTien(phieuNhap.getStrMaPN(), tongTien);
+                    phieuNhap.setTongTien(tongTien);
+                    lblTongTien.setText("Tổng tiền: " + String.format("%,.0f VND", tongTien));
+                    
+                    // Tải lại dữ liệu từ database
+                    loadData();
+                    selectedRow = -1;
+                    JOptionPane.showMessageDialog(this,
+                            "Xóa sản phẩm thành công!",
+                            "Thông báo", 
+                            JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                            "Xóa sản phẩm thất bại!",
+                            "Lỗi", 
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
     }
 }

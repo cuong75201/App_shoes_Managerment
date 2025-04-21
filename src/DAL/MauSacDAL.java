@@ -83,4 +83,22 @@ public class MauSacDAL {
         helper.closeConnect();
         return success;
     }
+    public boolean deleteMauSac(String Mamau) {
+        // Thay vì xóa thật sự, ta chỉ cập nhật trạng thái
+        MySQLHelpers helper = new MySQLHelpers();
+        Map<String, String> params = new HashMap<>();
+        params.put("TABLE", "tblmausac");
+        params.put("WHERE", "Mamau = ? ");
+        helper.buildingQueryParam(params);
+
+        Map<String, Object> updateValues = new HashMap<>();
+        updateValues.put("Trangthai", 0);
+
+        ArrayList<Object> conditionValue = new ArrayList<>();
+        conditionValue.add(Mamau);
+
+        boolean success = helper.updateData(updateValues, conditionValue);
+        helper.closeConnect();
+        return success;
+    }
 }

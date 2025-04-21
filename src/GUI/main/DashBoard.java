@@ -16,6 +16,7 @@ import GUI.main.TaiKhoanGUI;
 import GUI.main.HoaDonGUI;
 import GUI.main.KhachHangGUI;
 import GUI.main.ThongKeGUI;
+import GUI.main.ThuocTinhGUI;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -110,6 +111,8 @@ public class DashBoard extends JFrame {
         pnMain.add(pnNhanVien, "NhanVien");
         PhieuNhapGUI pnPhieuNhap=new PhieuNhapGUI();
         pnMain.add(pnPhieuNhap, "PhieuNhap");
+        ThuocTinhGUI pnThuocTinh=new ThuocTinhGUI();
+        pnMain.add(pnThuocTinh, "ThuocTinh");
         pnInfor = new JPanel();
         pnInfor.setLayout(null);
         pnInfor.setBounds(0, 0, 250, 100);

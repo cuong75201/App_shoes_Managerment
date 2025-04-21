@@ -79,4 +79,21 @@ public class XuatXuDAL {
         helper.closeConnect();
         return success;
     }
+    public boolean deleteXuatXu(String Maxuatxu) {
+        MySQLHelpers helper = new MySQLHelpers();
+        Map<String, String> params = new HashMap<>();
+        params.put("TABLE", "tblxuatxu");
+        params.put("WHERE", "Maxx = ? ");
+        helper.buildingQueryParam(params);
+
+        Map<String, Object> updateValues = new HashMap<>();
+        updateValues.put("Trangthai", 0);
+
+        ArrayList<Object> conditionValue = new ArrayList<>();
+        conditionValue.add(Maxuatxu);
+
+        boolean success = helper.updateData(updateValues, conditionValue);
+        helper.closeConnect();
+        return success;
+    }
 }

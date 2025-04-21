@@ -27,7 +27,7 @@ public class PhieuNhapBLL {
 
     // Lấy danh sách phiếu nhập
     public ArrayList<PhieuNhapDTO> getListPhieuNhap() {
-        return danhSachPhieuNhap;
+        return dal.getListPhieuNhap();
     }
 
     public ArrayList<String> getAllMaPN() {

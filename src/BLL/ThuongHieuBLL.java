@@ -62,6 +62,9 @@ public class ThuongHieuBLL {
 
         return false;
     }
+    public boolean deleteThuongHieu(String Mathuonghieu) {
+        return th.deleteThuongHieu(Mathuonghieu);
+    }
 
     public String getTenTHfromMaTH(String math) {
         for (ThuongHieuDTO thdto : list_ThuongHieu) {
