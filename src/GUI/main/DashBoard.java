@@ -289,6 +289,28 @@ public class DashBoard extends JFrame {
 
         btnLogout = createButton("red-circle-logout-arrow-20586.png", "Đăng xuất");
         btnLogout.setBounds(10, 710, 230, 50);
+        btnLogout.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int option = JOptionPane.showConfirmDialog(
+                    null, 
+                    "Bạn có chắc chắn muốn đăng xuất?", 
+                    "Xác nhận đăng xuất", 
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+
+            if (option == JOptionPane.YES_OPTION) {
+                // Ghi log đăng xuất (nếu cần)
+                System.out.println("Người dùng " + tk.getStrTenDangNhap() + " đã đăng xuất");
+
+                // Đóng frame hiện tại
+                dispose();
+
+                // Mở lại màn hình đăng nhập
+                new LoginScreen();
+            }
+        }
+    });
 
         pnButton.add(btnDashBoard);
         pnButton.add(btnSanpham);
