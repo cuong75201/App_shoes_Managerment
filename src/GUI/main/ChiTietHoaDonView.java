@@ -739,29 +739,96 @@ public class ChiTietHoaDonView extends JDialog {
         JOptionPane.YES_NO_OPTION);
         
     if (confirm == JOptionPane.YES_OPTION) {
-        // Lấy mã sản phẩm từ bảng
-        String maSP = tblChiTietHoaDon.getValueAt(selectedRow, 1).toString();
-        
-        // Tìm và xóa khỏi danh sách
-        for (int i = 0; i < listChiTietHD.size(); i++) {
-            if (listChiTietHD.get(i).getStrMaGiay().equals(maSP)) {
-                listChiTietHD.remove(i);
-                break;
+        try {
+            // Lấy mã sản phẩm từ bảng
+            String maSP = tblChiTietHoaDon.getValueAt(selectedRow, 1).toString();
+            
+            // Tìm chi tiết hóa đơn cần xóa
+            ChiTietHDDTO chiTietCanXoa = null;
+            for (ChiTietHDDTO chiTiet : listChiTietHD) {
+                if (chiTiet.getStrMaGiay().equals(maSP)) {
+                    chiTietCanXoa = chiTiet;
+                    break;
+                }
             }
+            
+            if (chiTietCanXoa == null) {
+                JOptionPane.showMessageDialog(this, 
+                    "Không tìm thấy thông tin sản phẩm trong danh sách!", 
+                    "Lỗi", 
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            // Xóa chi tiết hóa đơn từ cơ sở dữ liệu trước
+            boolean success = chiTietHoaDonBLL.deleteChiTietHoaDon(chiTietCanXoa);
+            
+            if (success) {
+                // Hoàn trả số lượng vào tồn kho
+                SanPhamDAL sanPhamDAL = new SanPhamDAL();
+                SanPhamDTO sanPham = sanPhamDAL.getSanPhamByMa(chiTietCanXoa.getStrMaGiay());
+                
+                if (sanPham != null) {
+                    int soLuongMoi = sanPham.getiSoLuong() + chiTietCanXoa.getiSoLuong();
+                    boolean updateStock = sanPhamDAL.updateSoluong(sanPham.getStrMaGiay(), soLuongMoi);
+                    
+                    if (!updateStock) {
+                        JOptionPane.showMessageDialog(this, 
+                            "Cập nhật số lượng tồn kho thất bại!", 
+                            "Cảnh báo", 
+                            JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+                
+                // Xóa khỏi danh sách hiển thị
+                listChiTietHD.remove(chiTietCanXoa);
+                
+                // Cập nhật lại tổng tiền
+                double tongTien = 0;
+                for (ChiTietHDDTO chiTiet : listChiTietHD) {
+                    tongTien += chiTiet.getiSoLuong() * chiTiet.getiGiaBan();
+                }
+                
+                // Cập nhật tổng tiền vào cơ sở dữ liệu
+                HoaDonBLL hoaDonBLL = new HoaDonBLL();
+                boolean updateTotal = hoaDonBLL.updateTongTien(hoaDon.getStrMaHD(), tongTien);
+                
+                if (!updateTotal) {
+                    JOptionPane.showMessageDialog(this, 
+                        "Cập nhật tổng tiền hóa đơn thất bại!", 
+                        "Cảnh báo", 
+                        JOptionPane.WARNING_MESSAGE);
+                }
+                
+                // Cập nhật tổng tiền trên giao diện
+                hoaDon.setTongTien(tongTien);
+                lblTongTien.setText("Tổng tiền: " + String.format("%,.0f VND", tongTien));
+                
+                // Cập nhật lại dữ liệu hiển thị
+                loadData();
+                
+                // Reset selected row
+                selectedRow = -1;
+                
+                JOptionPane.showMessageDialog(this, 
+                    "Xóa sản phẩm thành công!", 
+                    "Thông báo", 
+                    JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, 
+                    "Xóa sản phẩm thất bại!", 
+                    "Lỗi", 
+                    JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Lỗi khi xóa sản phẩm: " + e.getMessage(), 
+                "Lỗi", 
+                JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
-        
-        // Cập nhật lại dữ liệu hiển thị
-        loadData();
-        
-        // Reset selected row
-        selectedRow = -1;
-        
-        JOptionPane.showMessageDialog(this, 
-            "Xóa sản phẩm thành công! Nhấn 'Lưu thay đổi' để cập nhật vào database.", 
-            "Thông báo", 
-            JOptionPane.INFORMATION_MESSAGE);
     }
-    }
+}
     private void printInvoice() {
     // Hiển thị hộp thoại xác nhận trước khi in
     int confirm = JOptionPane.showConfirmDialog(this,
